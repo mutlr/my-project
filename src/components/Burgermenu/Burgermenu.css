@@ -1,0 +1,36 @@
+.burger-line {
+    width: 20px;
+    height: 6px;
+    background-color: var(--blue-grotto);
+    margin-bottom: 4px;
+    cursor: pointer;
+}
+
+.burger-content {
+    margin-top: 14px;
+    position: absolute;
+    background-color: var(--blue-grotto);
+    width: clamp(200px, 100%, 400px);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.burger-link {
+    color: white;
+    text-decoration: none;
+}
+
+.burger-link:hover {
+    color: red;
+    border-bottom: 2px solid white;
+    width: max-content;
+    padding-bottom: 4px;
+}
+@media only screen and (min-width: 600px) {
+    .burger-main {
+        display: none;
+    }
+} 
+
