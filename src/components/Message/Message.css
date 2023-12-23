@@ -1,0 +1,27 @@
+.message {
+    position: absolute;
+    top: 65px;
+    width: 100%;
+
+}
+
+
+.message-text {
+    height: 40px;
+    text-align: left;
+    font-size: 24px;
+    border-radius: 32px;
+    margin: 0 20px;
+    padding-left: 20px;
+    
+}
+
+@media only screen and (min-width: 600px) {
+    .message {
+        width: 400px;
+        right: 0;
+    }
+    .message-text {
+        margin-right: 6px;
+    }
+}

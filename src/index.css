@@ -1,8 +1,8 @@
 :root {
-  --navy-blue: #05455E;
-  --blue-grotto: #189ab4;
-  --blue-green: #75e6da;
-  --baby-blue: #d4f1f4;
+  --primary-color: #0b132b;
+  --secondary-color: #1c2541;
+  --light-color: #3a506b;
+  --error-color: #ff0000;
 }
 body {
   margin: 0;
