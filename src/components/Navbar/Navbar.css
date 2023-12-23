@@ -9,20 +9,23 @@
 #logo {
     margin-left: auto;
     padding-right: 12px;
+    color: var(--blue-green);
 }
 .navbar-link {
     color: red;
 }
-.navbar-link {
+.navbar-link a{
     text-decoration: none;
-}
-a {
     color: white;
+    font-size: 16px;
+}
+.navbar-link a:hover {
+    border-bottom: 2px solid var(--blue-green);
+    padding-bottom: 2px;
 }
 .navbar-link-container {
     display: none;
     justify-content: space-around;
-    border: 2px solid red;
     width: 50%;
 
 }
