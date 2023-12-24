@@ -17,6 +17,7 @@ label {
     border-radius: 20px;
     outline: none;
     padding-left: 8px;
+    color: black;
     border: 2px solid var(--primary-color);
 }
 

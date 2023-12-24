@@ -1,23 +1,24 @@
-import './Burgermenu.css'
-import { useRef, useState, useImperativeHandle, forwardRef } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import './Burgermenu.css';
+import { useState, useImperativeHandle, forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const Burgermenu = forwardRef((_, ref) => {
-    const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState<boolean>(false);
 
-    const isOpen = { display: visible ? '' : 'none'}
-    const toggleVisibility = () => {
-        setVisible(!visible)
-    }
+  const isOpen = { display: visible ? '' : 'none' };
+  const toggleVisibility = () => {
+    setVisible(!visible);
+  };
 
-    useImperativeHandle(ref, () => {
-        return (
-            toggleVisibility
-        )
-    })
+  useImperativeHandle(ref, () => {
     return (
+      toggleVisibility
+    );
+  });
+  return (
         <div className='burger-main'>
-        <div onClick={toggleVisibility} style={{paddingLeft: '12px'}}>
+        <div onClick={toggleVisibility} style={{ paddingLeft: '12px' }}>
             <div className='burger-line'></div>
             <div className='burger-line'></div>
             <div className='burger-line'></div>
@@ -29,7 +30,7 @@ const Burgermenu = forwardRef((_, ref) => {
                 <Link onClick={toggleVisibility} to={'login'} className='burger-link'>Home</Link>
             </div>
         </div>
-    )
-})
+  );
+});
 
-export default Burgermenu
+export default Burgermenu;
