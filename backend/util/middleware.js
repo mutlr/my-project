@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+const { SECRET } = require('./config')
 const errorHandler = (error, req, res, next) => {
  //   console.log('Error: ', error)
 
@@ -9,6 +11,17 @@ const errorHandler = (error, req, res, next) => {
     next(error)
 }
 
+const tokenExtractor = (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1]
+    try {
+        const user = jwt.verify(token, SECRET)
+        req.decodedToken = user
+        next()
+    } catch (error) {
+        return res.status(404).json({error: 'Invalid token'})
+    }
+}
 module.exports = {
     errorHandler,
+    tokenExtractor
 }
