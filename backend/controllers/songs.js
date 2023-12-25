@@ -10,13 +10,13 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ songs });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
 	try {
 		const song = await Song.create(req.body);
 		res.status(201).json(song);
 	} catch (error) {
-		res.status(500).json({ error });
-	}
+        next(error)
+    }
 });
 
 module.exports = router;

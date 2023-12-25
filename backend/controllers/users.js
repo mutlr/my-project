@@ -6,12 +6,13 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ users });
 });
 
-router.post('/', async (req, res) => {
+router.post('/', async (req, res, next) => {
 	try {
 		const user = await User.create(req.body);
 		res.status(201).json(user);
+        next()
 	} catch (error) {
-		res.status(500).json({ error });
+        next(error)
 	}
 });
 
@@ -25,4 +26,5 @@ router.delete('/:id', async (req, res) => {
 		res.status(500).json({ error });
 	}
 });
+
 module.exports = router;
