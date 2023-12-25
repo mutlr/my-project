@@ -2,7 +2,7 @@ import React from 'react';
 import './Login.css';
 import { LoginFormValues } from "../../types";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 const Login = () => {
     const initialValues: LoginFormValues = {username: '', password: ''};
     const handleRegister = (values: LoginFormValues) => {

@@ -16,6 +16,7 @@ const Burgermenu = forwardRef((_, ref) => {
       toggleVisibility
     );
   });
+  Burgermenu.displayName = 'Burgermenu';
   return (
         <div className='burger-main'>
         <div onClick={toggleVisibility} style={{ paddingLeft: '12px' }}>
