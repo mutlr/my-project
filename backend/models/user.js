@@ -4,7 +4,7 @@ const { sequelize  } = require('../util/db');
 class User extends Model {}
 
 User.init({
-	userId: {
+	id: {
 		type: DataTypes.INTEGER,
 		primaryKey: true,
 		autoIncrement: true,
@@ -12,6 +12,10 @@ User.init({
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
+        unique: true,
+        validate: {
+            isEmail: true,
+        }
 	},
     name: {
         type: DataTypes.STRING,
@@ -20,10 +24,17 @@ User.init({
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
+        unique: true,
+        validate: {
+            len: [3, 45],
+        }
 	},
 	password: {
 		type: DataTypes.STRING,
 		allowNull: false,
+        validate: {
+            len: [6, 45]
+        }
 	},
 }, {
 	sequelize,
