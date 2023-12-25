@@ -1,30 +1,24 @@
-const { Model, DataTypes} = require('sequelize')
-const { sequelize } = require('../util/db')
+const { Model, DataTypes } = require('sequelize');
+const { sequelize } = require('../util/db');
 
 class Song extends Model {}
 
 Song.init({
-    id: {
-        type: DataTypes.STRING,
-        primaryKey: true,
-        allowNull: false,
-        unique: true,
-    },
-    songName: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
-    },
-    artist: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        references: {model: 'artists', key: 'id'}
-    }
+	id: {
+		type: DataTypes.INTEGER,
+		primaryKey: true,
+		autoIncrement: true,
+	},
+	songName: {
+		type: DataTypes.STRING,
+		allowNull: false,
+		unique: true
+	},
 }, {
-    sequelize,
-    underscored: true,
-    timestamps: true,
-    modelName: 'song'
-})
+	sequelize,
+	underscored: true,
+	timestamps: true,
+	modelName: 'song'
+});
 
-module.exports = Song
+module.exports = Song;

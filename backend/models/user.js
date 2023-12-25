@@ -12,35 +12,35 @@ User.init({
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
-        unique: true,
-        validate: {
-            isEmail: true,
-        }
+		unique: true,
+		validate: {
+			isEmail: true,
+		}
 	},
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
+	name: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
-        unique: true,
-        validate: {
-            len: [3, 45],
-        }
+		unique: true,
+		validate: {
+			len: [3, 45],
+		}
 	},
 	password: {
 		type: DataTypes.STRING,
 		allowNull: false,
-        validate: {
-            len: [6, 45]
-        }
+		validate: {
+			len: [6, 45]
+		}
 	},
 }, {
 	sequelize,
-    underscored: true,
+	underscored: true,
 	timestamps: true,
 	modelName: 'user',
 });
 
-module.exports = User
+module.exports = User;
