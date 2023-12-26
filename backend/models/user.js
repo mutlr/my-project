@@ -12,17 +12,14 @@ User.init({
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: {
-			args: true,
-			msg: 'This email is already in use'
-		},
+		unique: true,
 		validate: {
 			isEmail: {
 				msg: 'Not a valid email'
 			},
 			notNull: {
 				msg: 'An email is required'
-			}
+			},
 		}
 	},
 	name: {
@@ -31,16 +28,13 @@ User.init({
 		validate: {
 			notNull: {
 				msg: 'A name is required'
-			}
+			},
 		}
 	},
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: {
-			args: true,
-			msg: 'Username is already taken'
-		},
+		unique: true,
 		validate: {
 			len: {
 				args: [3, 45],
