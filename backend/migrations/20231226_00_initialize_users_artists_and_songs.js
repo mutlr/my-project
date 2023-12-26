@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = {
 	up: async ({ context: queryInterface }) => {
-		await queryInterface.createTable('artists', {
+	    await queryInterface.createTable('artists', {
 			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
@@ -13,6 +13,16 @@ module.exports = {
 				allowNull: false,
 				unique: true,
 			},
+            created_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+            },
+            updated_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+            },
 		});
 		await queryInterface.createTable('songs', {
 			id: {
@@ -25,6 +35,16 @@ module.exports = {
 				allowNull: false,
 				unique: true
 			},
+            created_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+            },
+            updated_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+            },
 		});
 		await queryInterface.createTable('users', {
 			id: {
@@ -59,6 +79,17 @@ module.exports = {
 					len: [6, 45]
 				}
 			},
+            created_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+              },
+            updated_at: {
+                type: DataTypes.DATE,
+                allowNull: false,
+                defaultValue: new Date(),
+            },
+
 		});
 		await queryInterface.addColumn('songs', 'artist_id', {
 			type: DataTypes.INTEGER,
@@ -67,8 +98,8 @@ module.exports = {
 		});
 	},
 	down: async ({ context: queryInterface }) => {
-		await queryInterface.dropTable('songs');
 		await queryInterface.dropTable('users');
-		await queryInterface.dropTable('artists');
+		/*await queryInterface.dropTable('songs');
+		await queryInterface.dropTable('artists');*/
 	},
 };
