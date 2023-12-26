@@ -3,9 +3,6 @@ const { Song, Artist } = require('../models');
 
 router.get('/', async (req, res) => {
 	const songs = await Song.findAll({
-		include: {
-			model: Artist,
-		}
 	});
 	res.status(200).json({ songs });
 });

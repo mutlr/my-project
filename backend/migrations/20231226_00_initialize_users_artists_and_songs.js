@@ -13,16 +13,16 @@ module.exports = {
 				allowNull: false,
 				unique: true,
 			},
-            created_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-            },
-            updated_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-            },
+			created_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
+			updated_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
 		});
 		await queryInterface.createTable('songs', {
 			id: {
@@ -35,16 +35,16 @@ module.exports = {
 				allowNull: false,
 				unique: true
 			},
-            created_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-            },
-            updated_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-            },
+			created_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
+			updated_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
 		});
 		await queryInterface.createTable('users', {
 			id: {
@@ -58,7 +58,7 @@ module.exports = {
 				unique: true,
 				validate: {
 					isEmail: true,
-				}
+			    }
 			},
 			name: {
 				type: DataTypes.STRING,
@@ -79,16 +79,16 @@ module.exports = {
 					len: [6, 45]
 				}
 			},
-            created_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-              },
-            updated_at: {
-                type: DataTypes.DATE,
-                allowNull: false,
-                defaultValue: new Date(),
-            },
+			created_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
+			updated_at: {
+				type: DataTypes.DATE,
+				allowNull: false,
+				defaultValue: new Date(),
+			},
 
 		});
 		await queryInterface.addColumn('songs', 'artist_id', {
@@ -99,7 +99,7 @@ module.exports = {
 	},
 	down: async ({ context: queryInterface }) => {
 		await queryInterface.dropTable('users');
-		/*await queryInterface.dropTable('songs');
-		await queryInterface.dropTable('artists');*/
+		await queryInterface.dropTable('songs');
+		await queryInterface.dropTable('artists');
 	},
 };
