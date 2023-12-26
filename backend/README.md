@@ -1,7 +1,7 @@
 Tuntitaulukko backend:
     Setup 2h
-    Tietokannan suunnittelu 4h
-    Modelien tekeminen 4h
-    Routereiden alustava teko 3h
+    Tietokannan suunnittelu 5h
+    Modelien tekeminen 5h
+    Routereiden alustava teko 4h
     Kommentin teko ja liittäminen postiin 4h.....
     

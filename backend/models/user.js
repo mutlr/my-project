@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
-
+const bcrypt = require('bcrypt')
 class User extends Model {}
 
 User.init({
@@ -14,28 +14,48 @@ User.init({
 		allowNull: false,
 		unique: true,
 		validate: {
-			isEmail: true,
+			isEmail: {
+				msg: 'Not a valid email'
+			},
+			notNull: {
+				msg: 'An email is required'
+			}
 		}
 	},
 	name: {
 		type: DataTypes.STRING,
 		allowNull: false,
+		validate: {
+			notNull: {
+				msg: 'A name is required'
+			}
+		}
 	},
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		unique: true,
 		validate: {
-			len: [3, 45],
+			len: {
+				args: [3, 45],
+				msg: 'Username must be between 3 and 45 characters',
+			} 
 		}
 	},
 	password: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
-			len: [6, 45]
-		}
-	},
+		  notNull: {
+			msg: 'A password is required'
+		  },
+		  isLessThan(value) {
+			if (value.length < 6) {
+				throw new Error('Password min length is 6')
+			}
+		  },
+		},
+	}
 }, {
 	sequelize,
 	underscored: true,
