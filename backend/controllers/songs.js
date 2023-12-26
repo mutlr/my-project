@@ -15,8 +15,8 @@ router.post('/', async (req, res, next) => {
 		const song = await Song.create(req.body);
 		res.status(201).json(song);
 	} catch (error) {
-        next(error)
-    }
+		next(error);
+	}
 });
 
 module.exports = router;

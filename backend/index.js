@@ -7,13 +7,13 @@ const { connectToDatabase } = require('./util/db');
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
 const songRouter = require('./controllers/songs');
-const {errorHandler} = require('./util/middleware')
+const { errorHandler } = require('./util/middleware');
 
 app.use(express.json());
 app.use('/users', userRouter);
 app.use('/songs', songRouter);
 app.use('/artists', artistRouter);
-app.use(errorHandler)
+app.use(errorHandler);
 
 const start = async () => {
 	await connectToDatabase();
