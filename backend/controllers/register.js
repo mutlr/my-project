@@ -3,20 +3,20 @@ const { User } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('../util/config');
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
-router.post('/', async (req, res) => {
-    const { username, name, email, password } = req.body
-    try {
-        const saltedPassword = await bcrypt.hash(password, 10)
-        console.log('On register: ', saltedPassword, password)
-        const user = await User.create({username, name, email, password: saltedPassword })
-        const token = jwt.sign({username, email}, SECRET)
-        res.status(201).json({token})
-    } catch (error) {
-        console.log('Error on register: ', error.message)   
-        res.status(500).json({error})
-    }
-})
+router.post('/', async (req, res, next) => {
+	const { username, name, email, password } = req.body;
+	try {
+		const saltedPassword = await bcrypt.hash(password, 10);
+		console.log('On register: ', saltedPassword, password);
+		const user = await User.create({ username, name, email, password: saltedPassword });
+		const token = jwt.sign({ username, email }, SECRET);
+		res.status(201).json({ token });
+	} catch (error) {
+		console.log('Error on register: ', error.message);
+		next(error)
+	}
+});
 
-module.exports = router
+module.exports = router;

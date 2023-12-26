@@ -9,6 +9,9 @@ const errorHandler = (error, req, res, next) => {
 		return res.status(400).json({ error: `${type} ${value} is already in database` });
 	} else if (error.name === 'SequelizeForeignKeyConstraintError') {
 		return res.status(404).json({ error: error.parent.detail });
+	} else if (error.name === 'SequelizeValidationError') {
+		console.log('Tää on validaatio error: ', error.message)
+		return res.status(500).json({error: error.errors[0].message})
 	}
 	next(error);
 };

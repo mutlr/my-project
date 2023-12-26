@@ -47,58 +47,59 @@ module.exports = {
 			},
 		});
 		await queryInterface.createTable('users', {
-            id: {
-                type: DataTypes.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-                validate: {
-                    isEmail: {
-                        msg: 'Not a valid email'
-                    },
-                    notNull: {
-                        msg: 'An email is required'
-                    }
-                }
-            },
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                    notNull: {
-                        msg: 'A name is required'
-                    }
-                }
-            },
-            username: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                unique: true,
-                validate: {
-                    len: {
-                        args: [3, 45],
-                        msg: 'Username must be between 3 and 45 characters',
-                    } 
-                }
-            },
-            password: {
-                type: DataTypes.STRING,
-                allowNull: false,
-                validate: {
-                  notNull: {
-                    msg: 'A password is required'
-                  },
-                  isLessThan(value) {
-                    if (value.length < 6) {
-                        throw new Error('Password min length is 6')
-                    }
-                  },
-                },
-            },
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+			},
+			email: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: {
+					args: true,
+					msg: 'This email is already in use'
+				},
+				validate: {
+					isEmail: {
+						msg: 'Not a valid email'
+					},
+					notNull: {
+						msg: 'An email is required'
+					}
+				}
+			},
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notNull: {
+						msg: 'A name is required'
+					}
+				}
+			},
+			username: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				unique: {
+					args: true,
+					msg: 'Username is already taken'
+				},
+				validate: {
+					len: {
+						args: [3, 45],
+						msg: 'Username must be between 3 and 45 characters',
+					}
+				}
+			},
+			password: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				validate: {
+					notNull: {
+						msg: 'A password is required'
+					},
+				},
+			},
 			created_at: {
 				type: DataTypes.DATE,
 				allowNull: false,

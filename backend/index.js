@@ -8,7 +8,7 @@ const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
 const songRouter = require('./controllers/songs');
 const postRouter = require('./controllers/posts');
-const registerRouter = require('./controllers/register')
+const registerRouter = require('./controllers/register');
 const { errorHandler } = require('./util/middleware');
 
 app.use(express.json());
@@ -16,7 +16,7 @@ app.use('/users', userRouter);
 app.use('/songs', songRouter);
 app.use('/artists', artistRouter);
 app.use('/posts', postRouter);
-app.use('/register', registerRouter)
+app.use('/register', registerRouter);
 app.use(errorHandler);
 
 const start = async () => {

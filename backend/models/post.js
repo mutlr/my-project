@@ -16,7 +16,7 @@ Post.init({
 	description: {
 		type: DataTypes.STRING,
 		allowNull: true,
-	}
+	},
 }, {
 	sequelize,
 	underscored: true,

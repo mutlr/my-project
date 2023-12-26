@@ -12,7 +12,10 @@ User.init({
 	email: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
+		unique: {
+			args: true,
+			msg: 'This email is already in use'
+		},
 		validate: {
 			isEmail: {
 				msg: 'Not a valid email'
@@ -34,28 +37,26 @@ User.init({
 	username: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
+		unique: {
+			args: true,
+			msg: 'Username is already taken'
+		},
 		validate: {
 			len: {
 				args: [3, 45],
 				msg: 'Username must be between 3 and 45 characters',
 			} 
-		}
+		},
 	},
 	password: {
 		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
-		  notNull: {
-			msg: 'A password is required'
-		  },
-		  isLessThan(value) {
-			if (value.length < 6) {
-				throw new Error('Password min length is 6')
-			}
-		  },
+		  	notNull: {
+				msg: 'A password is required'
+			},
 		},
-	}
+	},
 }, {
 	sequelize,
 	underscored: true,
