@@ -3,7 +3,7 @@ import React from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 const Navbar = () => {
-  return (
+    return (
         <div className="navbar-main">
             <Burgermenu />
             <h1 id='logo'>LOGO</h1>
@@ -15,7 +15,7 @@ const Navbar = () => {
                 <li className='navbar-link'><Link to={'/login'}>Logout</Link></li>
             </ul>
         </div>
-  );
+    );
 };
 
 export default Navbar;

@@ -41,6 +41,14 @@ module.exports = {
           "error",
           { "argsIgnorePattern": "^_" }
         ],
-        "no-case-declarations": "off"
+        "no-case-declarations": "off",
+        'eqeqeq': 'error',
+        'no-trailing-spaces': 'error',
+        'object-curly-spacing': [
+            'error', 'always'
+        ],
+        'arrow-spacing': [
+            'error', { 'before': true, 'after': true }
+        ],
     }
 };

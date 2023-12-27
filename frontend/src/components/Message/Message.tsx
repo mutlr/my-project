@@ -12,7 +12,7 @@ const Message = (props: MessageProps) => {
     const backgroundColor = props.type ? 'var(--error-color)' : 'green';
     return (
         <div className="message">
-            <p className='message-text' style={{backgroundColor}}>{props.message}</p>
+            <p className='message-text' style={{ backgroundColor }}>{props.message}</p>
         </div>
     );
 };
