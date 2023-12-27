@@ -2,7 +2,8 @@ import React from 'react';
 import '../Login/Login.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { RegisterFormValues } from '../../types';
+import { RegisterFormValues, UserValues } from '../../types';
+import { userRegister } from '../../services/userService';
 
 const validationSchema = Yup.object().shape({
     username: Yup.string().min(4, 'Username min 4 chars').required('Usernaname is required'),
@@ -10,11 +11,20 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().min(6, 'Password must be at least 6 chars').required('Password is required')
 });
 
-const Register: React.FC = () => {
-    const initialValues: RegisterFormValues = { username: '', email: '', password: '' };
-    const handleRegister = (values: RegisterFormValues) => {
-        console.log('Values: ', values );
-        alert(JSON.stringify(values, null, 2));
+interface Props {
+    handleUser: (values: UserValues) => void,
+}
+const Register = (props: Props) => {
+    const initialValues: RegisterFormValues = { username: '', email: '', password: '', name: '' };
+    const handleRegister = async (values: RegisterFormValues, actions: any) => {
+        try {
+            const result = await userRegister(values);
+            console.log('Result on register: ', result);
+            props.handleUser(result);
+            actions.resetForm();
+        } catch (error) {
+            console.log('Error in register: ', error);
+        }
     };
     return (
         <div className="form-main">
@@ -26,6 +36,10 @@ const Register: React.FC = () => {
                     <label htmlFor="email">Email</label>
                     <Field type="email" className="formInput" name="email" />
                     <ErrorMessage name="email" component='div' className="error"/>
+
+                    <label htmlFor="name">Name</label>
+                    <Field type="text" className="formInput" name="name" />
+                    <ErrorMessage name="name" component='div' className="error"/>
 
                     <label htmlFor="username">Username</label>
                     <Field type="text" className="formInput"  name="username" />

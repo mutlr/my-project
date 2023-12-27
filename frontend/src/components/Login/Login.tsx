@@ -1,13 +1,24 @@
 import React from 'react';
 import './Login.css';
-import { LoginFormValues } from '../../types';
+import { LoginValues, UserValues } from '../../types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { userLogin } from '../../services/userService';
 //import { Link } from "react-router-dom";
-const Login = () => {
-    const initialValues: LoginFormValues = { username: '', password: '' };
-    const handleRegister = (values: LoginFormValues) => {
-        console.log('Values: ', values );
-        alert(JSON.stringify(values, null, 2));
+
+interface Props {
+    handleUser: (values: UserValues) => void,
+}
+const Login = (props: Props) => {
+    const initialValues: LoginValues = { username: '', password: '' };
+    const handleRegister = async (values: LoginValues, actions: any) => {
+        try {
+            const result = await userLogin(values);
+            console.log('Login successfull!!!', result);
+            props.handleUser(result);
+            actions.resetForm();
+        } catch (error) {
+            console.log('Error in login: ', error);
+        }
     };
     return (
         <div className="form-main">
