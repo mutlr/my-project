@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
-const bcrypt = require('bcrypt')
 class User extends Model {}
 
 User.init({
@@ -39,7 +38,7 @@ User.init({
 			len: {
 				args: [3, 45],
 				msg: 'Username must be between 3 and 45 characters',
-			} 
+			}
 		},
 	},
 	password: {

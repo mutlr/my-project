@@ -10,8 +10,7 @@ const errorHandler = (error, req, res, next) => {
 	} else if (error.name === 'SequelizeForeignKeyConstraintError') {
 		return res.status(404).json({ error: error.parent.detail });
 	} else if (error.name === 'SequelizeValidationError') {
-		console.log('Tää on validaatio error: ', error.message)
-		return res.status(500).json({error: error.errors[0].message})
+		return res.status(500).json({ error: error.errors[0].message });
 	}
 	next(error);
 };

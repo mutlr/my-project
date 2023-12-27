@@ -31,7 +31,6 @@ router.post('/', async (req, res, next) => {
 
 router.post('/comment', async (req, res, next) => {
 	try {
-		console.log('Req body posts: ', req.body.songId);
 		const comment = await Comment.create(req.body);
 		res.status(201).json({ comment });
 	} catch (error) {
