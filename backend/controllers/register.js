@@ -10,7 +10,7 @@ router.post('/', async (req, res, next) => {
 		console.log('On register: ', saltedPassword, password);
 		const user = await User.create({ username, name, email, password: saltedPassword });
 		const token = signToken({ username: user.username, id: user.id });
-		res.status(201).json({ token });
+		res.status(201).json({ token, username: user.username, id: user.id });
 	} catch (error) {
 		console.log('Error on register: ', error.message);
 		next(error);

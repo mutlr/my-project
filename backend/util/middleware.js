@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('./config');
+const { Song } = require('../models')
 const errorHandler = (error, req, res, next) => {
 	//   console.log('Error: ', error)
 
@@ -25,7 +26,12 @@ const tokenExtractor = (req, res, next) => {
 		return res.status(404).json({ error: 'Invalid token' });
 	}
 };
+
+const songFinder = async (req, res, next) => {
+	return await Song.findOne({ where: {songName: req.songName}})
+}
 module.exports = {
 	errorHandler,
-	tokenExtractor
+	tokenExtractor,
+	songFinder,
 };

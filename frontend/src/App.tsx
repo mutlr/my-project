@@ -6,6 +6,7 @@ import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/PostLayout/View';
+import Postform from './components/Postform/Postform';
 import { UserValues } from './types';
 function App () {
     const [user, setUser] = useState<UserValues | null>(null);
@@ -35,6 +36,7 @@ function App () {
                 <Route path='/' element={<View />}/>
                 <Route path='login' element={<Login handleUser={handleUser}/>}/>
                 <Route path='register' element={<Register handleUser={handleUser}/>}/>
+                <Route path='form' element={<Postform />} />
             </Routes>
         </div>
     );

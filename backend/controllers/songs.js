@@ -8,8 +8,15 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', async (req, res, next) => {
+	const { artistId, artistName, songName, id } = req.body
 	try {
-		const song = await Song.create(req.body);
+		let artist = await Artist.findByPk(artistId)
+		console.log('Artist by find: ', artist)
+		if (artist === null) {
+			artist = await Artist.create({ artistId, artistName})
+		}
+		console.log('Artist after creation: ', artist)
+		const song = await Song.create({ artistId, songName, id});
 		res.status(201).json(song);
 	} catch (error) {
 		next(error);

@@ -28,7 +28,7 @@ module.exports = {
 			references: { model: 'users', key: 'id' },
 		});
 		await queryInterface.addColumn('comments', 'song_id', {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false,
 			references: { model: 'songs', key: 'id' },
 		});
