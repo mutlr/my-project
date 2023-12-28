@@ -5,9 +5,10 @@ class Artist extends Model {}
 
 Artist.init({
 	id: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.STRING,
 		primaryKey: true,
-		autoIncrement: true,
+		allowNull: false,
+		unique: true,
 	},
 	artistName: {
 		type: DataTypes.STRING,

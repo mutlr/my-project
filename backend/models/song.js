@@ -5,14 +5,15 @@ class Song extends Model {}
 
 Song.init({
 	id: {
-		type: DataTypes.INTEGER,
+		type: DataTypes.STRING,
 		primaryKey: true,
-		autoIncrement: true,
+		allowNull: false,
+		unique: true,
 	},
 	songName: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true
+		unique: true,
 	},
 }, {
 	sequelize,

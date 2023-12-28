@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { Artist, Song, Post, User, Comment } = require('../models');
-
+const { tokenExtractor } = require('../util/middleware')
 router.get('/', async (req, res) => {
 	const posts = await Post.findAll({
 		include: [
@@ -18,10 +18,10 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ posts });
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', tokenExtractor, async (req, res, next) => {
 	try {
-		console.log('Req body posts: ', req.body.songId);
-		const post = await Post.create(req.body);
+		const { id } = req.decodedToken
+		const post = await Post.create({userId: id, ...req.body});
 		res.status(201).json({ post });
 	} catch (error) {
 		console.log('Menee tänne: ', error);
@@ -29,9 +29,10 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
-router.post('/comment', async (req, res, next) => {
+router.post('/comment', tokenExtractor, async (req, res, next) => {
 	try {
-		const comment = await Comment.create(req.body);
+		const { id } = req.decodedToken
+		const comment = await Comment.create({userId: id, ...req.body });
 		res.status(201).json({ comment });
 	} catch (error) {
 		console.log('Menee tänne: ', error.message);

@@ -33,7 +33,7 @@ module.exports = {
 			references: { model: 'users', key: 'id' },
 		});
 		await queryInterface.addColumn('posts', 'song_id', {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false,
 			references: { model: 'songs', key: 'id' },
 		});

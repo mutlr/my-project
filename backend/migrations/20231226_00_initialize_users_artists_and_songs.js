@@ -4,9 +4,10 @@ module.exports = {
 	up: async ({ context: queryInterface }) => {
 	    await queryInterface.createTable('artists', {
 			id: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING,
 				primaryKey: true,
-				autoIncrement: true,
+				unique: true,
+				allowNull: false,
 			},
 			artist_name: {
 				type: DataTypes.STRING,
@@ -26,9 +27,10 @@ module.exports = {
 		});
 		await queryInterface.createTable('songs', {
 			id: {
-				type: DataTypes.INTEGER,
+				type: DataTypes.STRING,
 				primaryKey: true,
-				autoIncrement: true,
+				unique: true,
+				allowNull: false,
 			},
 			song_name: {
 				type: DataTypes.STRING,
@@ -107,7 +109,7 @@ module.exports = {
 
 		});
 		await queryInterface.addColumn('songs', 'artist_id', {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false,
 			references: { model: 'artists', key: 'id' },
 		});
