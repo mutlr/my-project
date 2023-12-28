@@ -1,0 +1,9 @@
+POST http://localhost:3001/songs
+Content-Type: application/json
+
+{
+    "id": "ID for song",
+    "songName": "Name for a song",
+    "artistId": "ID for artist",
+    "artistName": "Name for the artist"
+}

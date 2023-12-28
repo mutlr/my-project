@@ -5,7 +5,6 @@ const bcrypt = require('bcrypt');
 const { signToken } = require('../util/utils');
 
 router.post('/', async (req, res) => {
-	console.log('Tulee tänne loginii11111')
 	const { username, password } = req.body;
 	try {
 		const user = await User.findOne({ where: { username } });

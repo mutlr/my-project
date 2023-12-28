@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Artist, Song, Post, User, Comment } = require('../models');
+const { Artist, Song, Post, Comment } = require('../models');
 const { tokenExtractor } = require('../util/middleware')
 router.get('/', async (req, res) => {
 	const posts = await Post.findAll({
@@ -35,7 +35,6 @@ router.post('/comment', tokenExtractor, async (req, res, next) => {
 		const comment = await Comment.create({userId: id, ...req.body });
 		res.status(201).json({ comment });
 	} catch (error) {
-		console.log('Menee tänne: ', error.message);
 		next(error);
 	}
 });
