@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { playButtonSVG } from '../../assets/playPauseButtons';
+import { Post } from '../../App';
 import './View.css';
 
 const album = {
@@ -35,30 +36,45 @@ const BottomBar = () => {
         </div>
     );
 };
-const PostHeader = () => {
+const PostHeader = (props: PostDetails) => {
     return (
         <div className='view-top'>
-            <p className='title'>{album.title}</p>
+            <p className='title'>{props.post.title ? props.post.title : album.title}</p>
             <div className='top-inner'>
-                <p>Reccomend songs similar to {album.name} by {album.artist}</p>
-                <p>{album.user}</p>
+                <p>Reccomend songs similar to {props.post.song} by {props.post.artist}</p>
+                <p>{props.post.user}</p>
             </div>
     </div>
     );
 };
-const PostView = () => {
+interface PostDetails {
+    post: {
+        user: string,
+        song: string,
+        artist: string,
+        title: string
+    }
+}
+const PostView = (props: PostDetails) => {
+    console.log('Props: ', props.post);
     return (
         <div className='post-main'>
-            <PostHeader />
+            <PostHeader post={props.post}/>
             <BottomBar />
         </div>
     );
 };
-const View = () => {
+
+interface Props {
+    posts: Post[]
+}
+const View = (props: Props) => {
+    console.log('Props: ', props.posts);
     return (
         <div className='main-view'>
-            <PostView />
-            <PostView />
+            {props.posts.map(post => (
+                <PostView post={post} key={post.song + post.artist + post.user}/>
+            ))}
         </div>
     );
 };

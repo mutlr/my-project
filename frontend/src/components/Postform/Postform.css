@@ -1,11 +1,44 @@
-.post-formik {
-
+.postform-container {
+    margin-top: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: black;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 600px;
+    height: 700px;
+    opacity: 92%;
 }
 .post-form {
+    width: 100%;
+    border-radius: 20px;
+    background-color: var(--secondary-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: auto;
-    width: 500px;
+}
+.song-container {
+    background-color: var(--secondary-color);
+    cursor: pointer;    
+    margin-top: 16px;
+    width: 100%;
+    border: 2px solid white;
+    border-radius: 20px;
+    display: flex;
+}
+
+.song-description {
+    width: 60%;
+    padding: 12px;
+    border-left: 2px solid white;
+}
+.song-container > img {
+    border-radius: 60px;
+    padding: 8px;
+    height: 60px;
+    width: 60px;
 }

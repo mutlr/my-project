@@ -1,0 +1,10 @@
+.togglableBtn {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: max-content;
+    padding: 12px;
+    font-size: 20px;
+    background-color: var(--primary-color);
+    margin: 16px;
+}

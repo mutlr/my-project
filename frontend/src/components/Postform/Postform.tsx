@@ -1,61 +1,89 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field, useFormikContext } from 'formik';
 import './Postform.css';
-import axios from 'axios';
-const api = 'BQDO4XKUV7DjPuz2RakF_p20USkmgTYWVzXLPaKFO5wVmaWAIscGHqmtcze5FnykOcyl3nEgqwEnUrwAz4zzfIQKJ32ErO69IBIK2Le2AQGGa8zgIig';
+import { useDebounce } from "@uidotdev/usehooks";
+import { getSongs } from '../../services/apiServices';
+import { sendPost } from '../../services/postService';
+import { SongEntry, Song } from '../../types';
 interface FormValues {
-    song: string;
+    song: string,
+    title: string
 }
 
+const initialValues: FormValues = { song: '', title: '' };
 const Postform = () => {
-    const initialValues: FormValues = { song: '' };
-
-    const handleSubmit = (values: FormValues) => {
-        console.log('Submitted value:', values.song);
+    const [songs, setSongs] = useState<Song[]>([]);
+    const [chosenSong, setSong] = useState<SongEntry | null>(null);
+    const chooseSong = (song: SongEntry) => {
+        setSong(song);
     };
-
+    const handleSubmit = async (values: FormValues) => {
+        if (!chosenSong) return;
+        sendPost({ ...chosenSong, title: values.title })
+        .then(result => console.log('Result from adding post: ', result));
+    };
+    const addToList = (songList: Song[]) => {
+        setSongs(songList);
+    };
     return (
-        <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-            <MyForm />
+        <div className='postform-container'>
+            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+                <MainForm addToList={(addToList)}/>
+            </Formik>
+            {songs.map(s => (
+                <SongBox s={s} key={s.songId} chooseSong={chooseSong}/>
+            ))}
+        </div>
+    );
+};
+interface SongProps {
+    s: Song,
+    chooseSong: (song: SongEntry) => void,
+}
 
-        </Formik>
+const SongBox = ({ s, chooseSong }: SongProps) => {
+    const handlePress = () => {
+        chooseSong({ artistName: s.artistName, songId: s.songId, artistId: s.artistId, songName: s.songName, });
+    };
+    return (
+        <div className='song-container' onClick={handlePress}>
+            <img src={s.image} className='song-image'/>
+            <div className='song-description'>
+                <p>{s.songName} by {s.artistName}</p>
+            </div>
+        </div>
     );
 };
 
-const MyForm = () => {
+interface MainFormProps {
+    addToList (list: Song[]): void
+}
+const MainForm = (props: MainFormProps) => {
     const formik = useFormikContext<FormValues>();
-
-    // Access form values outside of submit function
+    const debouncedSearchTerm = useDebounce(formik.values.song, 500);
     useEffect(() => {
         if (formik.values.song.length < 3) return;
-        console.log('Formik value: ', formik.values.song);
-        axios.get(`https://api.spotify.com/v1/search?q=${formik.values.song}%20plan&type=track&limit=5`, {
-            headers: {
-                'Authorization': `Bearer ${api}`
-            }
-        })
-        .then(result => result.data.tracks.items.map((r: any) => {
-            //console.log('R: ', r);
-            const item = {
-                artist: {
-                    artistName: r.artists[0].name,
-                    id: r.artists[0].id
-                },
-                song: {
-                    songName: r.name,
-                    id: r.id
-                }
+        getSongs(formik.values.song).then((result: any) => {
+           const songs = result.map((r: any): Song => {
+            return {
+                songName: r.name,
+                songId: r.id,
+                artistName: r.artists[0].name,
+                artistId: r.artists[0].id,
+                image: r.album.images[0].url
             };
-            console.log('Song: ', item);
-        }));
-        console.log('Current value:', formik.values.song);
-
-    }, [formik.values.song]);
+            });
+            props.addToList(songs);
+        });
+    }, [debouncedSearchTerm]);
 
     return (
         <Form className="post-form">
+            <label htmlFor="title">Title</label>
+            <Field type="text" className="formInput" name="title" placeholder='Title for post   ' />
+
             <label htmlFor="song">Song name</label>
-            <Field type="text" className="formInput" name="song" />
+            <Field type="text" className="formInput" name="song" placeholder='Type in 3 letter for search to start' />
             <button type="submit">Submit</button>
         </Form>
     );

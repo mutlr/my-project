@@ -13,3 +13,14 @@ export interface UserValues {
     username: string,
     id: number,
 }
+
+export interface SongEntry {
+    artistId: string,
+    artistName: string,
+    songId: string,
+    songName: string,
+    title?: string,
+}
+export interface Song extends SongEntry {
+    image?: string,
+}
