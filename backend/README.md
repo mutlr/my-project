@@ -4,4 +4,4 @@ Tuntitaulukko backend:
     Modelien tekeminen 5h
     Routereiden alustava teko 4h
     Kommentin teko ja liittäminen postiin 4h.....
-    Login 1h
+    Login router 1h

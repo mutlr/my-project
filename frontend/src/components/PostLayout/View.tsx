@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { playButtonSVG } from '../../assets/playPauseButtons';
+import React, { useEffect, useRef, useState } from 'react';
+import { playButtonSVG, pauseButtomSVG } from '../../assets/playPauseButtons';
 import { Post } from '../../App';
 import './View.css';
-
+import axios from 'axios';
+import { api } from '../../services/apiServices';
 const album = {
     name: 'Song name',
     user: 'User name',
@@ -10,28 +11,52 @@ const album = {
     title: 'Title for post',
 };
 
-const BottomBar = () => {
+const BottomBar = (props: PostDetails) => {
     const [width, setWidth] = useState<number>(0);
-
+    const [isPlaying, setisPlaying] = useState<boolean>(false);
+    const [time, setTime] = useState<number>(0);
+    const audio = useRef(new Audio());
     const handleResize = () => {
         const progressBar = document.querySelector('.progressBar') as HTMLDivElement;
         if (progressBar) {
             setWidth(progressBar.clientWidth);
         }
     };
-
+    const playSound = () => {
+        isPlaying ? audio.current.pause() : audio.current.play();
+        setisPlaying(!isPlaying);
+    };
+    const updateProgress = () => {
+        if (audio.current.duration) {
+          setTime(audio.current.currentTime);
+        }
+    };
     useEffect(() => {
+        setTime(audio.current.currentTime);
+    }, [audio.current.currentTime, time]);
+    useEffect(() => {
+        axios.get(`https://api.spotify.com/v1/tracks/${props.post.songId}`, {
+            headers: {
+                'Authorization': 'Bearer ' + api
+            }
+        })
+        .then(result => {
+            audio.current.src = result.data.preview_url;
+        })
+        .catch(error => console.log('Bottombar error: ', error));
         handleResize();
         window.addEventListener('resize', handleResize);
+        audio.current.addEventListener('timeupdate', updateProgress);
         return () => {
             window.removeEventListener('resize', handleResize);
+            audio.current.removeEventListener('timeupdate', updateProgress);
         };
     }, []);
     return (
         <div className='post-player'>
-            <div dangerouslySetInnerHTML={{ __html: playButtonSVG }} />
+            <div dangerouslySetInnerHTML={{ __html: isPlaying ? pauseButtomSVG : playButtonSVG }} onClick={playSound}/>
             <div className='progressBar'>
-                <div className='progress' style={{ width: `${width * 0.5}px` }}></div>
+                <div className='progress' style={{ width: `${width * ((time / audio.current.duration))}px` }}></div>
             </div>
         </div>
     );
@@ -52,15 +77,15 @@ interface PostDetails {
         user: string,
         song: string,
         artist: string,
-        title: string
+        title: string,
+        songId: string,
     }
 }
 const PostView = (props: PostDetails) => {
-    console.log('Props: ', props.post);
     return (
         <div className='post-main'>
             <PostHeader post={props.post}/>
-            <BottomBar />
+            <BottomBar post={props.post} />
         </div>
     );
 };
@@ -69,7 +94,6 @@ interface Props {
     posts: Post[]
 }
 const View = (props: Props) => {
-    console.log('Props: ', props.posts);
     return (
         <div className='main-view'>
             {props.posts.map(post => (

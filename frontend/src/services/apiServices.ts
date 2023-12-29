@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = "BQAHwiATK4a7WgZHweZwVyQ-qXymHlM7VVoKbSSEsPpqi251fANpUFojYXykVTEkq1Bp_RlzoZX9Sxpnh7HYY5PXMh8XsRztR6k45AHY9JEK2Wy7yhY";
+export const api = "BQCcRdAF3XNUEGX_CjsuebhviiGo3ivlysm48vRZzshQb3GCJqfwz4ElGyVyfZZQ6LsT9MY008t1qxXbewDaNIR2VNFZQFW4XfnDtZXmFg626vZqvKU";
 
 export const getSongs = async (name: string) => {
     const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=5`, {
@@ -8,5 +8,6 @@ export const getSongs = async (name: string) => {
             'Authorization': `Bearer ${api}`
         }
     });
+    console.log('Result from api: ', result);
     return result.data.tracks.items;
 };

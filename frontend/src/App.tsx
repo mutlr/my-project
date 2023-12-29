@@ -15,6 +15,7 @@ export interface Post {
     song: string,
     artist: string,
     title: string,
+    songId: string,
 }
 function App () {
     const [user, setUser] = useState<UserValues | null>(null);
@@ -39,7 +40,8 @@ function App () {
                 user: s.user.username,
                 song: s.song.songName,
                 artist: s.song.artist.artistName,
-                title: s.title
+                title: s.title,
+                songId: s.songId
             };
         })
         )).catch(error => console.log('Error in getting posts: ', error));

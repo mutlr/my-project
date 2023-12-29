@@ -5,6 +5,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { getSongs } from '../../services/apiServices';
 import { sendPost } from '../../services/postService';
 import { SongEntry, Song } from '../../types';
+
 interface FormValues {
     song: string,
     title: string
@@ -20,7 +21,8 @@ const Postform = () => {
     const handleSubmit = async (values: FormValues) => {
         if (!chosenSong) return;
         sendPost({ ...chosenSong, title: values.title })
-        .then(result => console.log('Result from adding post: ', result));
+        .then(result => console.log('Result from adding post: ', result))
+        .catch(error => console.log('ERror in submitting post: ', error.response.data));
     };
     const addToList = (songList: Song[]) => {
         setSongs(songList);
@@ -64,7 +66,9 @@ const MainForm = (props: MainFormProps) => {
     useEffect(() => {
         if (formik.values.song.length < 3) return;
         getSongs(formik.values.song).then((result: any) => {
+            console.log('Song results: ', result);
            const songs = result.map((r: any): Song => {
+            console.log('Song: ', r);
             return {
                 songName: r.name,
                 songId: r.id,
