@@ -28,7 +28,6 @@ router.get('/', async (req, res) => {
 const findOrCreateSong = async (name, songId, artistName, artistId) => {
 	const artist = await findArtist(artistId, artistName);
 	const song = await Song.findByPk(songId);
-	console.log('Artisti on find songis: ', artist)
 	if (!song) {
 		return await Song.create({id: songId, songName: name, artistId: artist.id})
 	}
@@ -47,9 +46,11 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 });
 
 router.post('/comment', tokenExtractor, async (req, res, next) => {
+	const {songId, artistId, title, songName, artistName, postId} = req.body;
 	try {
 		const { id } = req.decodedToken
-		const comment = await Comment.create({userId: id, ...req.body });
+		const song = await findOrCreateSong(songName, songId, artistName, artistId)
+		const comment = await Comment.create({userId: id, songId: song.id, text: title, postId });
 		res.status(201).json({ comment });
 	} catch (error) {
 		next(error);

@@ -4,4 +4,6 @@ Tuntitaulukko frontend:
     Post layout 4h
     Login functionality 1.5h
     Searchin for songs, song form and sending to backend 12h
+    Comment form and send comment 2h
+
     

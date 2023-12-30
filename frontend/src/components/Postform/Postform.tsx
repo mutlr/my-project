@@ -6,7 +6,7 @@ import { getSongs } from '../../services/apiServices';
 import { sendPost } from '../../services/postService';
 import { SongEntry, Song } from '../../types';
 
-interface FormValues {
+export interface FormValues {
     song: string,
     title: string
 }
@@ -30,7 +30,7 @@ const Postform = () => {
     return (
         <div className='postform-container'>
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                <MainForm addToList={(addToList)}/>
+                <MainForm addToList={(addToList)} title='Title for your post'/>
             </Formik>
             {songs.map(s => (
                 <SongBox s={s} key={s.songId} chooseSong={chooseSong}/>
@@ -38,12 +38,13 @@ const Postform = () => {
         </div>
     );
 };
-interface SongProps {
+
+export interface SongProps {
     s: Song,
     chooseSong: (song: SongEntry) => void,
 }
 
-const SongBox = ({ s, chooseSong }: SongProps) => {
+export const SongBox = ({ s, chooseSong }: SongProps) => {
     const handlePress = () => {
         chooseSong({ artistName: s.artistName, songId: s.songId, artistId: s.artistId, songName: s.songName, });
     };
@@ -57,10 +58,11 @@ const SongBox = ({ s, chooseSong }: SongProps) => {
     );
 };
 
-interface MainFormProps {
-    addToList (list: Song[]): void
+export interface MainFormProps {
+    addToList (list: Song[]): void,
+    title: string
 }
-const MainForm = (props: MainFormProps) => {
+export const MainForm = (props: MainFormProps) => {
     const formik = useFormikContext<FormValues>();
     const debouncedSearchTerm = useDebounce(formik.values.song, 500);
     useEffect(() => {
@@ -83,7 +85,7 @@ const MainForm = (props: MainFormProps) => {
 
     return (
         <Form className="post-form">
-            <label htmlFor="title">Title</label>
+            <label htmlFor="title">{props.title}</label>
             <Field type="text" className="formInput" name="title" placeholder='Title for post   ' />
 
             <label htmlFor="song">Song name</label>

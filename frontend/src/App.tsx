@@ -7,9 +7,9 @@ import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/PostLayout/View';
 import Postform from './components/Postform/Postform';
-import Togglable from './components/Togglable/Togglable';
 import { UserValues } from './types';
 import { getPosts } from './services/postService';
+import Commentform from './components/Commentform/Comment';
 export interface Post {
     user: string,
     song: string,
@@ -54,14 +54,12 @@ function App () {
         <div className="App">
             <Message message={null} type={null} />
             <Navbar user={user} logout={logout}/>
-            <Togglable buttonText='Add a post'>
-                <Postform />
-            </Togglable >
+
             <Routes>
                 <Route path='/' element={<View posts={posts}/>}/>
                 <Route path='login' element={<Login handleUser={handleUser}/>}/>
                 <Route path='register' element={<Register handleUser={handleUser}/>}/>
-                <Route path='form' element={<Postform />} />
+                <Route path='form' element={<Commentform />} />
             </Routes>
         </div>
     );

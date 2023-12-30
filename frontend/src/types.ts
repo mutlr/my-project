@@ -21,6 +21,11 @@ export interface SongEntry {
     songName: string,
     title?: string,
 }
+
 export interface Song extends SongEntry {
     image?: string,
+}
+
+export interface CommentEntry extends SongEntry{
+    postId: number
 }

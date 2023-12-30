@@ -4,6 +4,8 @@ import { Post } from '../../App';
 import './View.css';
 import axios from 'axios';
 import { api } from '../../services/apiServices';
+import Postform from '../Postform/Postform';
+import Togglable from '../Togglable/Togglable';
 const album = {
     name: 'Song name',
     user: 'User name',
@@ -99,6 +101,9 @@ const View = (props: Props) => {
             {props.posts.map(post => (
                 <PostView post={post} key={post.song + post.artist + post.user}/>
             ))}
+            <Togglable buttonText='Add a post'>
+                <Postform />
+            </Togglable >
         </div>
     );
 };
