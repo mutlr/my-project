@@ -4,7 +4,7 @@ import { Post } from '../../App';
 import './View.css';
 import axios from 'axios';
 import { api } from '../../services/apiServices';
-import Postform from '../Postform/Postform';
+import Postform from '../PostingForms/Postform';
 import Togglable from '../Togglable/Togglable';
 const album = {
     name: 'Song name',

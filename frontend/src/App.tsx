@@ -6,10 +6,10 @@ import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/PostLayout/View';
-import Postform from './components/Postform/Postform';
+import Postform from './components/PostingForms/Postform';
 import { UserValues } from './types';
 import { getPosts } from './services/postService';
-import Commentform from './components/Commentform/Comment';
+import Commentform from './components/PostingForms/Comment';
 export interface Post {
     user: string,
     song: string,

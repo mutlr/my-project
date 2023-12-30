@@ -1,8 +1,11 @@
-import { FormValues, MainForm, MainFormProps, SongBox, SongProps,  } from "../Postform/Postform";
+import { FormValues, ChosenSong  } from "./Postform";
 import { Formik } from 'formik';
 import { SongEntry, Song } from "../../types";
 import React, { useState } from "react";
 import { sendComment } from "../../services/postService";
+import SongContainer from "./SongContainer";
+import MainForm from "./MainForm";
+
 const initialValues: FormValues = { song: '', title: '' };
 
 const Commentform = () => {
@@ -22,11 +25,12 @@ const Commentform = () => {
     };
     return (
         <div className='postform-container'>
+            <ChosenSong song={chosenSong} />
             <Formik initialValues={initialValues} onSubmit={handleSubmit}>
                 <MainForm addToList={(addToList)} title="Title for your comment"/>
             </Formik>
             {songs.map(s => (
-                <SongBox s={s} key={s.songId} chooseSong={chooseSong}/>
+                <SongContainer s={s} key={s.songId} chooseSong={chooseSong}/>
             ))}
         </div>
     );
