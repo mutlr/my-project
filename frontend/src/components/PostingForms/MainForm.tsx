@@ -1,6 +1,6 @@
-import { Formik, Field, Form, useFormikContext } from 'formik';
+import { Field, Form, useFormikContext } from 'formik';
 import React, { useEffect } from 'react';
-import { Song, SongEntry } from '../../types';
+import { Song } from '../../types';
 import { useDebounce } from "@uidotdev/usehooks";
 import { getSongs } from '../../services/apiServices';
 
@@ -15,6 +15,7 @@ interface FormValues {
 const MainForm = (props: MainFormProps) => {
     const formik = useFormikContext<FormValues>();
     const debouncedSearchTerm = useDebounce(formik.values.song, 500);
+
     useEffect(() => {
         if (formik.values.song.length < 3) return;
         getSongs(formik.values.song).then((result: any) => {
