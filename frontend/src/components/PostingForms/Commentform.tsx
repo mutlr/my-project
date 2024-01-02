@@ -8,10 +8,11 @@ import MainForm from "./MainForm";
 import ChosenSong from "./ChosenSong";
 interface CommentformProps {
     postId: number,
+    toggleVisibility: () => void,
 }
 const initialValues: FormValues = { song: '', title: '' };
 
-const Commentform = ({ postId }: CommentformProps) => {
+const Commentform = ({ postId, toggleVisibility }: CommentformProps) => {
     const [songs, setSongs] = useState<SongListing[]>([]);
     const [chosenSong, setSong] = useState<SongEntry | null>(null);
     const chooseSong = (song: SongEntry) => {
@@ -20,7 +21,7 @@ const Commentform = ({ postId }: CommentformProps) => {
     const handleSubmit = async (values: FormValues) => {
         if (!chosenSong) return;
         sendComment({ ...chosenSong, title: values.title, postId })
-        .then(result => console.log('Result from adding post: ', result))
+        .then(result => toggleVisibility())
         .catch(error => console.log('ERror in submitting post: ', error.response.data));
     };
     const addToList = (songList: SongListing[]) => {

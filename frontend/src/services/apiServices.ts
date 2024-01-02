@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const api = "BQDi8SjGRzb1u-MEGGQtD1hrFy7Xbs1pHj3MzcKsn4LMeTFuHLvsZp-wDDkwUokaHeBwbaO72JUs4SfX6gH1SAFR6lMTE8nFJ-TBFHTb7UEgeIgwb7s";
+export const api = "BQDfqtQtK4SQKHPRmRFxrqqmlnsrDXqvyHWDHlnLxMI2PYFCmTFOhJ2yo5QutA7ZeJpLLNWZJFIb4hgsg8f-s4JN68gWOgRhYeVQbgRs7fC0sn4uNq4";
 
 export const getSongs = async (name: string) => {
     const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=5`, {

@@ -1,29 +1,39 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Login.css';
 import { LoginValues, UserValues } from '../../types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { userLogin } from '../../services/userService';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
+import { MessageContext } from '../../context/messageContext';
+import axios from 'axios';
 interface Props {
     handleUser: (values: UserValues) => void,
 }
+const initialValues: LoginValues = { username: '', password: '' };
+
 const Login = (props: Props) => {
-    const initialValues: LoginValues = { username: '', password: '' };
-    const handleRegister = async (values: LoginValues, actions: any) => {
+    const message = useContext(MessageContext);
+    const handleLogin = async (values: LoginValues, actions: any) => {
         try {
             const result = await userLogin(values);
             console.log('Login successfull!!!', result);
             props.handleUser(result);
             actions.resetForm();
-        } catch (error) {
-            console.log('Error in login: ', error);
+            message?.success('Logged in!');
+        } catch (error: unknown) {
+            //let message = '';
+            if (axios.isAxiosError(error)) {
+                message?.error(error.response?.data.error);
+                console.log('Error in login: ', error.response?.data.error);
+
+            }
         }
     };
     return (
         <div className="form-main">
             <Formik initialValues={initialValues} className="loginForm"
-                onSubmit={handleRegister}>
+                onSubmit={handleLogin}>
 
                 <Form className="form">
 

@@ -53,7 +53,7 @@ const PostPage = (props: PostPageProps) => {
                 toggleVisibility={toggleVisibility}
                 isOpen={isOpen.display}>
 
-                <Commentform postId={props.post.postId}/>
+                <Commentform postId={props.post.postId} toggleVisibility={toggleVisibility}/>
             </Togglable>}
             <PostView post={props.post} preview={false}/>
             {comments.map(c =>

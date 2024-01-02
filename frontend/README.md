@@ -7,4 +7,5 @@ Tuntitaulukko frontend:
     Comment form and send comment 2h
     Post page and sending comments 6h
     Cleaning and fixing post anf commentform issues 8h
+    Toggle hook and form closing 30min
     
