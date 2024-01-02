@@ -43,8 +43,18 @@ export interface Song {
 }
 export interface Post {
     postId: number,
+    title: string,
     artist: Artist,
     song: Song,
+    user: User,
+}
+
+export interface Comment {
+    user: User,
+    song: Song,
+    artist: Artist,
+    commentId: number,
+    text: string,
 }
 export type Colors = 'primary' | 'secondary' | 'red' | 'light';
 

@@ -28,7 +28,12 @@ const Audiobar = ({ songId }: AudiobarProps) => {
           setTime(audio.current.currentTime);
         }
     };
-
+    const calculateWidth = () => {
+        if (width === 0 || time === 0) {
+            return 0;
+        }
+        return `${width * ((time / audio.current.duration))}px`;
+    };
     useEffect(() => {
         setTime(audio.current.currentTime);
     }, [audio.current.currentTime, time]);
@@ -54,7 +59,7 @@ const Audiobar = ({ songId }: AudiobarProps) => {
         <div className='post-player'>
             <div dangerouslySetInnerHTML={{ __html: isPlaying ? pauseButtomSVG : playButtonSVG }} onClick={playSound}/>
             <div className='progressBar'>
-                <div className='progress' style={{ width: `${width * ((time / audio.current.duration))}px` }}></div>
+                <div className='progress' style={{ width: calculateWidth() }}></div>
             </div>
         </div>
     );

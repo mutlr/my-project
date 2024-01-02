@@ -1,11 +1,11 @@
-import { FormValues, ChosenSong  } from "./Postform";
+import { FormValues  } from "./Postform";
 import { Formik } from 'formik';
 import { SongEntry, SongListing, } from "../../types";
 import React, { useState } from "react";
 import { sendComment } from "../../services/postService";
 import SongContainer from "./SongContainer";
 import MainForm from "./MainForm";
-
+import ChosenSong from "./ChosenSong";
 interface CommentformProps {
     postId: number,
 }

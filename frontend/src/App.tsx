@@ -6,20 +6,12 @@ import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/Frontpage/View';
-import { UserValues } from './types';
+import { UserValues, Post } from './types';
 import { getPosts } from './services/postService';
 import Commentform from './components/PostingForms/Commentform';
 import PostPage from './components/PostPage/PostPage';
 import Button from './components/Button/Button';
 import { setToken } from './services/serviceUtils';
-export interface Post {
-    user: string,
-    song: string,
-    artist: string,
-    title: string,
-    songId: string,
-    id: number,
-}
 
 function App () {
     const [user, setUser] = useState<UserValues | null>(null);
@@ -30,6 +22,7 @@ function App () {
         localStorage.setItem('loggedUser', JSON.stringify(values));
         setUser(values);
         setToken(values.token);
+        navigate('/');
     };
 
     useEffect(() => {
@@ -42,14 +35,21 @@ function App () {
       }, []);
 
       useEffect(() => {
-        getPosts().then(result => setPosts(result.map((s: any) => {
+        getPosts().then(result => setPosts(result.map((s: any): Post => {
             return {
-                user: s.user.username,
-                song: s.song.songName,
-                artist: s.song.artist.artistName,
+                song: {
+                    songId: s.songId,
+                    songName: s.song.songName,
+                },
+                artist: {
+                    artistName: s.song.artist.artistName,
+                    artistId: s.song.artist.artistId,
+                },
+                user: {
+                    username: s.user.username,
+                },
                 title: s.title,
-                songId: s.songId,
-                id: s.id
+                postId: s.id
             };
         }))).catch(error => console.log('Error in getting posts: ', error));
       }, []);
@@ -57,12 +57,13 @@ function App () {
     const logout = () => {
         localStorage.removeItem('loggedUser');
         setUser(null);
+        setToken('');
         navigate('/');
     };
 
     const postMatch = useMatch('/post/:id');
     const postMatchResult: Post | undefined | null = postMatch === null ?
-    null : posts.find((p: Post) => p.id === Number(postMatch.params.id));
+    null : posts.find((p: Post) => p.postId === Number(postMatch.params.id));
 
     return (
         <div className="App">
@@ -70,10 +71,10 @@ function App () {
             <Navbar user={user} logout={logout}/>
 
             <Routes>
-                <Route path='/' element={<View posts={posts}/>}/>
+                <Route path='/' element={<View posts={posts} user={user}/>}/>
                 <Route path='/login' element={<Login handleUser={handleUser}/>}/>
                 <Route path='/register' element={<Register handleUser={handleUser}/>}/>
-                <Route path="/post/:id" element={<PostPage post={postMatchResult}/>} />
+                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={user}/>} />
             </Routes>
         </div>
     );

@@ -7,6 +7,7 @@ export const getPosts = async () => {
 };
 
 export const sendPost = async (post: SongEntry) => {
+    console.log('User token: ', userToken);
     const result = await axios.post(`${baseUrl}/posts`, post, {
         headers: {
             'Authorization': userToken,
@@ -22,4 +23,9 @@ export const sendComment = async (comment: CommentEntry) => {
         }
     });
     return result;
+};
+
+export const getComments = async (id: number) => {
+    const result = await axios.get(`${baseUrl}/posts/comments/${id}`);
+    return result.data.comments;
 };

@@ -5,26 +5,16 @@ import { sendPost } from '../../services/postService';
 import { SongEntry, Song, SongListing, } from '../../types';
 import SongContainer from './SongContainer';
 import MainForm from './MainForm';
-
+import ChosenSong from './ChosenSong';
 export interface FormValues {
     song: string,
-    title: string
+    title: string,
 }
-interface ChosenSongProps {
-    song: SongEntry | null
+interface Props {
+    toggleVisibility: () => void,
 }
-export const ChosenSong = (props: ChosenSongProps) => {
-    if (!props.song) {
-        return <div>Choose a song from the list first</div>;
-    }
-    return (
-        <div style={{ color: 'white' }}>
-            Song: {props.song.song.songName} by {props.song.artist.artistName}
-        </div>
-    );
-};
 const initialValues: FormValues = { song: '', title: '' };
-const Postform = () => {
+const Postform = (props: Props) => {
     const [songs, setSongs] = useState<SongListing[]>([]);
     const [chosenSong, setSong] = useState<SongEntry | null>(null);
     const chooseSong = (song: SongEntry) => {
@@ -33,7 +23,7 @@ const Postform = () => {
     const handleSubmit = async (values: FormValues) => {
         if (!chosenSong) return;
         sendPost({ ...chosenSong, title: values.title })
-        .then(result => console.log('Result from adding post: ', result))
+        .then(result => props.toggleVisibility())
         .catch(error => console.log('ERror in submitting post: ', error.response.data));
     };
     const addToList = (songList: SongListing[]) => {
