@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { RegisterFormValues, UserValues } from '../../types';
 import { userRegister } from '../../services/userService';
-
+import Button from '../Button/Button';
 const validationSchema = Yup.object().shape({
     username: Yup.string().min(4, 'Username min 4 chars').required('Usernaname is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
@@ -50,7 +50,7 @@ const Register = (props: Props) => {
                     <Field type="password" className="formInput"   name="password" />
                     <ErrorMessage name="password" component='div' className="error"/>
 
-                    <button type="submit" className="formButton">Sign Up</button>
+                    <Button type="submit" text='Sign Up' color='light' />
                 </Form>
 
             </Formik>

@@ -15,17 +15,37 @@ export interface UserValues {
 }
 
 export interface SongEntry {
-    artistId: string,
-    artistName: string,
-    songId: string,
-    songName: string,
+    song: Song,
+    artist: Artist,
     title?: string,
 }
-
-export interface Song extends SongEntry {
-    image?: string,
+export interface SongListing {
+    artist: Artist,
+    song: Song,
+    image: string,
 }
-
-export interface CommentEntry extends SongEntry{
+export interface CommentEntry extends SongEntry {
     postId: number
 }
+
+export interface User {
+    id?: number,
+    username: string,
+}
+
+export interface Artist {
+    artistId: string,
+    artistName: string,
+}
+export interface Song {
+    songId: string,
+    songName: string,
+}
+export interface Post {
+    postId: number,
+    artist: Artist,
+    song: Song,
+}
+export type Colors = 'primary' | 'secondary' | 'red' | 'light';
+
+export type ButtonTypes = 'submit' | 'reset' | 'button';

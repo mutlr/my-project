@@ -33,7 +33,7 @@ const PostPage = (props: PostPageProps) => {
     const [comments, setComments] = useState<Comment[]>([]);
     useEffect(() => {
         axios.get(`http://localhost:3001/posts/comments/${id}`)
-        .then(result => {   
+        .then(result => {
             console.log(result.data.comments);
             const filteredComments = result.data.comments.map((c: any) => {
                 return {
@@ -58,7 +58,7 @@ const PostPage = (props: PostPageProps) => {
                 <Commentform postId={props.post.id}/>
             </Togglable>
             <PostView post={props.post} preview={false}/>
-            {comments.map(c => 
+            {comments.map(c =>
             <div key={c.commentId} className="post-container">
                 <PostHeader user={c.username} song={c.song} artist={c.artist} comment={true}/>
                 <p className="comment-text">{c.text}reigjeogejkgjkgjgejioggieogoigoejgiejgejigrejogejeorigjeroijgeroigjeojgoejgoejoiejgeoijgiejgoiejroijegijeio</p>

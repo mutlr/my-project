@@ -1,19 +1,28 @@
 import React from "react";
-import { SongEntry, Song } from "../../types";
+import { SongEntry, Song, SongListing } from "../../types";
 export interface SongProps {
-    s: Song,
+    s: SongListing,
     chooseSong: (song: SongEntry) => void,
 }
 
 const SongContainer = ({ s, chooseSong }: SongProps) => {
     const handlePress = () => {
-        chooseSong({ artistName: s.artistName, songId: s.songId, artistId: s.artistId, songName: s.songName, });
+        chooseSong({
+            artist: {
+                artistName: s.artist.artistName,
+                artistId: s.artist.artistId,
+            },
+            song: {
+                songId: s.song.songId,
+                songName: s.song.songName,
+            }
+        });
     };
     return (
         <div className='song-container' onClick={handlePress}>
             <img src={s.image} className='song-image'/>
             <div className='song-description'>
-                <p>{s.songName} by {s.artistName}</p>
+                <p>{s.song.songName} by {s.artist.artistName}</p>
             </div>
         </div>
     );

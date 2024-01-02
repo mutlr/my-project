@@ -9,7 +9,7 @@ const ChosenSong = (props: ChosenSongProps) => {
     }
     return (
         <div style={{ color: 'white' }}>
-            Song: {props.song.songName} by {props.song.artistName}
+            Song: {props.song.song.songName} by {props.song.artist.artistName}
         </div>
     );
 };

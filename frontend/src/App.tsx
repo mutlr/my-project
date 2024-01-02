@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar/Navbar';
-import { Routes, Route, useMatch } from 'react-router-dom';
+import { Routes, Route, useMatch, useNavigate } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
@@ -10,6 +10,8 @@ import { UserValues } from './types';
 import { getPosts } from './services/postService';
 import Commentform from './components/PostingForms/Commentform';
 import PostPage from './components/PostPage/PostPage';
+import Button from './components/Button/Button';
+import { setToken } from './services/serviceUtils';
 export interface Post {
     user: string,
     song: string,
@@ -22,10 +24,12 @@ export interface Post {
 function App () {
     const [user, setUser] = useState<UserValues | null>(null);
     const [posts, setPosts] = useState<Post[]>([]);
+    const navigate = useNavigate();
 
     const handleUser = (values: UserValues) => {
         localStorage.setItem('loggedUser', JSON.stringify(values));
         setUser(values);
+        setToken(values.token);
     };
 
     useEffect(() => {
@@ -33,6 +37,7 @@ function App () {
         if (loggedUser) {
           const user = JSON.parse(loggedUser);
           setUser(user);
+          setToken(user.token);
         }
       }, []);
 
@@ -52,10 +57,12 @@ function App () {
     const logout = () => {
         localStorage.removeItem('loggedUser');
         setUser(null);
+        navigate('/');
     };
 
     const postMatch = useMatch('/post/:id');
-    const postMatchResult: Post | undefined | null = postMatch === null ? null : posts.find((p: Post) => p.id === Number(postMatch.params.id));
+    const postMatchResult: Post | undefined | null = postMatch === null ?
+    null : posts.find((p: Post) => p.id === Number(postMatch.params.id));
 
     return (
         <div className="App">
@@ -64,8 +71,8 @@ function App () {
 
             <Routes>
                 <Route path='/' element={<View posts={posts}/>}/>
-                <Route path='login' element={<Login handleUser={handleUser}/>}/>
-                <Route path='register' element={<Register handleUser={handleUser}/>}/>
+                <Route path='/login' element={<Login handleUser={handleUser}/>}/>
+                <Route path='/register' element={<Register handleUser={handleUser}/>}/>
                 <Route path="/post/:id" element={<PostPage post={postMatchResult}/>} />
             </Routes>
         </div>

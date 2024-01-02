@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { SongEntry, Song } from '../../types';
+import { SongEntry, Song, SongListing, } from '../../types';
 import SongContainer from './SongContainer';
 import MainForm from './MainForm';
 
@@ -19,13 +19,13 @@ export const ChosenSong = (props: ChosenSongProps) => {
     }
     return (
         <div style={{ color: 'white' }}>
-            Song: {props.song.songName} by {props.song.artistName}
+            Song: {props.song.song.songName} by {props.song.artist.artistName}
         </div>
     );
 };
 const initialValues: FormValues = { song: '', title: '' };
 const Postform = () => {
-    const [songs, setSongs] = useState<Song[]>([]);
+    const [songs, setSongs] = useState<SongListing[]>([]);
     const [chosenSong, setSong] = useState<SongEntry | null>(null);
     const chooseSong = (song: SongEntry) => {
         setSong(song);
@@ -36,7 +36,7 @@ const Postform = () => {
         .then(result => console.log('Result from adding post: ', result))
         .catch(error => console.log('ERror in submitting post: ', error.response.data));
     };
-    const addToList = (songList: Song[]) => {
+    const addToList = (songList: SongListing[]) => {
         setSongs(songList);
     };
     return (
@@ -46,7 +46,7 @@ const Postform = () => {
                 <MainForm addToList={(addToList)} title='Title for your post'/>
             </Formik>
             {songs.map(s => (
-                <SongContainer s={s} key={s.songId} chooseSong={chooseSong}/>
+                <SongContainer s={s} key={s.song.songId} chooseSong={chooseSong}/>
             ))}
         </div>
     );

@@ -1,11 +1,11 @@
 import { Field, Form, useFormikContext } from 'formik';
 import React, { useEffect } from 'react';
-import { Song } from '../../types';
+import { Song, SongListing } from '../../types';
 import { useDebounce } from "@uidotdev/usehooks";
 import { getSongs } from '../../services/apiServices';
-
+import Button from '../Button/Button';
 interface MainFormProps {
-    addToList (list: Song[]): void,
+    addToList (list: SongListing[]): void,
     title: string
 }
 interface FormValues {
@@ -19,12 +19,16 @@ const MainForm = (props: MainFormProps) => {
     useEffect(() => {
         if (formik.values.song.length < 3) return;
         getSongs(formik.values.song).then((result: any) => {
-           const songs = result.map((r: any): Song => {
+           const songs = result.map((r: any): SongListing => {
             return {
-                songName: r.name,
-                songId: r.id,
-                artistName: r.artists[0].name,
-                artistId: r.artists[0].id,
+                song: {
+                    songName: r.name,
+                    songId: r.id,
+                },
+                artist: {
+                    artistName: r.artists[0].name,
+                    artistId: r.artists[0].id,
+                },
                 image: r.album.images[0].url
             };
             });
@@ -39,7 +43,7 @@ const MainForm = (props: MainFormProps) => {
 
             <label htmlFor="song">Song name</label>
             <Field type="text" className="formInput" name="song" placeholder='Type in 3 letter for search to start' />
-            <button type="submit">Submit</button>
+            <Button type='submit' text='Submit' color='primary' />
         </Form>
     );
 };

@@ -10,7 +10,7 @@ interface Props {
 const Navbar = (props: Props) => {
     return (
         <div className="navbar-main">
-            <Burgermenu />
+            <Burgermenu logout={props.logout} user={props.user} />
             <h1 id='logo'>LOGO</h1>
             <ul className='navbar-link-container'>
                 <li className='navbar-link'><Link to={'/'}>Home</Link></li>

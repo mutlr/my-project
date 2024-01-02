@@ -3,8 +3,8 @@ import './Login.css';
 import { LoginValues, UserValues } from '../../types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { userLogin } from '../../services/userService';
-//import { Link } from "react-router-dom";
-
+import Button from '../Button/Button';
+import { Link } from 'react-router-dom';
 interface Props {
     handleUser: (values: UserValues) => void,
 }
@@ -36,10 +36,11 @@ const Login = (props: Props) => {
                     <Field type="password" className="formInput"   name="password" />
                     <ErrorMessage name="password" component='div' className="error"/>
 
-                    <button type="submit" className="formButton">Sign In</button>
+                    <Button type="submit" text='Sign In' color='light' />
                 </Form>
             </Formik>
-            <p>Not a user?</p>
+
+            <Link to={'/register'}>Not a user? Click here to register</Link>
         </div>
     );
 };

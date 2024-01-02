@@ -14,15 +14,38 @@ router.get('/', async (req, res) => {
 				}
 			},
 			{
-				model: Comment
-			},
-			{
 				model: User,
 				attributes: { exclude: ['createdAt', 'updatedAt', 'password']},
 			}
 		]
 	});
 	res.status(200).json({ posts });
+});
+
+router.get('/:id', async (req, res) => {
+	try {
+		const post = await Post.findByPk(req.params.id, {
+			include: [
+				{
+					model: Song,
+					attributes: { exclude: ['createdAt', 'updatedAt']},
+					include: {
+						model: Artist,
+						attributes: { exclude: ['createdAt', 'updatedAt']},
+					}
+				},
+				{
+					model: User,
+					attributes: { exclude: ['createdAt', 'updatedAt', 'password']},
+				}
+			]
+		});
+		if (!post) return res.status(404).json({error: 'No post found by ID'})
+		res.status(200).json({ post });
+	} catch (error) {
+		console.log('Error from id posting: ', error);
+		res.send(error)
+	}
 });
 
 const findOrCreateSong = async (name, songId, artistName, artistId) => {
@@ -34,7 +57,10 @@ const findOrCreateSong = async (name, songId, artistName, artistId) => {
 	return song;
 }
 router.post('/', tokenExtractor, async (req, res, next) => {
-	const {songId, artistId, title, songName, artistName} = req.body;
+	console.log('Req bodyn song: ', req.body.song)
+	const { title } = req.body
+	const {artistId, artistName} = req.body.artist;
+	const {songId, songName} = req.body.song
 	try {
 		const { id } = req.decodedToken
 		const song = await findOrCreateSong(songName, songId, artistName, artistId)
@@ -46,7 +72,9 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 });
 
 router.post('/comment', tokenExtractor, async (req, res, next) => {
-	const {songId, artistId, title, songName, artistName, postId} = req.body;
+	const { title, postId } = req.body
+	const {artistId, artistName} = req.body.artist;
+	const {songId, songName} = req.body.song
 	try {
 		const { id } = req.decodedToken
 		const song = await findOrCreateSong(songName, songId, artistName, artistId)
@@ -57,4 +85,26 @@ router.post('/comment', tokenExtractor, async (req, res, next) => {
 	}
 });
 
+router.get('/comments/:id', async (req, res) => {
+	try {
+		const comments = await Comment.findAll({ 
+			where: {postId: req.params.id},
+			include: [{
+				model: User,
+				attributes: ['username']
+			},
+			{
+				model: Song,
+				attributes: ['songName'],
+				include: {
+					model: Artist,
+					attributes: ['artistName']
+				}
+			}]
+		})
+		res.status(201).json({comments})
+	} catch (error) {
+		res.status(500).json({error: error.message})
+	}
+})
 module.exports = router;
