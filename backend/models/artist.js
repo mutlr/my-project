@@ -22,4 +22,8 @@ Artist.init({
 	modelName: 'artist'
 });
 
+Artist.addScope('defaultScope', {
+	attributes: ['id', 'artistName'],
+});
+  
 module.exports = Artist;

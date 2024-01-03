@@ -2,11 +2,7 @@ const router = require('express').Router();
 const { Song, Artist } = require('../models');
 const { findArtist } = require('../util/utils')
 router.get('/', async (req, res) => {
-	const songs = await Song.findAll({
-		include: {
-			model: Artist
-		}
-	});
+	const songs = await Song.findAll();
 	res.status(200).json({ songs });
 });
 

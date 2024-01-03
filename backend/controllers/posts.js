@@ -7,15 +7,9 @@ router.get('/', async (req, res) => {
 		include: [
 			{
 				model: Song,
-				attributes: { exclude: ['createdAt', 'updatedAt']},
-				include: {
-					model: Artist,
-					attributes: { exclude: ['createdAt', 'updatedAt']},
-				}
 			},
 			{
 				model: User,
-				attributes: { exclude: ['createdAt', 'updatedAt', 'password']},
 			}
 		]
 	});
@@ -28,15 +22,9 @@ router.get('/:id', async (req, res) => {
 			include: [
 				{
 					model: Song,
-					attributes: { exclude: ['createdAt', 'updatedAt']},
-					include: {
-						model: Artist,
-						attributes: { exclude: ['createdAt', 'updatedAt']},
-					}
 				},
 				{
 					model: User,
-					attributes: { exclude: ['createdAt', 'updatedAt', 'password']},
 				}
 			]
 		});
@@ -64,7 +52,16 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 	try {
 		const { id } = req.decodedToken
 		const song = await findOrCreateSong(songName, songId, artistName, artistId)
-		const post = await Post.create({userId: id, title, songId: song.id});
+		const post = await Post.create({userId: id, title, songId: song.id}, {
+			include: [
+				{
+					model: User,
+				},
+				{
+					model: Song
+				}
+			]
+		});
 		res.status(201).json({ post });
 	} catch (error) {
 		next(error);
@@ -91,15 +88,9 @@ router.get('/comments/:id', async (req, res) => {
 			where: {postId: req.params.id},
 			include: [{
 				model: User,
-				attributes: ['username']
 			},
 			{
 				model: Song,
-				attributes: ['songName'],
-				include: {
-					model: Artist,
-					attributes: ['artistName']
-				}
 			}]
 		})
 		res.status(201).json({comments})

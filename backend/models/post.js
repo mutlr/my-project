@@ -23,5 +23,5 @@ Post.init({
 	timestamps: true,
 	modelName: 'post',
 });
-
+  
 module.exports = Post;

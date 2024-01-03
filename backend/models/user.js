@@ -50,11 +50,14 @@ User.init({
 			},
 		},
 	},
-}, {
+},{
 	sequelize,
 	underscored: true,
 	timestamps: true,
 	modelName: 'user',
 });
-
+User.addScope('defaultScope', {
+	attributes: ['id', 'username'],
+});
+  
 module.exports = User;
