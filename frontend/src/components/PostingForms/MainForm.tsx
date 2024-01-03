@@ -37,15 +37,21 @@ const MainForm = (props: MainFormProps) => {
 
     return (
         <Form className="post-form">
-            <label htmlFor="title">{props.title}</label>
-            <Field type="text" className="formInput" name="title" placeholder='Title for post   ' />
+            <div className='input-container'>
+                <label htmlFor="title">{props.title}</label>
+                <Field type="text" className="formInput" name="title" placeholder='Title for post' />
+            </div>
 
-            <label htmlFor="song">Description</label>
-            <Field type="text" as='textarea' className="formInput textarea" name="description" placeholder='Type in 3 letter for search to start' />
+            <div className='input-container'>
+                <label htmlFor="song">Description</label>
+                <Field type="text" as='textarea' className="formInput textarea" name="description" placeholder='Description' />
+            </div>
 
-            <label htmlFor="song">Song name</label>
-            <Field type="text" className="formInput" name="song" placeholder='Type in 3 letter for search to start' />
-            <Button type='submit' text='Submit' color='primary' />
+            <div className='input-container'>
+                <label htmlFor="song">Song name</label>
+                <Field type="text" className="formInput" name="song" placeholder='Type in 3 letter for search to start' />
+                <Button type='submit' text='Submit' color='primary' />
+            </div>
         </Form>
     );
 };

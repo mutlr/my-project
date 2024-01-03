@@ -8,7 +8,6 @@ export const getSongs = async (name: string) => {
             'Authorization': `Bearer ${api}`
         }
     });
-    console.log('Result from api: ', result);
     return result.data.tracks.items;
 };
 

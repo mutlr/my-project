@@ -9,4 +9,4 @@ Tuntitaulukko frontend:
     Cleaning and fixing post anf commentform issues 8h
     Toggle hook and form closing 30min
     Message context 2h
-    
+    Fixed postlayout and better way to add to lists 3h

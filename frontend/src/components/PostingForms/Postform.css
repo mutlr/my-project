@@ -15,9 +15,22 @@
     height: 100%;
     opacity: 92%;
 }
+.formInput {
+    height: 30px;
+    padding-left: 12px;
+}
 .textarea {
-    padding: 12px;
+    padding: 12px 8px;
+    height: 60px;
     box-sizing: border-box;
+}
+.input-container {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .post-form {
     width: 100%;
@@ -28,6 +41,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 12px;
 }
 .song-container {
     background-color: var(--secondary-color);
