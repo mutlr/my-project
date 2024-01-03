@@ -3,31 +3,13 @@ const { Artist, Song, Post, Comment, User } = require('../models');
 const { tokenExtractor } = require('../util/middleware')
 const { findArtist } = require('../util/utils')
 router.get('/', async (req, res) => {
-	const posts = await Post.findAll({
-		include: [
-			{
-				model: Song,
-			},
-			{
-				model: User,
-			}
-		]
-	});
+	const posts = await Post.findAll();
 	res.status(200).json({ posts });
 });
 
 router.get('/:id', async (req, res) => {
 	try {
-		const post = await Post.findByPk(req.params.id, {
-			include: [
-				{
-					model: Song,
-				},
-				{
-					model: User,
-				}
-			]
-		});
+		const post = await Post.findByPk(req.params.id);
 		if (!post) return res.status(404).json({error: 'No post found by ID'})
 		res.status(200).json({ post });
 	} catch (error) {
