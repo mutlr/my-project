@@ -15,10 +15,11 @@
     children: ReactNode | ReactElement;
     }
 
+    const TIMEOUT = 800;
+
     const MessageProvider = ({ children }: AlertProviderProps) => {
     const [type, setType] = useState<string>('');
     const [message, setMessage] = useState<string>('');
-    const TIMEOUT = 10000;
 
     const clear = () => {
         setMessage('');

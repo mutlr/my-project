@@ -1,0 +1,10 @@
+.postheader-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.postheader-top {
+    display: flex;
+    justify-content: space-between;
+}

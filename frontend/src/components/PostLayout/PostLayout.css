@@ -1,46 +1,26 @@
-.post-container {
-    border-radius: 20px;
+.postbox {
+    border: 2px solid red;
     background-color: var(--primary-color);
-    margin-top: 20px;
-    padding: 16px;
+    border-radius: 20px;
     border: 1px solid white;
-    
-}
-.top-inner {
-    padding: 16px 0;
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
+    padding: 20px 16px;
+    height: auto;
+    margin: 12px;
+    max-width: 600px;
 }
 
-.progressBar {
-    border-radius: 20px;
-    padding: 2px;
-    width: 100%;
-    height: 20px;
-    border: 2px solid white;
-}
-.progress {
-    border-radius: 20px;
-    background-color: var(--light-color);
-    height: 20px;
-    transition: width 1s ease-in, transform 1s;
-}
-.post-player {
-    display: flex;
-    gap: 20px;
-}
-.comment-text {
-    padding-bottom: 16px;
+.description {
+    padding: 12px 0;
     word-wrap: break-word;
 }
 @media only screen and (min-width: 600px) {
-    .post-container {
+    .postpage-container {
         width: 100%;
-        max-width: 600px;
-        margin: auto;
-        margin-top: 16px;
-        height: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
-
+    .postbox {
+        width: 100%;
+    }
 }

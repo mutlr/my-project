@@ -13,18 +13,22 @@ export interface UserValues {
     username: string,
     id: number,
 }
-
+export interface SongForm {
+    song: Song,
+    artist: Artist,
+    title: string,
+    description: string,
+}
 export interface SongEntry {
     song: Song,
     artist: Artist,
-    title?: string,
 }
 export interface SongListing {
     artist: Artist,
     song: Song,
     image: string,
 }
-export interface CommentEntry extends SongEntry {
+export interface CommentEntry extends SongForm {
     postId: number
 }
 
@@ -41,20 +45,20 @@ export interface Song {
     songId: string,
     songName: string,
 }
-export interface Post {
-    postId: number,
+export interface BasePost {
     title: string,
     artist: Artist,
     song: Song,
     user: User,
+    description: string,
+    createdAt: string,
+}
+export interface Post extends BasePost{
+    postId: number,
 }
 
-export interface Comment {
-    user: User,
-    song: Song,
-    artist: Artist,
+export interface Comment extends BasePost {
     commentId: number,
-    text: string,
 }
 export type Colors = 'primary' | 'secondary' | 'red' | 'light';
 

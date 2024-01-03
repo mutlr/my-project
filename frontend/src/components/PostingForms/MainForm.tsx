@@ -19,7 +19,7 @@ const MainForm = (props: MainFormProps) => {
     useEffect(() => {
         if (formik.values.song.length < 3) return;
         getSongs(formik.values.song).then((result: any) => {
-           const songs = result.map((r: any): SongListing => {
+           props.addToList(result.filter((f: any) => f.preview_url !== null).map((r: any): SongListing => {
             return {
                 song: {
                     songName: r.name,
@@ -31,8 +31,7 @@ const MainForm = (props: MainFormProps) => {
                 },
                 image: r.album.images[0].url
             };
-            });
-            props.addToList(songs);
+            }).slice(0, 8));
         });
     }, [debouncedSearchTerm]);
 
@@ -40,6 +39,9 @@ const MainForm = (props: MainFormProps) => {
         <Form className="post-form">
             <label htmlFor="title">{props.title}</label>
             <Field type="text" className="formInput" name="title" placeholder='Title for post   ' />
+
+            <label htmlFor="song">Description</label>
+            <Field type="text" as='textarea' className="formInput textarea" name="description" placeholder='Type in 3 letter for search to start' />
 
             <label htmlFor="song">Song name</label>
             <Field type="text" className="formInput" name="song" placeholder='Type in 3 letter for search to start' />

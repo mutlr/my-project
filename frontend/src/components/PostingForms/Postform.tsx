@@ -2,18 +2,19 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { SongEntry, Song, SongListing, } from '../../types';
+import { SongEntry, Song, SongListing, Post } from '../../types';
 import SongContainer from './SongContainer';
 import MainForm from './MainForm';
 import ChosenSong from './ChosenSong';
 export interface FormValues {
     song: string,
     title: string,
+    description: string,
 }
 interface Props {
     toggleVisibility: () => void,
 }
-const initialValues: FormValues = { song: '', title: '' };
+const initialValues: FormValues = { song: '', title: '', description: '' };
 const Postform = (props: Props) => {
     const [songs, setSongs] = useState<SongListing[]>([]);
     const [chosenSong, setSong] = useState<SongEntry | null>(null);
@@ -22,8 +23,11 @@ const Postform = (props: Props) => {
     };
     const handleSubmit = async (values: FormValues) => {
         if (!chosenSong) return;
-        sendPost({ ...chosenSong, title: values.title })
-        .then(result => props.toggleVisibility())
+        sendPost({ ...chosenSong, title: values.title, description: values.description })
+        .then(result => {
+            console.log('Result from adding post: ', result);
+            props.toggleVisibility();
+        })
         .catch(error => console.log('ERror in submitting post: ', error.response.data));
     };
     const addToList = (songList: SongListing[]) => {

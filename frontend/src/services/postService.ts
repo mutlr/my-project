@@ -1,19 +1,19 @@
 import axios from "axios";
-import { SongEntry, CommentEntry } from "../types";
+import { SongEntry, CommentEntry, SongForm } from "../types";
 import { userToken, baseUrl } from "./serviceUtils";
 export const getPosts = async () => {
     const result = await axios.get(`${baseUrl}/posts`);
     return result.data.posts;
 };
 
-export const sendPost = async (post: SongEntry) => {
+export const sendPost = async (post: SongForm) => {
     console.log('User token: ', userToken);
     const result = await axios.post(`${baseUrl}/posts`, post, {
         headers: {
             'Authorization': userToken,
         }
     });
-    return result;
+    return result.data.post;
 };
 
 export const sendComment = async (comment: CommentEntry) => {
@@ -22,7 +22,7 @@ export const sendComment = async (comment: CommentEntry) => {
             'Authorization': userToken,
         }
     });
-    return result;
+    return result.data.returnComment;
 };
 
 export const getComments = async (id: number) => {

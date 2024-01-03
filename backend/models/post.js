@@ -34,5 +34,5 @@ Post.addScope('defaultScope', {
 			model: Song,
 		}
 	]
-})
+});
 module.exports = Post;

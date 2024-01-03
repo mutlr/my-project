@@ -28,22 +28,13 @@ const findOrCreateSong = async (name, songId, artistName, artistId) => {
 }
 router.post('/', tokenExtractor, async (req, res, next) => {
 	console.log('Req bodyn song: ', req.body.song)
-	const { title } = req.body
+	const { title, description } = req.body
 	const {artistId, artistName} = req.body.artist;
 	const {songId, songName} = req.body.song
 	try {
 		const { id } = req.decodedToken
 		const song = await findOrCreateSong(songName, songId, artistName, artistId)
-		const post = await Post.create({userId: id, title, songId: song.id}, {
-			include: [
-				{
-					model: User,
-				},
-				{
-					model: Song
-				}
-			]
-		});
+		const post = await Post.create({userId: id, title, songId: song.id, description});
 		res.status(201).json({ post });
 	} catch (error) {
 		next(error);
@@ -51,14 +42,24 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 });
 
 router.post('/comment', tokenExtractor, async (req, res, next) => {
-	const { title, postId } = req.body
+	const { title, postId, description } = req.body
 	const {artistId, artistName} = req.body.artist;
 	const {songId, songName} = req.body.song
 	try {
 		const { id } = req.decodedToken
 		const song = await findOrCreateSong(songName, songId, artistName, artistId)
-		const comment = await Comment.create({userId: id, songId: song.id, text: title, postId });
-		res.status(201).json({ comment });
+		const comment = await Comment.create({userId: id, songId: song.id, text: title, postId, description: description});
+		const returnComment = await Comment.findByPk(comment.id, {
+			include: [
+				{
+					model: User
+				},
+				{
+					model: Song,
+				}
+			]
+		});
+		res.status(201).json({ returnComment });
 	} catch (error) {
 		next(error);
 	}

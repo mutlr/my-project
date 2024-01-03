@@ -8,8 +8,11 @@ module.exports = {
 				autoIncrement: true,
 				primaryKey: true,
 			},
-			text: {
+			description: {
 				type: DataTypes.STRING,
+			},
+			title: {
+				type: DataTypes.STRING
 			},
 			created_at: {
 				type: DataTypes.DATE,

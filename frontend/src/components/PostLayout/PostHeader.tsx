@@ -1,20 +1,26 @@
 import React from "react";
+import './Postheader.css';
 interface PostHeaderProps {
     user: string,
     song: string,
     artist: string,
-    comment: boolean
+    title: string,
+    createdAt: string,
 }
+const formatDate = (d: string) => {
+    const date = new Date(d);
+    return date.toLocaleDateString().replaceAll('/', '.');
+};
 const PostHeader = (props: PostHeaderProps) => {
     return (
-        <div className='view-top'>
-            <div className='top-inner'>
-                {props.comment ?
-                <p>I recommend {props.song} by {props.artist}</p> :
-                <p>Recomend songs similar to {props.song} by {props.artist}</p>}
+        <div className='postheader-container'>
+            <div className='postheader-top'>
                 <p>{props.user}</p>
+                <p>{formatDate(props.createdAt)}</p>
             </div>
-    </div>
+            <p>{props.title}</p>
+            <p>{props.song} by {props.artist}</p>
+        </div>
     );
 };
 

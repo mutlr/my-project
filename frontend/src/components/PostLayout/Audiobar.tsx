@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { playButtonSVG, pauseButtomSVG } from "../../assets/playPauseButtons";
 import { getAudio } from "../../services/apiServices";
+import './Audiobar.css';
 interface AudiobarProps {
     songId: string,
 }
@@ -40,7 +41,7 @@ const Audiobar = ({ songId }: AudiobarProps) => {
 
     useEffect(() => {
         getAudio(songId).then(result => audio.current.src = result)
-        .catch(error => console.log('Bottombar error: ', error));
+        .catch(() => console.log(''));
     }, []);
 
     useEffect(() => {
