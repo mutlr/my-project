@@ -9,7 +9,6 @@ interface Props {
     comment: Comment,
 }
 const CommentBox = ({ comment }: Props) => {
-    console.log('Comment in commentvox: ', comment);
     return (
         <div className="postbox">
         <PostHeader

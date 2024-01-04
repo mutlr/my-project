@@ -1,18 +1,8 @@
-.progressBar {
-    border-radius: 20px;
-    padding: 2px;
-    width: 100%;
-    height: 20px;
-    border: 2px solid white;
-}
-.progress {
-    border-radius: 20px;
-    background-color: var(--light-color);
-    height: 20px;
-    transition: width 1s ease-in, transform 1s;
-}
 .post-player {
     display: flex;
     gap: 20px;
     margin-top: 16px;
+}
+.audio {
+    width: 100%;
 }

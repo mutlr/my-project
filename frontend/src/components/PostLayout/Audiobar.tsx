@@ -1,67 +1,53 @@
-import React, { useEffect, useState, useRef } from "react";
-import { playButtonSVG, pauseButtomSVG } from "../../assets/playPauseButtons";
+import React, { useEffect, useState, SyntheticEvent } from "react";
 import { getAudio } from "../../services/apiServices";
 import './Audiobar.css';
+
 interface AudiobarProps {
     songId: string,
 }
 
 const Audiobar = ({ songId }: AudiobarProps) => {
-    const [width, setWidth] = useState<number>(0);
-    const [isPlaying, setisPlaying] = useState<boolean>(false);
-    const [time, setTime] = useState<number>(0);
-    const audio = useRef(new Audio());
+    const [audioSrc, setAudioSrc] = useState<string>("");
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
-    const handleResize = () => {
-        const progressBar = document.querySelector('.progressBar') as HTMLDivElement;
-        if (progressBar) {
-            setWidth(progressBar.clientWidth);
-        }
+    const handlePlay = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
+        // Pause all other audio elements except the current one
+        const allAudioElements = document.querySelectorAll('audio.audio');
+        allAudioElements.forEach((element) => {
+            const audio = element as HTMLAudioElement;
+            if (audio !== e.currentTarget) {
+                audio.pause();
+            }
+        });
+        setIsPlaying(true);
     };
-
-    const playSound = () => {
-        isPlaying ? audio.current.pause() : audio.current.play();
-        setisPlaying(!isPlaying);
-    };
-
-    const updateProgress = () => {
-        if (audio.current.duration) {
-          setTime(audio.current.currentTime);
-        }
-    };
-    const calculateWidth = () => {
-        if (width === 0 || time === 0) {
-            return 0;
-        }
-        return `${width * ((time / audio.current.duration))}px`;
-    };
-    useEffect(() => {
-        setTime(audio.current.currentTime);
-    }, [audio.current.currentTime, time]);
 
     useEffect(() => {
-        getAudio(songId).then(result => audio.current.src = result)
-        .catch(() => console.log(''));
-    }, []);
+        getAudio(songId).then(result => {
+            setAudioSrc(result);
+            // If audio is playing, pause it when the source changes
+            if (isPlaying) {
+                document.querySelectorAll('audio.audio').forEach((element) => {
+                    const audio = element as HTMLAudioElement;
+                    audio.pause();
+                });
+                setIsPlaying(false);
+            }
+        }).catch(() => console.log(''));
 
-    useEffect(() => {
-        handleResize();
-        window.addEventListener('resize', handleResize);
-
-        audio.current.addEventListener('timeupdate', updateProgress);
-
+        // Cleanup function to pause the audio when the component unmounts
         return () => {
-            window.removeEventListener('resize', handleResize);
-            audio.current.removeEventListener('timeupdate', updateProgress);
+            document.querySelectorAll('audio.audio').forEach((element) => {
+                const audio = element as HTMLAudioElement;
+                audio.pause();
+            });
+            setIsPlaying(false);
         };
-    }, []);
+    }, [songId]);
 
     return (
         <div className='post-player'>
-            <div dangerouslySetInnerHTML={{ __html: isPlaying ? pauseButtomSVG : playButtonSVG }} onClick={playSound}/>
-            <div className='progressBar'>
-                <div className='progress' style={{ width: calculateWidth() }}></div>
-            </div>
+            <audio src={audioSrc} controls className="audio" onPlay={handlePlay}></audio>
         </div>
     );
 };
