@@ -2,8 +2,8 @@ const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
 class User extends Model {
 	static async spotifyValues() {
-			const y = {access_token: this.accessToken, refresh_token: this.refresh_token}
-			console.log(y + this.accessToken)
+		const y = { access_token: this.accessToken, refresh_token: this.refresh_token };
+		console.log(y + this.accessToken);
 	}
 }
 

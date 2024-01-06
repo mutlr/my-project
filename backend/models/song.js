@@ -29,5 +29,5 @@ Song.addScope('defaultScope', {
 		model: Artist
 	}
 });
-  
+
 module.exports = Song;

@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
 		const token = signToken({ username: user.username, id: user.id });
 		res.status(200).json({ token, username: user.username, id: user.id, accessToken: user.accessToken, refreshToken: user.refreshToken });
 	} catch (error) {
-		console.log(error)
+		console.log(error);
 		res.status(500).json({ error });
 	}
 });

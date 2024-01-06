@@ -9,8 +9,8 @@ const signToken = (user) => {
 const findArtist = async (id, artistName) => {
 	const artist = await Artist.findByPk(id);
 	if (artist === null) {
-		return await Artist.create({ id, artistName})
-	};
+		return await Artist.create({ id, artistName });
+	}
 	return artist;
 };
 module.exports = {

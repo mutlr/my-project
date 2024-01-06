@@ -25,5 +25,5 @@ Artist.init({
 Artist.addScope('defaultScope', {
 	attributes: ['id', 'artistName'],
 });
-  
+
 module.exports = Artist;
