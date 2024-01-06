@@ -11,3 +11,20 @@ export const userRegister = async (values: RegisterFormValues): Promise<UserValu
     const result = await axios.post(`${baseUrl}/register`, values);
     return result.data;
 };
+
+export const authenticateSpotify = async (code: string) => {
+    const response = await axios.post(`${baseUrl}/users/authenticatespotify`, { code }, {
+        headers: {
+            'Authorization': userToken,
+        }
+    });
+    return response.data.tokenData;
+};
+export const refreshSpotifyToken = async () => {
+        const response = await axios.get(`${baseUrl}/users/refreshtoken`, {
+            headers: {
+                'Authorization': userToken,
+            }
+        });
+        return response;
+};

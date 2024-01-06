@@ -11,7 +11,6 @@ const Audiobar = ({ songId }: AudiobarProps) => {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     const handlePlay = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
-        // Pause all other audio elements except the current one
         const allAudioElements = document.querySelectorAll('audio.audio');
         allAudioElements.forEach((element) => {
             const audio = element as HTMLAudioElement;
@@ -25,7 +24,6 @@ const Audiobar = ({ songId }: AudiobarProps) => {
     useEffect(() => {
         getAudio(songId).then(result => {
             setAudioSrc(result);
-            // If audio is playing, pause it when the source changes
             if (isPlaying) {
                 document.querySelectorAll('audio.audio').forEach((element) => {
                     const audio = element as HTMLAudioElement;
@@ -35,7 +33,6 @@ const Audiobar = ({ songId }: AudiobarProps) => {
             }
         }).catch(() => console.log(''));
 
-        // Cleanup function to pause the audio when the component unmounts
         return () => {
             document.querySelectorAll('audio.audio').forEach((element) => {
                 const audio = element as HTMLAudioElement;

@@ -12,6 +12,8 @@ export interface UserValues {
     token: string,
     username: string,
     id: number,
+    accessToken: string,
+    refreshToken: string,
 }
 export interface SongForm {
     song: Song,

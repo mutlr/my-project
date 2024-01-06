@@ -1,6 +1,6 @@
     import React, { ReactElement, ReactNode, createContext, useState } from 'react';
 
-    interface AlertContextProps {
+    interface MessageContextProps {
     type: string,
     message: string,
     success: (text: string) => void,
@@ -8,16 +8,16 @@
     clear: () => void,
     }
 
-    const MessageContext = createContext<AlertContextProps | null>(null);
+    const MessageContext = createContext<MessageContextProps | null>(null);
     MessageContext.displayName = 'MessageContext';
 
-    interface AlertProviderProps {
+    interface MessageProviderProps {
     children: ReactNode | ReactElement;
     }
 
     const TIMEOUT = 800;
 
-    const MessageProvider = ({ children }: AlertProviderProps) => {
+    const MessageProvider = ({ children }: MessageProviderProps) => {
     const [type, setType] = useState<string>('');
     const [message, setMessage] = useState<string>('');
 

@@ -20,7 +20,7 @@ const baseMap = (base: any): BasePost => {
 
 export const commentMap = (comment: any): Comment => {
     return {
-        ...baseMap(comment), commentId: comment.id 
+        ...baseMap(comment), commentId: comment.id
     };
 };
 

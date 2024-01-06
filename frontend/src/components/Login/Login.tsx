@@ -17,7 +17,6 @@ const Login = (props: Props) => {
     const handleLogin = async (values: LoginValues, actions: any) => {
         try {
             const result = await userLogin(values);
-            console.log('Login successfull!!!', result);
             props.handleUser(result);
             actions.resetForm();
             message?.success('Logged in!');
@@ -25,7 +24,7 @@ const Login = (props: Props) => {
             //let message = '';
             if (axios.isAxiosError(error)) {
                 message?.error(error.response?.data.error);
-                console.log('Error in login: ', error.response?.data.error);
+                console.log('Error in login: ', error);
 
             }
         }
