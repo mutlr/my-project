@@ -33,7 +33,6 @@ function App () {
         if (values.accessToken && values.refreshToken) {
             localStorage.setItem('accessToken', values.accessToken);
             localStorage.setItem('refreshToken', values.refreshToken);
-            console.log('Menee iffiin!!');
         }
         setUser(values);
         setToken(values.token);
@@ -43,7 +42,6 @@ function App () {
     useEffect(() => {
         const loggedUser = window.localStorage.getItem('loggedUser');
         const accessToken = window.localStorage.getItem('accessToken');
-        console.log(accessToken);
         if (loggedUser) {
             const user = JSON.parse(loggedUser);
             setUser(user);
