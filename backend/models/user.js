@@ -1,6 +1,11 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
-class User extends Model {}
+class User extends Model {
+	static async spotifyValues() {
+			const y = {access_token: this.accessToken, refresh_token: this.refresh_token}
+			console.log(y + this.accessToken)
+	}
+}
 
 User.init({
 	id: {
@@ -50,14 +55,23 @@ User.init({
 			},
 		},
 	},
+	accessToken: {
+		type: DataTypes.STRING,
+		defaultValue: null
+	},
+	refreshToken: {
+		type: DataTypes.STRING,
+		defaultValue: null
+	}
 },{
 	sequelize,
 	underscored: true,
 	timestamps: true,
 	modelName: 'user',
 });
+
 User.addScope('defaultScope', {
 	attributes: ['id', 'username'],
 });
-  
+
 module.exports = User;
