@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { SongEntry, Song, SongListing, Post } from '../../types';
+import { SongEntry, SongListing } from '../../types';
 import SongContainer from './SongContainer';
 import MainForm from './MainForm';
 import ChosenSong from './ChosenSong';

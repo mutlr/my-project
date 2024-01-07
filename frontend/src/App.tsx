@@ -1,17 +1,14 @@
 import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
 import Navbar from './components/Navbar/Navbar';
-import { Routes, Route, useMatch, useNavigate, useLocation } from 'react-router-dom';
+import { Routes, Route, useMatch, useLocation } from 'react-router-dom';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/Frontpage/View';
-import { UserValues, Post } from './types';
+import { Post } from './types';
 import { getPosts } from './services/postService';
-import Commentform from './components/PostingForms/Commentform';
 import PostPage from './components/PostPage/PostPage';
-import Button from './components/Button/Button';
-import { setToken } from './services/serviceUtils';
 import { MessageContext } from './context/messageContext';
 import Postform from './components/PostingForms/Postform';
 import Togglable from './components/Togglable/Togglable';
@@ -19,57 +16,23 @@ import useVisibility from './hooks/useVisibility';
 import { postMap } from './utils/utils';
 import Test from './test';
 import { initToken } from './services/apiServices';
-import { refreshSpotifyToken } from './services/userService';
-import { access } from 'fs';
+import userContext from './context/userContext';
 function App () {
-    const [user, setUser] = useState<UserValues | null>(null);
+    const user = useContext(userContext);
     const [posts, setPosts] = useState<Post[]>([]);
-    const location = useLocation();
-    const navigate = useNavigate();
     const { toggleVisibility, isOpen } = useVisibility();
-    const alert = useContext(MessageContext);
-    const handleUser = (values: UserValues) => {
-        localStorage.setItem('loggedUser', JSON.stringify(values));
-        if (values.accessToken && values.refreshToken) {
-            localStorage.setItem('accessToken', values.accessToken);
-            localStorage.setItem('refreshToken', values.refreshToken);
-        }
-        setUser(values);
-        setToken(values.token);
-        navigate('/');
-    };
-
-    useEffect(() => {
-        const loggedUser = window.localStorage.getItem('loggedUser');
-        const accessToken = window.localStorage.getItem('accessToken');
-        if (loggedUser) {
-            const user = JSON.parse(loggedUser);
-            setUser(user);
-            setToken(user.token);
-        }
-        /*if (accessToken) {
-            refreshSpotifyToken()
-            .then((result: any) => console.log('Result from spotify: ', result));
-        }*/
-    }, []);
+    const message = useContext(MessageContext);
+    const location = useLocation();
 
     useEffect(() => {
         getPosts().then(result => {
             setPosts(result.map((s: any): Post => postMap(s)));
             initToken();
     }).catch(error => {
-        alert?.error('There was a problem loading posts!');
+        message?.error('There was a problem loading posts!');
         console.log('Error in getting posts: ', error);
     });
     }, []);
-
-    const logout = () => {
-        localStorage.removeItem('loggedUser');
-        setUser(null);
-        setToken('');
-        alert?.success('Logged out!');
-        navigate('/');
-    };
 
     const addToList = (post: Post) => {
         /* Concat post to list on add */
@@ -80,13 +43,13 @@ function App () {
 
     return (
         <div className="App">
-            <Navbar user={user} logout={logout}/>
+            <Navbar />
             <Message />
             <Routes>
                 <Route path='/' element={<View posts={posts} />}/>
-                <Route path='/login' element={<Login handleUser={handleUser}/>}/>
-                <Route path='/register' element={<Register handleUser={handleUser}/>}/>
-                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={user} />} />
+                <Route path='/login' element={<Login />}/>
+                <Route path='/register' element={<Register />}/>
+                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={null} />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
             {user && location.pathname === '/' &&

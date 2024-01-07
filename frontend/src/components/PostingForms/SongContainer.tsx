@@ -1,5 +1,5 @@
 import React from "react";
-import { SongEntry, Song, SongListing } from "../../types";
+import { SongEntry, SongListing } from "../../types";
 export interface SongProps {
     s: SongListing,
     chooseSong: (song: SongEntry) => void,

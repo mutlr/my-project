@@ -2,35 +2,22 @@ import React, { useContext } from 'react';
 import '../Login/Login.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { RegisterFormValues, UserValues } from '../../types';
-import { userRegister } from '../../services/userService';
+import { RegisterFormValues } from '../../types';
 import Button from '../Button/Button';
-import { MessageContext } from '../../context/messageContext';
-import { isAxiosError } from 'axios';
+import UserContext from '../../context/userContext';
 const validationSchema = Yup.object().shape({
     username: Yup.string().min(4, 'Username min 4 chars').required('Usernaname is required'),
     email: Yup.string().email('Invalid email').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 chars').required('Password is required')
 });
 
-interface Props {
-    handleUser: (values: UserValues) => void,
-}
 const initialValues: RegisterFormValues = { username: '', email: '', password: '', name: '' };
-const Register = (props: Props) => {
-    const message = useContext(MessageContext);
-    const handleRegister = async (values: RegisterFormValues, actions: any) => {
-        try {
-            const result = await userRegister(values);
-            console.log('Result on register: ', result);
-            props.handleUser(result);
-            actions.resetForm();
-        } catch (error: unknown) {
-            if (isAxiosError(error)) {
-                message?.error(error.response?.data.error);
-                console.log('Error in register: ', error);
-            }
-        }
+
+const Register = () => {
+    const user = useContext(UserContext);
+    const handleRegister = (values: RegisterFormValues, actions: any) => {
+        user?.register(values);
+        actions.resetForm();
     };
     return (
         <div className="form-main">

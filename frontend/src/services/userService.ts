@@ -38,7 +38,7 @@ export const sendAuthentication = async (access_token: string, refresh_token: st
         access_token,
         refresh_token,
     };
-    const result = await axios.post(`${baseUrl}/users/authenticatespotify`, 
+    const result = await axios.post(`${baseUrl}/users/authenticatespotify`,
     tokens, {
         headers: {
             'Authorization': userToken

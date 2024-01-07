@@ -1,11 +1,5 @@
-import React, { useState } from 'react';
-import Postform from '../PostingForms/Postform';
-import Togglable from '../Togglable/Togglable';
-import { Link } from 'react-router-dom';
-import PostHeader from '../PostLayout/PostHeader';
-import Audiobar from '../PostLayout/Audiobar';
-import { Post, User } from '../../types';
-import useVisibility from '../../hooks/useVisibility';
+import React from 'react';
+import { Post, } from '../../types';
 import PostBox from '../PostLayout/PostBox';
 
 interface Props {

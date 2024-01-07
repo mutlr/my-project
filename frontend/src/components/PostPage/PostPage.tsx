@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
-import PostHeader from "../PostLayout/PostHeader";
-import Audiobar from "../PostLayout/Audiobar";
 import Togglable from "../Togglable/Togglable";
 import Commentform from "../PostingForms/Commentform";
 import { Post, Comment, User } from "../../types";

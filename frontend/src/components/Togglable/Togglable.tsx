@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode } from 'react';
 import './Togglable.css';
-import { useState, useImperativeHandle, forwardRef } from 'react';
+import { useImperativeHandle, forwardRef } from 'react';
 interface Props {
     children: ReactNode | ReactElement,
     buttonText: string,

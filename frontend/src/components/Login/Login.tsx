@@ -1,33 +1,18 @@
 import React, { useContext } from 'react';
 import './Login.css';
-import { LoginValues, UserValues } from '../../types';
+import { LoginValues } from '../../types';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { userLogin } from '../../services/userService';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
-import { MessageContext } from '../../context/messageContext';
-import axios from 'axios';
-interface Props {
-    handleUser: (values: UserValues) => void,
-}
+import UserContext from '../../context/userContext';
+
 const initialValues: LoginValues = { username: '', password: '' };
 
-const Login = (props: Props) => {
-    const message = useContext(MessageContext);
-    const handleLogin = async (values: LoginValues, actions: any) => {
-        try {
-            const result = await userLogin(values);
-            props.handleUser(result);
-            actions.resetForm();
-            message?.success('Logged in!');
-        } catch (error: unknown) {
-            //let message = '';
-            if (axios.isAxiosError(error)) {
-                message?.error(error.response?.data.error);
-                console.log('Error in login: ', error);
-
-            }
-        }
+const Login = () => {
+    const user = useContext(UserContext);
+    const handleLogin = (values: LoginValues, actions: any) => {
+        user?.login(values);
+        actions.resetForm();
     };
     return (
         <div className="form-main">

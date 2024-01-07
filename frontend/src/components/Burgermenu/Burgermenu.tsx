@@ -1,14 +1,11 @@
 import './Burgermenu.css';
 import React, { useState, useImperativeHandle, forwardRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserValues } from '../../types';
-interface Props {
-    user: UserValues | null,
-    logout: () => void,
-}
+import UserContext from '../../context/userContext';
 
-const Burgermenu = forwardRef((props: Props, ref) => {
-    const [visible, setVisible] = useState<boolean>(false);
+const Burgermenu = forwardRef((_, ref) => {
+    const user = useContext(UserContext)
+;    const [visible, setVisible] = useState<boolean>(false);
 
     const isOpen = { display: visible ? '' : 'none' };
     const toggleVisibility = () => {
@@ -22,7 +19,7 @@ const Burgermenu = forwardRef((props: Props, ref) => {
     });
     const logoutClick = () => {
         toggleVisibility();
-        props.logout();
+        user?.logout();
     };
 
     Burgermenu.displayName = 'Burgermenu';
@@ -35,9 +32,9 @@ const Burgermenu = forwardRef((props: Props, ref) => {
             </div>
             <div className='burger-content' style={isOpen}>
                 <Link onClick={toggleVisibility} to={'/'} className='burger-link'>Home</Link>
-                {props.user &&<Link onClick={toggleVisibility} to={'login'} className='burger-link'>Profile</Link>}
-                {!props.user && <Link onClick={toggleVisibility} to={'login'} className='burger-link'>Login</Link>}
-                {props.user && <Link onClick={logoutClick} to={'login'} className='burger-link'>Logout</Link>}
+                {user &&<Link onClick={toggleVisibility} to={'login'} className='burger-link'>Profile</Link>}
+                {!user && <Link onClick={toggleVisibility} to={'login'} className='burger-link'>Login</Link>}
+                {user && <Link onClick={logoutClick} to={'login'} className='burger-link'>Logout</Link>}
             </div>
         </div>
     );

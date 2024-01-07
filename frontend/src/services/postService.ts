@@ -1,5 +1,5 @@
 import axios from "axios";
-import { SongEntry, CommentEntry, SongForm } from "../types";
+import { CommentEntry, SongForm } from "../types";
 import { userToken, baseUrl } from "./serviceUtils";
 export const getPosts = async () => {
     const result = await axios.get(`${baseUrl}/posts`);

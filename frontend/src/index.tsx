@@ -4,14 +4,17 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { MessageProvider } from './context/messageContext';
+import { UserProvider } from './context/userContext';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-    <MessageProvider>
-        <BrowserRouter>
-            <App />
-        </BrowserRouter>
-    </MessageProvider>
+    <BrowserRouter>
+        <MessageProvider>
+            <UserProvider>
+                <App />
+            </UserProvider>
+        </MessageProvider>
+    </BrowserRouter>
 );
