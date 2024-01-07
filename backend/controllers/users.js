@@ -28,6 +28,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
+		
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
