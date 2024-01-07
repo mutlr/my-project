@@ -10,3 +10,5 @@ Tuntitaulukko frontend:
     Toggle hook and form closing 30min
     Message context 2h
     Fixed postlayout and better way to add to lists 3h
+    User context 1.5h
+    Spotify authentication and refresh 17h

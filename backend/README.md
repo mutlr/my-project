@@ -6,3 +6,4 @@ Tuntitaulukko backend:
     Kommentin teko ja liittäminen postiin 4h.....
     Login router 1h,
     Fixing issues 2h
+    Spotify authentication and refresh 20h

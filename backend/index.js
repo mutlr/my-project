@@ -1,15 +1,16 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
-const cors = require('cors');
+
+
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
 const songRouter = require('./controllers/songs');
 const postRouter = require('./controllers/posts');
 const registerRouter = require('./controllers/register');
 const loginRouter = require('./controllers/login');
-
 const { errorHandler } = require('./util/middleware');
 
 app.use(cors());

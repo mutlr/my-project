@@ -9,7 +9,11 @@ router.get('/', async (req, res) => {
 	const users = await User.findAll({});
 	res.status(200).json({ users });
 });
-
+router.get('/:id', async (req, res) => {
+	const users = await User.findByPk(req.params.id);
+	console.log('Users: ', users.spotifyValues);
+	res.status(200).json({ users });
+});
 router.post('/', async (req, res, next) => {
 	try {
 		const user = await User.create(req.body);
@@ -39,7 +43,6 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 
 router.post('/authenticatespotify', tokenExtractor, async (req, res) => {
 	const { access_token, refresh_token } = req.body;
-	console.log('Tuleeks ees tänne?: ', access_token, refresh_token);
 	try {
 		const user = await User.findByPk(req.decodedToken.id);
 		user.accessToken = access_token;
@@ -65,10 +68,8 @@ const refreshToken = async (token) => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 		});
-		console.log('Result from refreshing token: ', result.data);
 		return result.data;
 	} catch (error) {
-		console.log('ERror: ', error);
 		throw error;
 	}
 };
@@ -80,9 +81,9 @@ router.get('/refreshtoken', tokenExtractor, async (req, res) => {
 		const result = await refreshToken(user.refreshToken);
 		user.accessToken = result.access_token;
 		await user.save();
-		res.status(200).json({ data: result });
+		res.status(200).json({ accessToken: result.access_token });
 	} catch (error) {
-		console.log('Error in refreshing token: ', error + '!!!');
+		console.log('Error in refreshing token: ', error);
 		res.status(500).json({ error });
 	}
 });
