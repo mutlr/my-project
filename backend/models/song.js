@@ -1,5 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize } = require('../util/db');
+const Artist = require('./artist');
 
 class Song extends Model {}
 
@@ -20,6 +21,13 @@ Song.init({
 	underscored: true,
 	timestamps: true,
 	modelName: 'song'
+});
+
+Song.addScope('defaultScope', {
+	attributes: ['id', 'songName'],
+	include: {
+		model: Artist
+	}
 });
 
 module.exports = Song;

@@ -1,0 +1,26 @@
+.postbox {
+    border: 2px solid red;
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    border: 1px solid white;
+    padding: 20px 16px;
+    height: auto;
+    margin: 12px;
+    max-width: 600px;
+}
+
+.description {
+    padding: 12px 0;
+    word-wrap: break-word;
+}
+@media only screen and (min-width: 600px) {
+    .postpage-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .postbox {
+        width: 100%;
+    }
+}

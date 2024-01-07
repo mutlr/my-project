@@ -38,12 +38,12 @@ module.exports = {
         "@typescript-eslint/restrict-plus-operands": "off",
         "@typescript-eslint/no-unsafe-member-access": "off",
         "@typescript-eslint/no-unused-vars": [
-          "error",
+          1,
           { "argsIgnorePattern": "^_" }
         ],
         "no-case-declarations": "off",
         'eqeqeq': 'error',
-        'no-trailing-spaces': 'error',
+        'no-trailing-spaces': 1,
         'object-curly-spacing': [
             'error', 'always'
         ],

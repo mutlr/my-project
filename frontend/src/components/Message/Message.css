@@ -1,8 +1,6 @@
 .message {
-    position: absolute;
     top: 65px;
     width: 100%;
-
 }
 
 
@@ -12,16 +10,19 @@
     font-size: 24px;
     border-radius: 32px;
     margin: 0 20px;
-    padding-left: 20px;
-    
+    padding: 6px;
+    text-align: center;
+    height: auto;
 }
 
 @media only screen and (min-width: 600px) {
     .message {
+        position: absolute;
         width: 400px;
         right: 0;
     }
     .message-text {
-        margin-right: 6px;
+        text-align: left;
+        padding: 12px;
     }
 }

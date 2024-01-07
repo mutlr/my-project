@@ -1,18 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Message.css';
+import { MessageContext } from '../../context/messageContext';
 
-interface MessageProps {
-    message: string | null,
-    type: string | null
-}
-const Message = (props: MessageProps) => {
-    if (!props.message) {
+const Message = () => {
+    const alert = useContext(MessageContext);
+    if (alert?.message === '') {
         return null;
     }
-    const backgroundColor = props.type ? 'var(--error-color)' : 'green';
+    const backgroundColor = alert?.type === 'error' ? 'var(--error-color)' : 'green';
     return (
         <div className="message">
-            <p className='message-text' style={{ backgroundColor }}>{props.message}</p>
+            <p className='message-text' style={{ backgroundColor }}>{alert?.message}</p>
         </div>
     );
 };

@@ -1,0 +1,15 @@
+.buttonContainer {
+    width: max-content;
+    padding: 8px 20px;
+    margin: 14px;
+    box-sizing: content-box;
+    text-align: center;
+    line-height: 32px;
+    border-radius: 40px;
+    border: 2px solid white;
+    background-color: var(--light-color);
+}
+.buttonText {
+    font-size: 20px;
+    font-weight: bolder;
+}

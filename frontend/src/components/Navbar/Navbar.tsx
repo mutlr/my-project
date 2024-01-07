@@ -1,13 +1,11 @@
 import Burgermenu from '../Burgermenu/Burgermenu';
-import React from 'react';
+import React, { useContext } from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
-import { UserValues } from '../../types';
-interface Props {
-    user: UserValues | null,
-    logout: () => void,
-}
-const Navbar = (props: Props) => {
+import UserContext from '../../context/userContext';
+
+const Navbar = () => {
+    const user = useContext(UserContext);
     return (
         <div className="navbar-main">
             <Burgermenu />
@@ -15,9 +13,9 @@ const Navbar = (props: Props) => {
             <ul className='navbar-link-container'>
                 <li className='navbar-link'><Link to={'/'}>Home</Link></li>
                 <li className='navbar-link'><Link to={'/profile'}>Profile</Link></li>
-                {!props.user && <li className='navbar-link'><Link to={'/login'}>Login</Link></li>}
-                {!props.user && <li className='navbar-link'><Link to={'/register'}>Register</Link></li>}
-                {props.user && <li className='navbar-link' onClick={props.logout}>Logout</li>}
+                {!user?.user && <li className='navbar-link'><Link to={'/login'}>Login</Link></li>}
+                {!user?.user && <li className='navbar-link'><Link to={'/register'}>Register</Link></li>}
+                {user?.user && <li className='navbar-link' onClick={user.logout}>Logout</li>}
             </ul>
         </div>
     );

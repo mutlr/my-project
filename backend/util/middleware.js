@@ -1,9 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('./config');
-const { Song } = require('../models')
+const { Song } = require('../models');
 const errorHandler = (error, req, res, next) => {
-	//   console.log('Error: ', error)
-
 	if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;
@@ -28,8 +26,8 @@ const tokenExtractor = (req, res, next) => {
 };
 
 const songFinder = async (req, res, next) => {
-	return await Song.findOne({ where: {songName: req.songName}})
-}
+	return await Song.findOne({ where: { songName: req.songName } });
+};
 module.exports = {
 	errorHandler,
 	tokenExtractor,
