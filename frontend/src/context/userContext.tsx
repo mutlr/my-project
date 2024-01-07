@@ -26,12 +26,18 @@ export const UserProvider = ({ children }: Props) => {
     useEffect(() => {
         const loggedUser = localStorage.getItem('loggedUser');
         const accessToken = localStorage.getItem('accessToken');
+        let tokenInterval: NodeJS.Timer;
         if (loggedUser) {
             const user = JSON.parse(loggedUser);
             setUser({ username: user.username, id: user.id });
             setToken(user.token);
         }
-        if (loggedUser && accessToken) refreshToken();
+        if (user && accessToken) {
+            refreshToken();
+            tokenInterval = setInterval(() => refreshToken(), 3550000);
+        } 
+
+        return () => clearInterval(tokenInterval);
     }, []);
 
     const addUserToStorage = (token: string, id: number, accessToken: string | null, username: string) => {
@@ -43,7 +49,10 @@ export const UserProvider = ({ children }: Props) => {
     const refreshToken = () => {
         refreshSpotifyToken()
         .then(result => localStorage.setItem('accessToken', result.data.accessToken))
-        .catch(err => console.log('Error from refreshing token: ', err));
+        .catch(err => {
+            logout();
+            console.log('Error from refreshing token: ', err);
+        });
     };
 
     const login = async (values: LoginValues) => {
@@ -85,7 +94,6 @@ export const UserProvider = ({ children }: Props) => {
             }
         }
     };
-    setInterval(() => refreshToken(), 3550000);
     return (
         <UserContext.Provider
         value={{

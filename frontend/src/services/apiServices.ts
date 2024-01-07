@@ -9,6 +9,7 @@ const spotifyApi = new SpotifyWebApi({
     redirectUri: REDIRECT_URI,
 });
 const BEARER = `Bearer ${api}`;
+console.log('Bearer: ', BEARER);
 export const initToken = async () => {
     const result = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
@@ -20,6 +21,7 @@ export const initToken = async () => {
 	});
 	const data = await result.json();
     api = data.access_token;
+    console.log('Data from init: ', data);
 };
 export const getSongs = async (name: string) => {
     const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=20`, {

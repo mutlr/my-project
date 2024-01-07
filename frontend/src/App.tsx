@@ -1,22 +1,24 @@
 import './App.css';
 import React, { useState, useEffect, useContext } from 'react';
-import Navbar from './components/Navbar/Navbar';
 import { Routes, Route, useMatch, useLocation } from 'react-router-dom';
+import { Post } from './types';
+import { getPosts } from './services/postService';
+import { MessageContext } from './context/messageContext';
+import { postMap } from './utils/utils';
+import { initToken } from './services/apiServices';
+
+import Navbar from './components/Navbar/Navbar';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
 import Message from './components/Message/Message';
 import View from './components/Frontpage/View';
-import { Post } from './types';
-import { getPosts } from './services/postService';
 import PostPage from './components/PostPage/PostPage';
-import { MessageContext } from './context/messageContext';
 import Postform from './components/PostingForms/Postform';
 import Togglable from './components/Togglable/Togglable';
 import useVisibility from './hooks/useVisibility';
-import { postMap } from './utils/utils';
 import Test from './test';
-import { initToken } from './services/apiServices';
 import userContext from './context/userContext';
+
 function App () {
     const user = useContext(userContext);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -27,7 +29,7 @@ function App () {
     useEffect(() => {
         getPosts().then(result => {
             setPosts(result.map((s: any): Post => postMap(s)));
-            initToken();
+        initToken();
     }).catch(error => {
         message?.error('There was a problem loading posts!');
         console.log('Error in getting posts: ', error);
