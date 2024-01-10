@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
 });
 router.get('/:id', async (req, res) => {
 	const users = await User.findByPk(req.params.id, {
-		attributes: ['accessToken']});
+		attributes: ['accessToken'] });
 	console.log('Users: ', users.spotifyValues);
 	res.status(200).json({ users });
 });
@@ -36,7 +36,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-		
+
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
@@ -76,15 +76,16 @@ const refreshToken = async (token) => {
 		throw error;
 	}
 };
+
 const hasBeenAnHour = (time) => {
 	const userTime = new Date(time);
 	const current = new Date();
 	const timeDifference = current - userTime;
 
 	const hoursDifference = timeDifference / (1000 * 60 * 60);
- 
+
 	return hoursDifference >= 1;
-}
+};
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
@@ -92,12 +93,14 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 		});
 
 		const shouldUpdated = hasBeenAnHour(user.updatedAt);
+		console.log('Should update?: ', user);
 		if (shouldUpdated) {
 			const result = await refreshToken(user.refreshToken);
 			user.accessToken = result.access_token;
 			await user.save();
-			return res.status(200).json({ accessToken: result });
+			return res.status(200).json({ accessToken: result.access_token });
 		}
+		res.status(200);
 	} catch (error) {
 		console.log('Error in refreshing token: ', error);
 		res.status(500).json({ error });
