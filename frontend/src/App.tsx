@@ -7,6 +7,7 @@ import { MessageContext } from './context/messageContext';
 import { postMap } from './utils/utils';
 import { initToken } from './services/apiServices';
 
+import Profile from './components/Profile/Profile';
 import Navbar from './components/Navbar/Navbar';
 import Login from './components/Login/Login';
 import Register from './components/Login/Register';
@@ -27,13 +28,14 @@ function App () {
     const location = useLocation();
 
     useEffect(() => {
-        getPosts().then(result => {
-            setPosts(result.map((s: any): Post => postMap(s)));
-        initToken();
-    }).catch(error => {
-        message?.error('There was a problem loading posts!');
-        console.log('Error in getting posts: ', error);
-    });
+        initToken().then(() => {
+            getPosts().then(result => {
+                    setPosts(result.map((s: any): Post => postMap(s)));
+            }).catch(error => {
+                message?.error('There was a problem loading posts!');
+                console.log('Error in getting posts: ', error);
+        });
+    }).catch(error => console.log('Error in getting token: ', error));
     }, []);
 
     const addToList = (post: Post) => {
@@ -52,6 +54,7 @@ function App () {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
                 <Route path="/post/:id" element={<PostPage post={postMatchResult} user={null} />} />
+                <Route path='/profile' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
             {user && location.pathname === '/' &&

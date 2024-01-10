@@ -10,10 +10,12 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ users });
 });
 router.get('/:id', async (req, res) => {
-	const users = await User.findByPk(req.params.id);
+	const users = await User.findByPk(req.params.id, {
+		attributes: ['accessToken']});
 	console.log('Users: ', users.spotifyValues);
 	res.status(200).json({ users });
 });
+
 router.post('/', async (req, res, next) => {
 	try {
 		const user = await User.create(req.body);
@@ -73,15 +75,28 @@ const refreshToken = async (token) => {
 		throw error;
 	}
 };
-router.get('/refreshtoken', tokenExtractor, async (req, res) => {
+const hasBeenAnHour = (time) => {
+	const userTime = new Date(time);
+	const current = new Date();
+	const timeDifference = current - userTime;
+
+	const hoursDifference = timeDifference / (1000 * 60 * 60);
+ 
+	return hoursDifference >= 1;
+}
+router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
-			attributes: ['refreshToken']
+			attributes: ['refreshToken', 'updatedAt']
 		});
-		const result = await refreshToken(user.refreshToken);
-		user.accessToken = result.access_token;
-		await user.save();
-		res.status(200).json({ accessToken: result.access_token });
+
+		const shouldUpdated = hasBeenAnHour(user.updatedAt);
+		if (shouldUpdated) {
+			const result = await refreshToken(user.refreshToken);
+			user.accessToken = result.access_token;
+			await user.save();
+			return res.status(200).json({ accessToken: result });
+		}
 	} catch (error) {
 		console.log('Error in refreshing token: ', error);
 		res.status(500).json({ error });

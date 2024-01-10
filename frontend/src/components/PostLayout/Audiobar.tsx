@@ -31,7 +31,7 @@ const Audiobar = ({ songId }: AudiobarProps) => {
                 });
                 setIsPlaying(false);
             }
-        }).catch(() => console.log(''));
+        }).catch((e) => console.log(e));
 
         return () => {
             document.querySelectorAll('audio.audio').forEach((element) => {

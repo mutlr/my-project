@@ -48,10 +48,11 @@ export const sendAuthentication = async (access_token: string, refresh_token: st
 };
 
 export const refreshSpotifyToken = async () => {
-    const response = await axios.get(`${baseUrl}/users/refreshtoken`, {
-        headers: {
-            'Authorization': userToken,
-        }
-    });
+    console.log('User token: ', userToken);
+    const headers = {
+        'Authorization': userToken,
+    };
+
+    const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, { headers });
     return response;
 };

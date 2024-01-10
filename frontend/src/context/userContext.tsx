@@ -10,7 +10,7 @@ interface UserContextProps {
     login: (values: LoginValues) => void,
     logout: () => void,
     register: (values: RegisterFormValues) => void,
-    //authenticate: () => void,*/
+    authenticated: boolean
 }
 
 const UserContext = createContext<UserContextProps | null>(null);
@@ -20,6 +20,7 @@ interface Props {
 }
 export const UserProvider = ({ children }: Props) => {
     const [user, setUser] = useState<User | null>(null);
+    const [authenticated, setAuthenticated] = useState<boolean>(false);
     const message = useContext(MessageContext);
     const navigate = useNavigate();
 
@@ -32,8 +33,9 @@ export const UserProvider = ({ children }: Props) => {
             setUser({ username: user.username, id: user.id });
             setToken(user.token);
         }
-        if (user && accessToken) {
+        if (loggedUser && accessToken) {
             refreshToken();
+            setAuthenticated(true);
             tokenInterval = setInterval(() => refreshToken(), 3550000);
         } 
 
@@ -43,6 +45,7 @@ export const UserProvider = ({ children }: Props) => {
     const addUserToStorage = (token: string, id: number, accessToken: string | null, username: string) => {
         localStorage.setItem('loggedUser', JSON.stringify({ token, id, username }));
         if (accessToken) {
+            setAuthenticated(true);
             localStorage.setItem('accessToken', accessToken);
         }
     };
@@ -50,7 +53,6 @@ export const UserProvider = ({ children }: Props) => {
         refreshSpotifyToken()
         .then(result => localStorage.setItem('accessToken', result.data.accessToken))
         .catch(err => {
-            logout();
             console.log('Error from refreshing token: ', err);
         });
     };
@@ -101,6 +103,7 @@ export const UserProvider = ({ children }: Props) => {
             login,
             logout,
             register,
+            authenticated,
         }}>
             {children}
         </UserContext.Provider>

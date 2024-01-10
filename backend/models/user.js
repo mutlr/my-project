@@ -2,7 +2,8 @@ const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
 class User extends Model {
 	static async spotifyValues() {
-		return this.accessToken;
+		return this.accessToken
+		;
 	}
 }
 
