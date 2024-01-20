@@ -1,28 +1,27 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, Post, Comment } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
-router.get('/', async (req, res) => {
-	const users = await User.findAll({});
-	res.status(200).json({ users });
-});
-router.get('/:id', async (req, res) => {
-	const users = await User.findByPk(req.params.id, {
-		attributes: ['accessToken'] });
-	console.log('Users: ', users.spotifyValues);
-	res.status(200).json({ users });
-});
 
-router.post('/', async (req, res, next) => {
+router.get('/:id/:type', async (req, res) => {
+	const { id, type } = req.params;
+	console.log('Hakee id: ', id, type)
+	if (req.params.id === 'undefined' || type === 'undefined') return;
 	try {
-		const user = await User.create(req.body);
-		const token = signToken({ username: user.username, id: user.id });
-		res.status(201).json({ user, token });
+		let data;
+		switch(type) {
+			case 'posts':
+				data = await Post.findOne({ where: { userId: id}});
+				break
+			default:
+				throw new Error('Nothing found');
+		}
+		res.status(200).json({ data })
 	} catch (error) {
-		next(error);
+		res.status(500).json({error})
 	}
 });
 
@@ -36,11 +35,26 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-
+		
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
 		res.status(500).json({ error });
+	}
+});
+
+router.get('/', async (req, res) => {
+	const users = await User.findAll({});
+	res.status(200).json({ users });
+});
+
+router.post('/', async (req, res, next) => {
+	try {
+		const user = await User.create(req.body);
+		const token = signToken({ username: user.username, id: user.id });
+		res.status(201).json({ user, token });
+	} catch (error) {
+		next(error);
 	}
 });
 
@@ -83,18 +97,17 @@ const hasBeenAnHour = (time) => {
 	const timeDifference = current - userTime;
 
 	const hoursDifference = timeDifference / (1000 * 60 * 60);
-
+ 
 	return hoursDifference >= 1;
 };
+
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
 			attributes: ['refreshToken', 'updatedAt']
 		});
 
-		const shouldUpdated = hasBeenAnHour(user.updatedAt);
-		console.log('Should update?: ', user);
-		if (shouldUpdated) {
+		if (hasBeenAnHour(user.updatedAt)) {
 			const result = await refreshToken(user.refreshToken);
 			user.accessToken = result.access_token;
 			await user.save();

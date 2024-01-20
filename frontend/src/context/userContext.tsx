@@ -43,6 +43,7 @@ export const UserProvider = ({ children }: Props) => {
     }, []);
 
     const addUserToStorage = (token: string, id: number, accessToken: string | null, username: string) => {
+        console.log('Kun loggaa user accessi: ', accessToken);
         localStorage.setItem('loggedUser', JSON.stringify({ token, id, username }));
         if (accessToken) {
             setAuthenticated(true);
@@ -53,6 +54,7 @@ export const UserProvider = ({ children }: Props) => {
         refreshSpotifyToken()
         .then(result => localStorage.setItem('accessToken', result.data.accessToken))
         .catch(err => {
+            
             console.log('Error from refreshing token: ', err);
         });
     };

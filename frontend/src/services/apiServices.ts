@@ -2,6 +2,7 @@ import axios from 'axios';
 import SpotifyWebApi from 'spotify-web-api-node';
 
 export let api = '';
+const SPOTIFY_BASE_URL ='https://api.spotify.com/v1';
 const REDIRECT_URI = 'http://localhost:3000/test';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
@@ -22,7 +23,6 @@ export const initToken = async () => {
 	});
 	const data = await result.json();
     api = data.access_token;
-    console.log(BEARER);
     return data;
 };
 export const getSongs = async (name: string) => {
@@ -35,7 +35,6 @@ export const getSongs = async (name: string) => {
 };
 
 export const getAudio = async (songId: string) => {
-    console.log('Ennen ku hakee audion: ', api);
     const result = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
         headers: {
             'Authorization': 'Bearer ' + api,
@@ -45,5 +44,13 @@ export const getAudio = async (songId: string) => {
     return result.data.preview_url;
 };
 
+export const getUserPlaylists = async (token: string) => {
+    const result = await axios.get(`${SPOTIFY_BASE_URL}/users/me`, {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        }
+    });
+    return result;
+};
 
 export default spotifyApi;

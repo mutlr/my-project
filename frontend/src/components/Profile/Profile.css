@@ -1,0 +1,25 @@
+.profile-container {
+    padding: 0 8px;
+}
+
+.userimage {
+    height: 80px;
+    width: 80px;
+    background-color: black;
+    border-radius: 40px;
+}
+.profile-info {
+    border: 2px solid red;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.profile-select {
+    background-color: var(--primary-color);
+    height: 40px;
+    width: clamp(100px, max-content, 200px  );
+    font-size: 24px;
+    padding: 0 10px;
+}

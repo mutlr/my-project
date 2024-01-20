@@ -48,7 +48,6 @@ export const sendAuthentication = async (access_token: string, refresh_token: st
 };
 
 export const refreshSpotifyToken = async () => {
-    console.log('User token: ', userToken);
     const headers = {
         'Authorization': userToken,
     };

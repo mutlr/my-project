@@ -5,7 +5,8 @@ const baseMap = (base: any): BasePost => {
         description: base.description,
         createdAt: base.createdAt,
         user: {
-            username: base.user.username
+            username: base.user.username,
+            id: base.user.id,
         },
         song: {
             songName: base.song.songName,

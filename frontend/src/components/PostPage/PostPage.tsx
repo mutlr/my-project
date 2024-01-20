@@ -14,6 +14,7 @@ interface PostPageProps {
 }
 
 const PostPage = (props: PostPageProps) => {
+    console.log('Post page post id: ' );
     const { id } = useParams();
     const [comments, setComments] = useState<Comment[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
