@@ -8,20 +8,20 @@ const axios = require('axios');
 
 router.get('/:id/:type', async (req, res) => {
 	const { id, type } = req.params;
-	console.log('Hakee id: ', id, type)
+	console.log('Hakee id: ', id, type);
 	if (req.params.id === 'undefined' || type === 'undefined') return;
 	try {
 		let data;
 		switch(type) {
-			case 'posts':
-				data = await Post.findOne({ where: { userId: id}});
-				break
-			default:
-				throw new Error('Nothing found');
+		case 'posts':
+			data = await Post.findOne({ where: { userId: id } });
+			break;
+		default:
+			throw new Error('Nothing found');
 		}
-		res.status(200).json({ data })
+		res.status(200).json({ data });
 	} catch (error) {
-		res.status(500).json({error})
+		res.status(500).json({ error });
 	}
 });
 
@@ -35,7 +35,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-		
+
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
@@ -97,7 +97,7 @@ const hasBeenAnHour = (time) => {
 	const timeDifference = current - userTime;
 
 	const hoursDifference = timeDifference / (1000 * 60 * 60);
- 
+
 	return hoursDifference >= 1;
 };
 
