@@ -7,29 +7,18 @@ const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
 const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
 const REDIRECT_URI = 'http://localhost:3000/test';
 
-export const userLogin = async (values: LoginValues): Promise<UserValues> => {
+export const userLogin = async (values: LoginValues) => {
     const result = await axios.post(`${baseUrl}/login`, values);
     return result.data;
 };
 
-export const userRegister = async (values: RegisterFormValues): Promise<UserValues> => {
+export const userRegister = async (values: RegisterFormValues) => {
     const result = await axios.post(`${baseUrl}/register`, values);
     return result.data;
 };
 
 export const authenticateSpotify = async (code: string) => {
-    const params = new URLSearchParams({
-        client_id: CLIENT_ID,
-        client_secret: CLIENT_SECRET,
-        grant_type: 'authorization_code',
-        code: code,
-        redirect_uri: REDIRECT_URI,
-    });
-    const result = await axios.post('https://accounts.spotify.com/api/token', params, {
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-        },
-    });
+    const result = await axios.post(`${baseUrl}/authent`, { code });
     return result.data;
 };
 

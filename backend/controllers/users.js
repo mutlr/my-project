@@ -6,22 +6,23 @@ const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
 
-router.get('/:id/:type', async (req, res) => {
-	const { id, type } = req.params;
-	console.log('Hakee id: ', id, type)
-	if (req.params.id === 'undefined' || type === 'undefined') return;
+router.get('/:id/', async (req, res) => {
+	const { id } = req.params;
 	try {
-		let data;
-		switch(type) {
-			case 'posts':
-				data = await Post.findOne({ where: { userId: id}});
-				break
-			default:
-				throw new Error('Nothing found');
-		}
-		res.status(200).json({ data })
+		const data = await User.findByPk(id, {
+			include: [
+				{
+					model: Comment
+				},
+				{
+					model: Post
+				}
+			]
+		});
+		if (!data) return res.status(404).json({ error: 'No user found' });
+		res.status(200).json({ data });
 	} catch (error) {
-		res.status(500).json({error})
+		res.status(500).json({ error });
 	}
 });
 
@@ -35,7 +36,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-		
+
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
@@ -97,7 +98,7 @@ const hasBeenAnHour = (time) => {
 	const timeDifference = current - userTime;
 
 	const hoursDifference = timeDifference / (1000 * 60 * 60);
- 
+
 	return hoursDifference >= 1;
 };
 
