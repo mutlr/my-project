@@ -35,7 +35,7 @@ function App () {
                 message?.error('There was a problem loading posts!');
                 console.log('Error in getting posts: ', error);
         });
-    }).catch(error => console.log('Error in getting token: ', error));
+    }).catch(error => console.log(''));
     }, []);
 
     const addToList = (post: Post) => {
