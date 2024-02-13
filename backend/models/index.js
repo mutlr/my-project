@@ -3,6 +3,7 @@ const Artist = require('./artist');
 const Song = require('./song');
 const Post = require('./post');
 const Comment = require('./comment');
+const Admin = require('./admin');
 
 Artist.hasMany(Song);
 Song.belongsTo(Artist);
@@ -18,5 +19,5 @@ Post.hasMany(Comment);
 
 
 module.exports = {
-	User, Artist, Song, Post, Comment
+	User, Artist, Song, Post, Comment, Admin,
 };

@@ -5,7 +5,6 @@ const { signToken } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
-
 router.get('/:id/', async (req, res) => {
 	const { id } = req.params;
 	try {

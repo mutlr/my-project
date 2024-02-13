@@ -14,6 +14,13 @@ const findArtist = async (id, artistName) => {
 	}
 	return artist;
 };
+
+const timeChecker = async (updatedAt) => {
+	// const admin = await Admin.findByPk(1);
+	const old = new Date(updatedAt);
+	const today = new Date();
+	return Math.floor((today - old) / 1000 / 60) >= 58;
+=======
 const spotifyToken = {
 	accessToken: '',
 	renewed: '',
@@ -60,6 +67,7 @@ const initToken = async () => {
 module.exports = {
 	signToken,
 	findArtist,
+	timeChecker,
 	initToken,
 	spotifyToken,
 };
