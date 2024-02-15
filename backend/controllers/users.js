@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
-const { signToken } = require('../util/utils');
+const { signToken, timeChecker } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
@@ -73,32 +73,18 @@ router.post('/authenticatespotify', tokenExtractor, async (req, res) => {
 });
 
 const refreshToken = async (token) => {
-	try {
-		const body = new URLSearchParams({
-			grant_type: 'refresh_token',
-			refresh_token: token,
-			client_id: CLIENT_ID,
-			client_secret: CLIENT_SECRET
-		});
-		const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			}
-		});
-		return result.data;
-	} catch (error) {
-		throw error;
-	}
-};
-
-const hasBeenAnHour = (time) => {
-	const userTime = new Date(time);
-	const current = new Date();
-	const timeDifference = current - userTime;
-
-	const hoursDifference = timeDifference / (1000 * 60 * 60);
-
-	return hoursDifference >= 1;
+	const body = new URLSearchParams({
+		grant_type: 'refresh_token',
+		refresh_token: token,
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET
+	});
+	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		}
+	});
+	return result.data;
 };
 
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
@@ -107,7 +93,7 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 			attributes: ['refreshToken', 'updatedAt']
 		});
 
-		if (hasBeenAnHour(user.updatedAt)) {
+		if (timeChecker(user.updatedAt)) {
 			const result = await refreshToken(user.refreshToken);
 			user.accessToken = result.access_token;
 			await user.save();
