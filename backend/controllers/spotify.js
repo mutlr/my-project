@@ -4,6 +4,7 @@ const { apiTokenExtractor, tokenExtractor } = require('../util/middleware');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 
 const SpotifyWebApi = require('spotify-web-api-node');
+const { User } = require('../models');
 
 const spotifyApi = new SpotifyWebApi({
 	clientId: CLIENT_ID,
@@ -12,25 +13,19 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
-	console.log('Req body!!!! ', req.body.code);
-	spotifyApi.authorizationCodeGrant(req.body.code)
-		.then( async data => {
-			console.log('The token expires in ' + data.body['expires_in']);
-			console.log('The access token is ' + data.body['access_token']);
-			console.log('The refresh token is ' + data.body['refresh_token']);
-			const refresh_token = data.body['refresh_token'];
-			const access_token = data.body['access_token'];
-			const user = req.decodedToken;
-			user.access_token = access_token;
-			user.refresh_token = refresh_token;
-			console.log('User before auth: ', user);
-			console.log('Spotify body: ', data.body);
-			await user.save();
-			console.log('user after auth: ', user);
-			// Set the access token on the API object to use it in later calls
-			//spotifyApi.setAccessToken(data.body['access_token']);
-			//spotifyApi.setRefreshToken(data.body['refresh_token']);
-		}).catch(err => console.log('Something went wrong!', err));
+    const { code } = req.body;
+    try {
+        const data = await spotifyApi.authorizationCodeGrant(code)
+        const user = await User.findByPk(req.decodedToken.id);
+
+        user.access_token = data.body.access_token;
+        user.refresh_token = data.body.refresh_token;
+        await user.save();
+        res.status(200).end()
+    } catch (error) {
+        console.log('Something went wrong!', error)
+        res.status(500).json({ error })
+    }
 });
 router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 	try {
