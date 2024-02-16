@@ -5,26 +5,6 @@ const { signToken, timeChecker } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
-router.get('/:id/', async (req, res) => {
-	const { id } = req.params;
-	try {
-		const data = await User.findByPk(id, {
-			include: [
-				{
-					model: Comment
-				},
-				{
-					model: Post
-				}
-			]
-		});
-		if (!data) return res.status(404).json({ error: 'No user found' });
-		res.status(200).json({ data });
-	} catch (error) {
-		res.status(500).json({ error });
-	}
-});
-
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
 		const { id } = req.params;
@@ -35,7 +15,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-
+		
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
@@ -73,18 +53,23 @@ router.post('/authenticatespotify', tokenExtractor, async (req, res) => {
 });
 
 const refreshToken = async (token) => {
-	const body = new URLSearchParams({
-		grant_type: 'refresh_token',
-		refresh_token: token,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET
-	});
-	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		}
-	});
-	return result.data;
+	try {
+		const body = new URLSearchParams({
+			grant_type: 'refresh_token',
+			refresh_token: token,
+			client_id: CLIENT_ID,
+			client_secret: CLIENT_SECRET
+		});
+		const result = await axios.post('https://accounts.spotify.com/api/token', body, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			}
+		});
+		console.log(result);
+		return result.data;
+	} catch (error) {
+		throw error;
+	}
 };
 
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
@@ -96,6 +81,7 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 		if (timeChecker(user.updatedAt)) {
 			const result = await refreshToken(user.refreshToken);
 			user.accessToken = result.access_token;
+			user.refreshToken = result.refresh_token;
 			await user.save();
 			return res.status(200).json({ accessToken: result.access_token });
 		}

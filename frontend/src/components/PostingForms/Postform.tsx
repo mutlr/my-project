@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { SongEntry, SongListing } from '../../types';
+import { Post, SongEntry, SongListing } from '../../types';
 import SongContainer from './SongContainer';
 import MainForm from './MainForm';
 import ChosenSong from './ChosenSong';
+import { postMap } from '../../utils/utils';
 export interface FormValues {
     song: string,
     title: string,
@@ -13,6 +14,7 @@ export interface FormValues {
 }
 interface Props {
     toggleVisibility: () => void,
+    addToList: (post: Post) => void,
 }
 const initialValues: FormValues = { song: '', title: '', description: '' };
 const Postform = (props: Props) => {
@@ -27,8 +29,9 @@ const Postform = (props: Props) => {
         .then(result => {
             console.log('Result from adding post: ', result);
             props.toggleVisibility();
+            props.addToList(postMap(result));
         })
-        .catch(error => console.log('ERror in submitting post: ', error.response.data));
+        .catch(error => console.log('ERror in submitting post: ', error));
     };
     const addToList = (songList: SongListing[]) => {
         setSongs(songList);

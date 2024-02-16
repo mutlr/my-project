@@ -18,7 +18,14 @@ export const userRegister = async (values: RegisterFormValues) => {
 };
 
 export const authenticateSpotify = async (code: string) => {
-    const result = await axios.post(`${baseUrl}/authent`, { code });
+    console.log(userToken);
+    console.log('Coodi funcis: ', code);
+    const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
+        code, {
+        headers: {
+            'Authorization': userToken,
+        } 
+    });
     return result.data;
 };
 
@@ -37,10 +44,16 @@ export const sendAuthentication = async (access_token: string, refresh_token: st
 };
 
 export const refreshSpotifyToken = async () => {
+    console.log('user token: ', userToken);
     const headers = {
         'Authorization': userToken,
     };
 
-    const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, { headers });
+    const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, { 
+        headers: {
+            'Authorization': userToken,
+        }
+     });
+    console.log('Reponse from token: ', response);
     return response;
 };

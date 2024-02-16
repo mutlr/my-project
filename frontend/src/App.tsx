@@ -5,7 +5,6 @@ import { Post } from './types';
 import { getPosts } from './services/postService';
 import { MessageContext } from './context/messageContext';
 import { postMap } from './utils/utils';
-import { initToken } from './services/apiServices';
 
 import Profile from './components/Profile/Profile';
 import Navbar from './components/Navbar/Navbar';
@@ -28,18 +27,13 @@ function App () {
     const location = useLocation();
 
     useEffect(() => {
-        initToken().then(() => {
-            getPosts().then(result => {
-                    setPosts(result.map((s: any): Post => postMap(s)));
-            }).catch(error => {
-                message?.error('There was a problem loading posts!');
-                console.log('Error in getting posts: ', error);
-        });
-    }).catch(error => console.log(''));
+        getPosts()
+        .then(posts => setPosts(posts.map((p: any) => postMap(p))));
     }, []);
 
     const addToList = (post: Post) => {
         /* Concat post to list on add */
+        setPosts(posts.concat(post));
     };
     const postMatch = useMatch('/post/:id');
     const postMatchResult: Post | undefined | null = postMatch === null ?
@@ -53,7 +47,7 @@ function App () {
                 <Route path='/' element={<View posts={posts} />}/>
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
-                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={null} />} />
+                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={user?.user} />} />
                 <Route path='/profile' element={<Profile id={user?.user?.id}/>} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
@@ -62,7 +56,7 @@ function App () {
                 buttonText='Add a post'
                 toggleVisibility={toggleVisibility}
                 isOpen={isOpen.display}>
-                <Postform toggleVisibility={toggleVisibility}/>
+                <Postform toggleVisibility={toggleVisibility} addToList={addToList}/>
             </Togglable >}
         </div>
     );

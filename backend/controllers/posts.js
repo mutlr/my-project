@@ -34,7 +34,8 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 	try {
 		const { id } = req.decodedToken;
 		const song = await findOrCreateSong(songName, songId, artistName, artistId);
-		const post = await Post.create({ userId: id, title, songId: song.id, description });
+		const postId = await Post.create({ userId: id, title, songId: song.id, description });
+		const post = await Post.findByPk(postId.id);
 		res.status(201).json({ post });
 	} catch (error) {
 		next(error);
