@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = {
 	up: async ({ context: queryInterface }) => {
-	    await queryInterface.createTable('artists', {
+		await queryInterface.createTable('artists', {
 			id: {
 				type: DataTypes.STRING,
 				primaryKey: true,

@@ -54,7 +54,7 @@ export const UserProvider = ({ children }: Props) => {
         refreshSpotifyToken()
         .then(result => localStorage.setItem('accessToken', result.data.accessToken))
         .catch(err => {
-            
+
             console.log('Error from refreshing token: ', err);
         });
     };

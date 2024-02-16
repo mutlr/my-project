@@ -50,7 +50,7 @@ User.init({
 		type: DataTypes.STRING,
 		allowNull: false,
 		validate: {
-		  	notNull: {
+			notNull: {
 				msg: 'A password is required'
 			},
 		},
