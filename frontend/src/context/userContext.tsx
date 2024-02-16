@@ -34,8 +34,8 @@ export const UserProvider = ({ children }: Props) => {
             setToken(user.token);
         }
         if (loggedUser && accessToken) {
-            refreshToken();
-            setAuthenticated(true);
+            //refreshToken();
+            //setAuthenticated(true);
             tokenInterval = setInterval(() => refreshToken(), 3550000);
         }
 

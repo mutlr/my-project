@@ -10,16 +10,15 @@ import CommentBox from "../PostLayout/CommentBox";
 import { commentMap } from "../../utils/utils";
 interface PostPageProps {
     post: Post | undefined | null,
-    user: User | null,
+    user: User | undefined | null,
 }
 
 const PostPage = (props: PostPageProps) => {
-    console.log('Post page post id: ' );
     const { id } = useParams();
     const [comments, setComments] = useState<Comment[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
-    const addComment = (post: Comment) => {
-        setComments(comments.concat(post));
+    const addComment = (comment: Comment) => {
+        setComments(comments.concat(comment));
     };
     useEffect(() => {
         getComments(Number(id))

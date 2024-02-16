@@ -7,7 +7,6 @@ export const getPosts = async () => {
 };
 
 export const sendPost = async (post: SongForm) => {
-    console.log('User token: ', userToken);
     const result = await axios.post(`${baseUrl}/posts`, post, {
         headers: {
             'Authorization': userToken,

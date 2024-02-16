@@ -2,7 +2,7 @@ import axios from 'axios';
 import SpotifyWebApi from 'spotify-web-api-node';
 import { baseUrl } from './serviceUtils';
 
-export let api = '';
+/*export let api = '';
 const SPOTIFY_BASE_URL ='https://api.spotify.com/v1';
 const REDIRECT_URI = 'http://localhost:3000/test';
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
@@ -17,27 +17,24 @@ export const initToken = async () => {
     api = 'Bearer ' + result.data.data.toString();
     console.log('Api now: ', api);
     return result;
-};
+};*/
 export const getSongs = async (name: string) => {
     const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`);
+    console.log(result);
     return result.data.data;
 };
 
 export const getAudio = async (songId: string) => {
-    const result = await axios.get(`https://api.spotify.com/v1/tracks/${songId}`, {
-        headers: {
-            'Authorization': 'Bearer ' + api,
-        }
-    });
-
-    return result.data.preview_url;
+    const result = await axios.get(`http://localhost:3001/spotifyapi/audio/${songId}`);
+    console.log(result);
+    return result.data.data;
 };
 
-export const getUserPlaylists = async (token: string) => {
+/*export const getUserPlaylists = async (token: string) => {
     const result = await axios.get(`${SPOTIFY_BASE_URL}/users/me`, {
         headers: {
             'Authorization': `Bearer ${token}`,
         }
     });
     return result;
-};
+};*/

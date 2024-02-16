@@ -1,23 +1,45 @@
 import React, { ChangeEventHandler, useContext, useEffect, useState } from "react";
 import useSpotifyAuth from "../../hooks/useSpotifyAuth";
 import UserContext from "../../context/userContext";
-import { getUserPlaylists } from "../../services/apiServices";
+//import { getUserPlaylists } from "../../services/apiServices";
 import { logo } from "../../assets/logo";
 import axios from "axios";
 import { baseUrl } from "../../services/serviceUtils";
+import './Profile.css';
+import { authenticateSpotify } from "../../services/userService";
+
 type Filters = 'comments' | 'posts' | 'playlists';
 
 interface Props {
     id?: number
 }
-import './Profile.css';
+
+const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
+const REDIRECT_URI = 'http://localhost:3000/profile';
+const SCOPE = 'user-read-private user-read-email playlist-modify-public';
+const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
+const code = new URLSearchParams(window.location.search).get("code");
+const AuthenticationButton = () => {
+    useEffect(() => {
+        if (code) {
+            console.log('Menee tänne iffii cookindaa', code);
+            authenticateSpotify(code)
+            .then(r => console.log('Result from auth: ', r))
+            .catch(e => console.log('Error from auth: ', e));
+        }
+    }, [code]);
+    return (
+        <a id="auth-btn" href={URL}>Authenticate Spotify</a>
+    );
+};
 const Profile = (props: Props) => {
     const [filter, setFilter] = useState<Filters>('posts');
     console.log('id: ', props.id);
     useEffect(() => {
-        axios.get(`${baseUrl}/users/${props.id}/${filter}`)
+        /*axios.get(`${baseUrl}/users/${props.id}/${filter}`)
         .then(r => console.log('Result from post: ', r))
-        .catch(e => console.log('Error: !!!!!!!', e));
+        .catch(e => console.log('Error: !!!!!!!', e));*/
     }, [props.id]);
     /*if (!props.id) {
         return null;
@@ -31,6 +53,7 @@ const Profile = (props: Props) => {
             <div className="profile-info">
                 <div className="userimage"></div>
                 <h1>Rojhat Mutlu</h1>
+                <AuthenticationButton />
             </div>
 
             <select name="selectedView" defaultValue={filter} className="profile-select" onChange={changeView}>
