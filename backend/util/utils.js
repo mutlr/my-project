@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET } = require('./config');
 const { Artist } = require('../models');
-const axios = require('axios');
-const qs = require('qs');
 const signToken = (user) => {
 	return jwt.sign(user, SECRET);
 };
@@ -16,9 +14,9 @@ const findArtist = async (id, artistName) => {
 };
 
 const timeChecker = async (updatedAt) => {
-	// const admin = await Admin.findByPk(1);
 	const old = new Date(updatedAt);
 	const today = new Date();
+	console.log('Time chekcer: ', Math.floor((today - old) / 1000 / 60) >= 58);
 	return Math.floor((today - old) / 1000 / 60) >= 58;
 };
 

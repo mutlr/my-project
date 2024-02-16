@@ -2,16 +2,13 @@ const { DataTypes } = require('sequelize');
 
 module.exports = {
 	up: async ({ context: queryInterface }) => {
-		await queryInterface.createTable('users', {
+		await queryInterface.createTable('admins', {
 			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
-				unique: true,
-				allowNull: false,
 			},
-			access_token: {
+			token: {
 				type: DataTypes.STRING,
-
 			},
 			created_at: {
 				type: DataTypes.DATE,

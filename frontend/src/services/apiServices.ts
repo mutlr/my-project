@@ -19,14 +19,8 @@ export const initToken = async () => {
     return result;
 };
 export const getSongs = async (name: string) => {
-    console.log('Token: ', api);
-    const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=20`, {
-        headers: {
-            'Authorization': BEARER,
-            'Content-Type': 'application/x-www-form-urlencoded',
-        }
-    });
-    return result.data.tracks.items;
+    const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`);
+    return result.data.data;
 };
 
 export const getAudio = async (songId: string) => {
