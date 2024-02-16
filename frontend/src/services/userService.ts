@@ -1,7 +1,6 @@
+import { userToken, baseUrl, setToken } from "./serviceUtils";
 import axios from "axios";
 import { LoginValues, RegisterFormValues, } from "../types";
-import { userToken } from "./serviceUtils";
-import { baseUrl } from "./serviceUtils";
 
 export const userLogin = async (values: LoginValues) => {
     const result = await axios.post(`${baseUrl}/login`, values);
@@ -14,8 +13,15 @@ export const userRegister = async (values: RegisterFormValues) => {
 };
 
 export const authenticateSpotify = async (code: string) => {
+    const loggedUser = localStorage.getItem('loggedUser');
+    if (loggedUser) {
+        const user = JSON.parse(loggedUser);
+        setToken(user.token);
+    }
+    console.log('Tokeni funcis: ', userToken);
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
-        code, {
+        { code }, {
+        
         headers: {
             'Authorization': userToken,
         }
@@ -23,19 +29,6 @@ export const authenticateSpotify = async (code: string) => {
     return result.data;
 };
 
-export const sendAuthentication = async (access_token: string, refresh_token: string) => {
-    const tokens = {
-        access_token,
-        refresh_token,
-    };
-    const result = await axios.post(`${baseUrl}/users/authenticatespotify`,
-    tokens, {
-        headers: {
-            'Authorization': userToken
-        }
-    });
-    return result;
-};
 
 export const refreshSpotifyToken = async () => {
     const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, {
