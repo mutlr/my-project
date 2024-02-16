@@ -1,10 +1,4 @@
-import React, { ChangeEventHandler, useContext, useEffect, useState } from "react";
-import useSpotifyAuth from "../../hooks/useSpotifyAuth";
-import UserContext from "../../context/userContext";
-//import { getUserPlaylists } from "../../services/apiServices";
-import { logo } from "../../assets/logo";
-import axios from "axios";
-import { baseUrl } from "../../services/serviceUtils";
+import React, { useEffect, useState } from "react";
 import './Profile.css';
 import { authenticateSpotify } from "../../services/userService";
 
@@ -15,7 +9,6 @@ interface Props {
 }
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
 const REDIRECT_URI = 'http://localhost:3000/profile';
 const SCOPE = 'user-read-private user-read-email playlist-modify-public';
 const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;

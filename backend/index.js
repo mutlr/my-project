@@ -3,7 +3,6 @@ const app = express();
 const cors = require('cors');
 const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
-const { CLIENT_ID, CLIENT_SECRET } = require('./util/config');
 const { checkAdminTime } = require('./util/utils');
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
@@ -14,7 +13,6 @@ const loginRouter = require('./controllers/login');
 const spotifyRouter = require('./controllers/spotify');
 const { Admin } = require('./models');
 const { errorHandler } = require('./util/middleware');
-const axios = require('axios');
 
 app.use(cors());
 app.use(express.json());
@@ -32,13 +30,9 @@ const checkAdmin = async () => {
 	try {
 		const admin = await Admin.findByPk(1);
 		if (!admin) {
-			console.log('Menee tän');
-			const createdAdmin = await Admin.create({ id: 1 });
-			const token = await refreshAdminToken();
-			createdAdmin.token = token;
-			await createdAdmin.save();
-			console.log('Admin after token: ', admin);
+			await Admin.create({ id: 1 });
 		}
+		console.log('Admin not found, created one');
 	} catch (error) {
 		console.log('Error during admin check!', error);
 	}

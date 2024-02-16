@@ -1,11 +1,7 @@
 import axios from "axios";
-import { LoginValues, RegisterFormValues, UserValues } from "../types";
+import { LoginValues, RegisterFormValues, } from "../types";
 import { userToken } from "./serviceUtils";
 import { baseUrl } from "./serviceUtils";
-
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
-const REDIRECT_URI = 'http://localhost:3000/test';
 
 export const userLogin = async (values: LoginValues) => {
     const result = await axios.post(`${baseUrl}/login`, values);
@@ -18,13 +14,11 @@ export const userRegister = async (values: RegisterFormValues) => {
 };
 
 export const authenticateSpotify = async (code: string) => {
-    console.log(userToken);
-    console.log('Coodi funcis: ', code);
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         code, {
         headers: {
             'Authorization': userToken,
-        } 
+        }
     });
     return result.data;
 };
@@ -44,12 +38,7 @@ export const sendAuthentication = async (access_token: string, refresh_token: st
 };
 
 export const refreshSpotifyToken = async () => {
-    console.log('user token: ', userToken);
-    const headers = {
-        'Authorization': userToken,
-    };
-
-    const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, { 
+    const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, {
         headers: {
             'Authorization': userToken,
         }

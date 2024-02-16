@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post, Comment } = require('../models');
+const { User, } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken, timeChecker } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
@@ -15,7 +15,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		if (user.username !== req.decodedToken.username) {
 			return res.send('Not your account!');
 		}
-		
+
 		await user.destroy();
 		res.status(200).send('User deleted');
 	} catch (error) {
@@ -53,23 +53,19 @@ router.post('/authenticatespotify', tokenExtractor, async (req, res) => {
 });
 
 const refreshToken = async (token) => {
-	try {
-		const body = new URLSearchParams({
-			grant_type: 'refresh_token',
-			refresh_token: token,
-			client_id: CLIENT_ID,
-			client_secret: CLIENT_SECRET
-		});
-		const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			}
-		});
-		console.log(result);
-		return result.data;
-	} catch (error) {
-		throw error;
-	}
+	const body = new URLSearchParams({
+		grant_type: 'refresh_token',
+		refresh_token: token,
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET
+	});
+	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		}
+	});
+	console.log(result);
+	return result.data;
 };
 
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {

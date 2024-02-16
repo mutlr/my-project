@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, CLIENT_ID, CLIENT_SECRET } = require('./config');
 const { Artist, Admin } = require('../models');
-const axios = require('axios')
+const axios = require('axios');
 const signToken = (user) => {
 	return jwt.sign(user, SECRET);
 };

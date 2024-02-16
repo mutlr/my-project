@@ -17,7 +17,7 @@ const errorHandler = (error, req, res, next) => {
 };
 
 const tokenExtractor = (req, res, next) => {
-	const token = req.headers['authorization'].split(' ')[1]	
+	const token = req.headers['authorization'].split(' ')[1];
 	try {
 		const user = jwt.verify(token, SECRET);
 		req.decodedToken = user;

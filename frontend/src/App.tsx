@@ -3,7 +3,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Routes, Route, useMatch, useLocation } from 'react-router-dom';
 import { Post } from './types';
 import { getPosts } from './services/postService';
-import { MessageContext } from './context/messageContext';
 import { postMap } from './utils/utils';
 
 import Profile from './components/Profile/Profile';
@@ -23,7 +22,6 @@ function App () {
     const user = useContext(userContext);
     const [posts, setPosts] = useState<Post[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
-    const message = useContext(MessageContext);
     const location = useLocation();
 
     useEffect(() => {

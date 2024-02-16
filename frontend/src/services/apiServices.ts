@@ -1,6 +1,5 @@
 import axios from 'axios';
-import SpotifyWebApi from 'spotify-web-api-node';
-import { baseUrl } from './serviceUtils';
+//import { baseUrl } from './serviceUtils';
 
 /*export let api = '';
 const SPOTIFY_BASE_URL ='https://api.spotify.com/v1';
