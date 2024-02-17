@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, } = require('../models');
+const { User, Comment } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken, timeChecker } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
@@ -23,6 +23,22 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 	}
 });
 
+router.get('/:id/:type', async (req, res) => {
+	const { id, type } = req.params;
+	const user = await User.findByPk(id);
+	let result;
+	console.log(id, type)
+	try {
+		switch (type) {
+			case 'comments':
+				result = await Comment.findAll({ where: { id } })
+				break
+		}
+		res.status(200).json({ result })
+	} catch (error) {
+		res.status(500).json({ error })
+	}
+});
 router.get('/', async (req, res) => {
 	const users = await User.findAll({});
 	res.status(200).json({ users });
@@ -35,20 +51,6 @@ router.post('/', async (req, res, next) => {
 		res.status(201).json({ user, token });
 	} catch (error) {
 		next(error);
-	}
-});
-
-router.post('/authenticatespotify', tokenExtractor, async (req, res) => {
-	const { access_token, refresh_token } = req.body;
-	try {
-		const user = await User.findByPk(req.decodedToken.id);
-		user.accessToken = access_token;
-		user.refreshToken = refresh_token;
-		await user.save();
-		return res.status(201).end();
-	} catch (error) {
-		console.log('Error: ', error);
-		return res.status(500).json({ error });
 	}
 });
 
@@ -73,15 +75,11 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 		const user = await User.findByPk(req.decodedToken.id, {
 			attributes: ['refreshToken', 'updatedAt']
 		});
-
-		if (timeChecker(user.updatedAt)) {
-			const result = await refreshToken(user.refreshToken);
-			user.accessToken = result.access_token;
-			user.refreshToken = result.refresh_token;
-			await user.save();
-			return res.status(200).json({ accessToken: result.access_token });
-		}
-		res.status(200);
+		const result = await refreshToken(user.refreshToken);
+		user.accessToken = result.access_token;
+		user.refreshToken = result.refresh_token;
+		await user.save();
+		res.status(200).end();
 	} catch (error) {
 		console.log('Error in refreshing token: ', error);
 		res.status(500).json({ error });
