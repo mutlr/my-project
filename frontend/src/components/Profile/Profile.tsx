@@ -29,14 +29,6 @@ const AuthenticationButton = () => {
 const Profile = (props: Props) => {
     const [filter, setFilter] = useState<Filters>('posts');
     console.log('id: ', props.id);
-    useEffect(() => {
-        /*axios.get(`${baseUrl}/users/${props.id}/${filter}`)
-        .then(r => console.log('Result from post: ', r))
-        .catch(e => console.log('Error: !!!!!!!', e));*/
-    }, [props.id]);
-    /*if (!props.id) {
-        return null;
-    }*/
     const changeView = (e: React.FormEvent<HTMLSelectElement>) => {
         console.log(e.currentTarget.value);
         setFilter(e.currentTarget.value as Filters);
@@ -45,7 +37,7 @@ const Profile = (props: Props) => {
         <div className="profile-container">
             <div className="profile-info">
                 <div className="userimage"></div>
-                <h1>Rojhat Mutlu</h1>
+                <h1>Matti Meikäläinen</h1>
                 <AuthenticationButton />
             </div>
 
@@ -54,6 +46,7 @@ const Profile = (props: Props) => {
                 <option value='comments'>Comments</option>
                 <option value='playlists'>Playlists</option>
             </select>
+            
         </div>
     );
 };
