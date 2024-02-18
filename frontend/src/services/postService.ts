@@ -24,7 +24,12 @@ export const sendComment = async (comment: CommentEntry) => {
     return result.data.returnComment;
 };
 
-export const getComments = async (id: number) => {
-    const result = await axios.get(`${baseUrl}/posts/comments/${id}`);
+export const getComments = async (id: number, type?: string) => {
+    const result = await axios.get(`${baseUrl}/posts/comments/${id}?type=${type}`);
     return result.data.comments;
+};
+
+export const getPostsByID = async (id: number, type?: string) => {
+    const result = await axios.get(`http://localhost:3001/posts/${id}?type=${type}`);
+    return result.data.posts;
 };

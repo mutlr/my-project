@@ -36,3 +36,21 @@
     margin-right: 20px;
     border: 1px solid #1ED760;
 }
+.filter-container {
+    display: flex;
+    background-color: var(--primary-color);
+    font-size: 24px;
+    gap: 16px;
+    justify-content: center;
+    cursor: pointer;
+}
+.filter-item {
+    background-color: var(--primary-color);
+    border: 0px;
+    font-size: 24px;
+    padding-bottom: 4px;
+    box-sizing: content-box;
+}
+.filter-item:active {
+    border-bottom: 4px solid var(--light-color);
+}
