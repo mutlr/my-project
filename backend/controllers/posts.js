@@ -12,6 +12,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	const query = req.query.type ? req.query.type.toLowerCase() : null
+	console.log('ID ku hakee postin: ', id, query)
 	try {
 		if (query === 'posts') {
 			const posts = await Post.findAll({ where: { userId: id }})
@@ -35,7 +36,6 @@ const findOrCreateSong = async (name, songId, artistName, artistId) => {
 	return song;
 };
 router.post('/', tokenExtractor, async (req, res, next) => {
-	console.log('Req bodyn song: ', req.body.song);
 	const { title, description } = req.body;
 	const { artistId, artistName } = req.body.artist;
 	const { songId, songName } = req.body.song;
