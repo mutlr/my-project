@@ -47,7 +47,7 @@ function App () {
                 <Route path='/register' element={<Register />}/>
                 <Route path="/post/:id" element={<PostPage post={postMatchResult} user={user?.user} />} />
                 {/*<Route path='/profile' element={<Profile id={user?.user?.id}/>} />*/}
-                <Route path='/profile/:id' element={<Profile id={user?.user?.id}/>} />
+                <Route path='/profile/:id' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
             {user && location.pathname === '/' &&

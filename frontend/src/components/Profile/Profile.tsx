@@ -45,19 +45,15 @@ const ProfileHeader = () => {
     </div>
     );
 };
-
-const ProfileItems = () => {
-
-    return (
-        <div></div>
-    );
+const isFilter = (e: any): e is Filter => {
+    return Object.values(Filter).includes(e);
 };
-const Profile = (props: Props) => {
-    const { id } = useParams();
+
+
+const ProfileItems = ({ id }: Props) => {
+    const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
-    const [filter, setFilter] = useState<Filter>(Filter.posts);
-    console.log('id: ', id);
 
     useEffect(() => {
         if (!id) return;
@@ -71,10 +67,6 @@ const Profile = (props: Props) => {
         .catch(err => console.log('Error getting profile comments: ', err));
         
     }, [id]);
-    const isFilter = (e: any): e is Filter => {
-        return Object.values(Filter).includes(e);
-    };
-
     const changeView = (e: any) => {
         if (isFilter(e)) setFilter(e);
     };
@@ -94,14 +86,25 @@ const Profile = (props: Props) => {
         }
     };
     return (
-        <div className="profile-container">
-            <ProfileHeader />
+        <div>
             <div className="filter-container">
                 {Object.values(Filter).map(value => (
                     <button className="filter-item" key={value} onClick={() => changeView(value)}>{value}</button>
                 ))}
             </div>
             {layout()}
+        </div>
+    );
+};
+const Profile = () => {
+    const { id } = useParams();
+    console.log('id: ', id);
+    if (!id) return null;
+
+    return (
+        <div className="profile-container">
+            <ProfileHeader />
+            <ProfileItems id={Number(id)}/>
         </div>
     );
 };
