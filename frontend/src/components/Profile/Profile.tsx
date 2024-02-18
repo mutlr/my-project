@@ -49,15 +49,12 @@ const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
-
 const ProfileItems = ({ id }: Props) => {
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
 
     useEffect(() => {
-        if (!id) return;
-
         getPostsByID(Number(id), 'posts')
         .then((result: any) => setPosts(result.map((r: any): Post => postMap(r))))
         .catch(err => console.log('Error getting user posts: ', err));
@@ -98,7 +95,6 @@ const ProfileItems = ({ id }: Props) => {
 };
 const Profile = () => {
     const { id } = useParams();
-    console.log('id: ', id);
     if (!id) return null;
 
     return (
