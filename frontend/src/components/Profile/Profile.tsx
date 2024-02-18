@@ -17,6 +17,7 @@ enum Filter {
     posts = 'Posts',
     comments = 'Comments',
 }
+
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = 'http://localhost:3000/profile';
 const SCOPE = 'user-read-private user-read-email playlist-modify-public';
