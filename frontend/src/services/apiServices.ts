@@ -19,13 +19,12 @@ export const initToken = async () => {
 };*/
 export const getSongs = async (name: string) => {
     const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`);
-    console.log(result);
     return result.data.data;
 };
 
 export const getAudio = async (songId: string) => {
     const result = await axios.get(`http://localhost:3001/spotifyapi/audio/${songId}`);
-    console.log(result);
+    console.log('Audio result: ', result);
     return result.data.data;
 };
 

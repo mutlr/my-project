@@ -11,11 +11,12 @@ interface PostProps {
 }
 
 const PostBox = ({ post, preview }: PostProps) => {
+    console.log(post.user); 
     return (
         <div className="postbox">
         <Link to={`post/${post.postId}`}>
             <PostHeader
-                user={post.user.username}
+                user={{ username: post.user.username, id: post.user.id }}
                 song={post.song.songName}
                 artist={post.artist.artistName}
                 title={post.title}
