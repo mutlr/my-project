@@ -1,7 +1,13 @@
 .profile-container {
     padding: 0 8px;
 }
-
+.profile-items {
+    margin-top: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .userimage {
     height: 80px;
     width: 80px;
@@ -9,7 +15,6 @@
     border-radius: 40px;
 }
 .profile-info {
-    border: 2px solid red;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -25,16 +30,22 @@
 }
 
 #auth-btn {
-    width: auto;
-    height: auto;
+    font-size: 26px;
+    text-decoration: none;    
+}
+
+.auth-btn-container {
+    width: fit-content;
     background-color: #1ED760;
-    font-size: 32px;
-    padding: 10px;
-    box-sizing: content-box;
     border-radius: 20px;
+    padding: 6px;
+    height: 80px;
     margin-left: auto;
     margin-right: 20px;
-    border: 1px solid #1ED760;
+    text-align: center;
+    align-items: center;
+    display: inline-flex;
+    flex-shrink: 1;
 }
 .filter-container {
     display: flex;
@@ -53,4 +64,9 @@
 }
 .filter-item:active {
     border-bottom: 4px solid var(--light-color);
+}
+
+.myprofile-header {
+    display: flex;
+    align-items: center;
 }

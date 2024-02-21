@@ -5,10 +5,16 @@ import './Audiobar.css';
 interface AudiobarProps {
     songId: string,
 }
-
+const pauseAllAudio = () => {
+    document.querySelectorAll('audio.audio').forEach((element) => {
+        const audio = element as HTMLAudioElement;
+        audio.pause();
+    });
+};
 const Audiobar = ({ songId }: AudiobarProps) => {
     const [audioSrc, setAudioSrc] = useState<string>("");
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(true);
 
     const handlePlay = (e: SyntheticEvent<HTMLAudioElement, Event>) => {
         const allAudioElements = document.querySelectorAll('audio.audio');
@@ -25,26 +31,21 @@ const Audiobar = ({ songId }: AudiobarProps) => {
         getAudio(songId).then(result => {
             setAudioSrc(result);
             if (isPlaying) {
-                document.querySelectorAll('audio.audio').forEach((element) => {
-                    const audio = element as HTMLAudioElement;
-                    audio.pause();
-                });
+                pauseAllAudio();
                 setIsPlaying(false);
             }
-        }).catch((e) => console.log(e));
+        }).catch((e) => console.log(e))
+        .finally(() => setLoading(false));
 
         return () => {
-            document.querySelectorAll('audio.audio').forEach((element) => {
-                const audio = element as HTMLAudioElement;
-                audio.pause();
-            });
+            pauseAllAudio();
             setIsPlaying(false);
         };
     }, [songId]);
-
+    if (loading) return null;
     return (
         <div className='post-player'>
-            <audio src={audioSrc} controls className="audio" onPlay={handlePlay}></audio>
+            <audio src={audioSrc} controls preload="auto" className="audio" onPlay={handlePlay}></audio>
         </div>
     );
 };

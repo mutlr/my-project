@@ -12,7 +12,7 @@ const CommentBox = ({ comment }: Props) => {
     return (
         <div className="postbox">
         <PostHeader
-            user={comment.user.username}
+            user={{ username: comment.user.username, id: comment.user.id }}
             song={comment.song.songName}
             artist={comment.artist.artistName}
             title={comment.title}

@@ -18,31 +18,11 @@ enum Filter {
     comments = 'Comments',
 }
 
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
-const REDIRECT_URI = 'http://localhost:3000/profile';
-const SCOPE = 'user-read-private user-read-email playlist-modify-public';
-const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
-const code = new URLSearchParams(window.location.search).get("code");
-const AuthenticationButton = () => {
-    useEffect(() => {
-        if (code) {
-            console.log('Menee tänne iffii cookindaa', code);
-            authenticateSpotify(code)
-            .then(r => console.log('Result from auth: ', r))
-            .catch(e => console.log('Error from auth: ', e));
-        }
-    }, [code]);
-    return (
-        <a id="auth-btn" href={URL}>Authenticate Spotify</a>
-    );
-};
-
-const ProfileHeader = () => {
+export const ProfileHeader = () => {
     return (
     <div className="profile-info">
         <div className="userimage"></div>
         <h1>Matti Meikäläinen</h1>
-        <AuthenticationButton />
     </div>
     );
 };
@@ -50,7 +30,7 @@ const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
-const ProfileItems = ({ id }: Props) => {
+export const ProfileItems = ({ id }: Props) => {
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
@@ -64,7 +44,7 @@ const ProfileItems = ({ id }: Props) => {
         .then(result => setComments(result.map((c: any): Comment => commentMap(c))))
         .catch(err => console.log('Error getting profile comments: ', err));
         
-    }, [id]);
+    }, []);
     const changeView = (e: any) => {
         if (isFilter(e)) setFilter(e);
     };
@@ -90,7 +70,9 @@ const ProfileItems = ({ id }: Props) => {
                     <button className="filter-item" key={value} onClick={() => changeView(value)}>{value}</button>
                 ))}
             </div>
-            {layout()}
+            <div className="profile-items">
+                {layout()}
+            </div>
         </div>
     );
 };

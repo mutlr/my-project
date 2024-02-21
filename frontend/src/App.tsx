@@ -17,6 +17,7 @@ import Togglable from './components/Togglable/Togglable';
 import useVisibility from './hooks/useVisibility';
 import Test from './test';
 import userContext from './context/userContext';
+import MyProfile from './components/Profile/MyProfile';
 
 function App () {
     const user = useContext(userContext);
@@ -45,9 +46,9 @@ function App () {
                 <Route path='/' element={<View posts={posts} />}/>
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
-                <Route path="/post/:id" element={<PostPage post={postMatchResult} user={user?.user} />} />
-                {/*<Route path='/profile' element={<Profile id={user?.user?.id}/>} />*/}
-                <Route path='/profile/:id' element={<Profile />} />
+                <Route path="post/:id" element={<PostPage post={postMatchResult} user={user?.user} />} />
+                <Route path='/myprofile' element={<MyProfile id={user?.user?.id}/>} />
+                <Route path='profile/:id' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
             {user && location.pathname === '/' &&
