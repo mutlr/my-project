@@ -70,3 +70,20 @@
     display: flex;
     align-items: center;
 }
+
+.edit-container {
+    width: auto;
+    background-color: red;
+    margin-left: auto;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+.edit-btn {
+    width: auto;
+    height: 30px;
+    background-color: blue;
+    border: 0px;
+    border-radius: 12px;
+    padding: 0 12px;
+}

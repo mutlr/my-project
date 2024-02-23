@@ -11,7 +11,6 @@ interface PostProps {
 }
 
 const PostBox = ({ post, preview }: PostProps) => {
-    console.log(post.user); 
     return (
         <div className="postbox">
         <Link to={`post/${post.postId}`}>
@@ -20,7 +19,9 @@ const PostBox = ({ post, preview }: PostProps) => {
                 song={post.song.songName}
                 artist={post.artist.artistName}
                 title={post.title}
-                createdAt={post.createdAt} />
+                createdAt={post.createdAt}
+                id={post.postId}
+                />
         </Link>
         {!preview &&
         <p className="description">{post.description}</p>}

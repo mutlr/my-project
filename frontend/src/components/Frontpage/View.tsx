@@ -12,7 +12,8 @@ const View = (props: Props) => {
             <div className='postpage-container' key={post.postId}>
                 <PostBox
                 post={post}
-                preview={true}/>
+                preview={true}
+                />
             </div>
             ))}
         </>

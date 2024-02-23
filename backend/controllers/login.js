@@ -10,11 +10,13 @@ router.post('/', async (req, res) => {
 			where: { username },
 			attributes: ['password', 'refreshToken', 'accessToken'],
 		});
-		if (!user || !await bcrypt.compare(password, user.password)) {
+		const match = await bcrypt.compare(password, user.password);
+
+		if (!user || !match) {
 			return res.status(404).json({ error: 'Invalid username or password' });
 		}
 		const token = signToken({ username: user.username, id: user.id });
-		res.status(200).json({ token, username: user.username, id: user.id, accessToken: user.accessToken, refreshToken: user.refreshToken });
+		res.status(200).json({ token, username: user.username, id: user.id });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });

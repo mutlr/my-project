@@ -1,16 +1,14 @@
-import React, { MouseEventHandler, ReactNode, useEffect, useState } from "react";
+import React, { ReactElement, ReactNode, useEffect, useState } from "react";
 import './Profile.css';
-import { authenticateSpotify } from "../../services/userService";
-import axios from 'axios';
 import { Post, Comment } from "../../types";
 import { commentMap, postMap } from "../../utils/utils";
 import PostBox from "../PostLayout/PostBox";
-import { getPostsByID, getComments } from "../../services/postService";
+import { getPostsByID, getComments, deleteComment, deletePost } from "../../services/postService";
 import { useParams } from "react-router-dom";
 import CommentBox from "../PostLayout/CommentBox";
 
 interface Props {
-    id?: number
+    id: number,
 }
 
 enum Filter {
@@ -30,6 +28,19 @@ const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
+interface Eprops {
+    onClick: () => void,
+    id: number,
+}
+const EditButtons = (props: Eprops) => {
+
+    return (
+        <div className="edit-container">
+            <button className="edit-btn">Edit</button>
+            <button className="edit-btn" onClick={props.onClick}>Delete</button>
+        </div>
+    );
+};
 export const ProfileItems = ({ id }: Props) => {
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
@@ -45,7 +56,29 @@ export const ProfileItems = ({ id }: Props) => {
         .catch(err => console.log('Error getting profile comments: ', err));
         
     }, []);
-    const changeView = (e: any) => {
+
+    const deletePostFunc = async (id: number) => {
+        try {
+            const result = await deletePost(id);
+            console.log('Result from deleting post: ', result);
+        } catch (error) {
+            console.log('ERror from deleting post: ', error);
+            
+        }
+    };
+
+    const deleteCommentFunc = async (id: number) => {
+        try {
+            const result = await deleteComment(id);
+            console.log('Result from deleting comment: ', result);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log('ERror from deleting comment: ', error.message);
+            }
+        }
+    };
+
+    const changeView = (e: any) => {    
         if (isFilter(e)) setFilter(e);
     };
 
@@ -53,14 +86,20 @@ export const ProfileItems = ({ id }: Props) => {
         switch(filter) {
             case Filter.posts:
                 return posts.map(post => (
-                    <PostBox post={post} preview={true} key={post.postId} />
+                    <div key={post.postId}>
+                        <EditButtons id={id} onClick={() => deletePostFunc(post.postId)} />
+                        <PostBox post={post} preview={true} />
+                    </div>                
                 ));
             case Filter.comments:
                 return comments.map(comment => (
-                    <CommentBox comment={comment} key={comment.commentId} />
+                    <div key={comment.commentId}>
+                        <EditButtons id={id} onClick={() => deleteCommentFunc(comment.commentId)}/>
+                        <CommentBox comment={comment} />
+                    </div>
                 ));
             default:
-                return null;
+                return <h1>Tbh, something didnt work as expected</h1>;
         }
     };
     return (
@@ -83,7 +122,7 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <ProfileHeader />
-            <ProfileItems id={Number(id)}/>
+            <ProfileItems id={Number(id)} />
         </div>
     );
 };

@@ -1,25 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import './Postheader.css';
 import { User } from "../../types";
 import { useNavigate } from "react-router-dom";
+import UserContext from "../../context/userContext";
+import axios from "axios";
 interface PostHeaderProps {
     user: User,
     song: string,
     artist: string,
     title: string,
     createdAt: string,
+    id: number
 }
 const formatDate = (d: string) => {
     const date = new Date(d);
     return date.toLocaleDateString().replaceAll('/', '.');
 };
 const PostHeader = (props: PostHeaderProps) => {
+    const user = useContext(UserContext);
     const navigate = useNavigate();
+
     const goToProfile = (e: React.SyntheticEvent, id: number | undefined) => {
         e.preventDefault();
         e.stopPropagation();
         navigate(`/profile/${id}`, { replace: true });
     };
+    const display = props.user.id === user?.user?.id ? '' : 'none';
+    console.log('Post headeris: ', user?.user?.id, props.user.id, 'ja ', display);
     return (
         <div className='postheader-container'>
             <div className='postheader-top'>
