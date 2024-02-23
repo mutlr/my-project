@@ -8,3 +8,10 @@
     display: flex;
     justify-content: space-between;
 }
+
+.delete-button {
+    width: min-content;
+    margin-left: auto;
+    padding: 4px;
+    color: black;
+}

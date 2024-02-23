@@ -16,7 +16,8 @@ const CommentBox = ({ comment }: Props) => {
             song={comment.song.songName}
             artist={comment.artist.artistName}
             title={comment.title}
-            createdAt={comment.createdAt} />
+            createdAt={comment.createdAt}
+            id={comment.commentId} />
         <p className="description">{comment.description}</p>
         <Audiobar songId={comment.song.songId}/>
     </div>

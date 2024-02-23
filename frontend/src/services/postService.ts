@@ -30,6 +30,24 @@ export const getComments = async (id: number, type?: string) => {
 };
 
 export const getPostsByID = async (id: number, type?: string) => {
-    const result = await axios.get(`http://localhost:3001/posts/${id}?type=${type}`);
+    const result = await axios.get(`${baseUrl}/posts/${id}?type=${type}`);
     return result.data.posts;
+};
+
+export const deletePost = async (id: number) => {
+    const result = await axios.delete(`${baseUrl}/posts/${id}`, {
+        headers: {
+            'Authorization': userToken,
+        }
+    });
+    return result;
+};
+
+export const deleteComment = async (id: number) => {
+    const result = await axios.delete(`${baseUrl}/posts/comment/${id}`, {
+        headers: {
+            'Authorization': userToken,
+        }
+    });
+    return result;
 };

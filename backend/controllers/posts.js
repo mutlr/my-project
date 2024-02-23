@@ -9,6 +9,37 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ posts });
 });
 
+router.delete('/:id', tokenExtractor, async (req, res) => {
+	try {
+		const post = await Post.findByPk(req.params.id); 
+		if (post.userId !== req.decodedToken.id || !post) {
+			return res.status(400).json({ error: 'Something went wrong with deleting post!'});
+		}
+
+		await post.destroy();
+		res.status(200).json({ post });
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ error })
+	}
+});
+
+router.delete('/comment/:id', tokenExtractor, async (req, res) => {
+	console.log('Tulee kommenttii: ', req.params.id)
+	try {
+		const comment = await Comment.findByPk(req.params.id); 
+		if (comment.userId !== req.decodedToken.id || !comment) {
+			return res.status(400).json({ error: 'Something went wrong with deleting comment!'});
+		}
+
+		await comment.destroy();
+		res.status(200).json({ comment });
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({ error })
+	}
+});
+
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	const query = req.query.type ? req.query.type.toLowerCase() : null

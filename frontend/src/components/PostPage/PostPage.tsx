@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Togglable from "../Togglable/Togglable";
 import Commentform from "../PostingForms/Commentform";
@@ -8,12 +8,14 @@ import useVisibility from "../../hooks/useVisibility";
 import PostBox from "../PostLayout/PostBox";
 import CommentBox from "../PostLayout/CommentBox";
 import { commentMap } from "../../utils/utils";
+import UserContext from "../../context/userContext";
 interface PostPageProps {
     post: Post | undefined | null,
     user: User | undefined | null,
 }
 
 const PostPage = (props: PostPageProps) => {
+    const user = useContext(UserContext);
     const { id } = useParams();
     const [comments, setComments] = useState<Comment[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
@@ -42,11 +44,12 @@ const PostPage = (props: PostPageProps) => {
                     toggleVisibility={toggleVisibility}
                     addComment={addComment}/>
             </Togglable>}
-            <PostBox post={props.post} preview={false}/>
+            <PostBox post={props.post} preview={false} />
             {comments.map(c =>
             <CommentBox
                 key={c.commentId}
-                comment={c}/>
+                comment={c}
+                />
             )}
         </div>
     );

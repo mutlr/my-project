@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { authenticateSpotify } from "../../services/userService";
 import { ProfileHeader, ProfileItems } from "./Profile";
+
 interface Props {
     id: number | undefined
 }
@@ -21,7 +22,7 @@ const AuthenticationButton = () => {
     }, [code]);
     return (
         <div className="auth-btn-container">
-            <a id="auth-btn" href={URL}><p>Authenticate</p> Spotify</a>
+            <a id="auth-btn" href={URL}><p>Authenticate Spotify</p></a>
         </div>
     );
 };
@@ -35,7 +36,7 @@ const MyProfile = ({ id }: Props) => {
                 <ProfileHeader />
                 <AuthenticationButton />
             </div>
-            <ProfileItems id={id}/>
+            <ProfileItems id={id} />
         </div>
     );
 };

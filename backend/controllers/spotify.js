@@ -27,6 +27,7 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
         res.status(500).json({ error })
     }
 });
+
 router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 	try {
 		const { name } = req.params;
@@ -43,13 +44,17 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 });
 
 router.get('/audio/:songid', apiTokenExtractor, async (req, res) => {
-	const { songid } = req.params;
-	const result = await axios.get(`https://api.spotify.com/v1/tracks/${songid}`, {
-		headers: {
-			'Authorization': `Bearer ${req.api_token}`,
-		}
-	});
-
-	res.status(200).json({ data: result.data.preview_url });
+	try {
+			const { songid } = req.params;
+			const result = await axios.get(`https://api.spotify.com/v1/tracks/${songid}`, {
+				headers: {
+					'Authorization': `Bearer ${req.api_token}`,
+				}
+			});
+		
+			res.status(200).json({ data: result.data.preview_url });
+	} catch (error) {
+		res.status(500).json({ error })
+	}
 });
 module.exports = router;

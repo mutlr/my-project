@@ -35,7 +35,7 @@ export interface CommentEntry extends SongForm {
 }
 
 export interface User {
-    id?: number,
+    id: number,
     username: string,
 }
 

@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Comment } = require('../models');
+const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken, timeChecker } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
@@ -25,15 +25,14 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 
 router.get('/:id/:type', async (req, res) => {
 	const { id, type } = req.params;
-	const user = await User.findByPk(id);
-	let result;
-	console.log(id, type)
 	try {
-		switch (type) {
-			case 'comments':
-				result = await Comment.findAll({ where: { id } })
-				break
-		}
+		if (type === 'comments') {
+			const data = await Comment.findAll({ where: { id } });
+			return 		res.status(200).json({ data })
+		} else if ( type === 'posts') {
+			const data = await Post.findAll({ where: { id }})
+			return res.status(200).json({ data })
+		}		
 		res.status(200).json({ result })
 	} catch (error) {
 		res.status(500).json({ error })

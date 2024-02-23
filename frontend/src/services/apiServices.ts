@@ -24,7 +24,6 @@ export const getSongs = async (name: string) => {
 
 export const getAudio = async (songId: string) => {
     const result = await axios.get(`http://localhost:3001/spotifyapi/audio/${songId}`);
-    console.log('Audio result: ', result);
     return result.data.data;
 };
 
