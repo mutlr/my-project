@@ -1,11 +1,16 @@
-import React, { ReactElement, ReactNode, useEffect, useState } from "react";
+import React, { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './Profile.css';
 import { Post, Comment } from "../../types";
 import { commentMap, postMap } from "../../utils/utils";
 import PostBox from "../PostLayout/PostBox";
-import { getPostsByID, getComments, deleteComment, deletePost } from "../../services/postService";
+import { getPostsByID, getComments, deleteComment, deletePost, editPostOrComment } from "../../services/postService";
 import { useParams } from "react-router-dom";
 import CommentBox from "../PostLayout/CommentBox";
+import { MessageContext } from "../../context/messageContext";
+import Togglable from "../Togglable/Togglable";
+import useVisibility from "../../hooks/useVisibility";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import Button from "../Button/Button";
 
 interface Props {
     id: number,
@@ -29,22 +34,101 @@ const isFilter = (e: any): e is Filter => {
 };
 
 interface Eprops {
-    onClick: () => void,
+    onDelete: () => void,
+    onEdit: () => void,
     id: number,
 }
-const EditButtons = (props: Eprops) => {
+const EditButtons = ({ id, onDelete, ...props }: Eprops) => {
 
     return (
         <div className="edit-container">
-            <button className="edit-btn">Edit</button>
-            <button className="edit-btn" onClick={props.onClick}>Delete</button>
+            <button className="edit-btn" onClick={props.onEdit}>Edit</button>
+            <button className="edit-btn" onClick={onDelete}>Delete</button>
+        </div>
+    );
+};
+
+interface EditBoxProps {
+    item: Post | Comment | null,
+    cancel: () => void,
+}
+
+const isPost = (post: any): post is Post => {
+    return post;
+};
+
+const isComment = (comment: any): comment is Comment => {
+    return comment;
+};
+const EditBox = ({ item, cancel, ...props }: EditBoxProps) => {
+    if (!item) return null;
+    const title = item.title ? item.title : '';
+    const description = item.description ? item.description : '';
+    const handleSubmit = async (values: any) => {
+
+        if ('postId' in item ) {
+            console.log('Is a post: ', );
+            editPostOrComment(item.postId, { ...values }, 'post')
+            .then(result => console.log('Result from editing post: ', result))
+            .catch(error => console.log('Error from editing a post: ', error));
+        } else if ('commentId' in item) {
+            editPostOrComment(item.commentId, { ...values }, 'comment')
+            .then(result => console.log('Result from editing comment: ', result))
+            .catch(error => console.log('Error from editing a comment: ', error));        
+        }
+    };
+    return (
+        <div className="postform-container" >
+            <Formik 
+                initialValues={{ title, description }} 
+                onSubmit={handleSubmit} 
+                enableReinitialize
+                className='post-form'
+            >
+            {({ values }) => (
+            <Form className="post-form">
+
+                <div className='input-container'>
+                    <label htmlFor="title">Title</label>
+                    <Field
+                    type="text"
+                    name="title"
+                    value={values.title}
+                    className="formInput"
+                    style={{ backgroundColor: 'white' }}
+                    />
+                </div>
+                    <ErrorMessage name="fullname" component="div" />
+
+
+                <div className='input-container'>
+                    <label htmlFor="description">Description</label>
+                    <Field
+                    type="text"
+                    name="description"
+                    value={values.description}
+                    className="formInput"
+                    />
+                </div>
+                <ErrorMessage name="email" component="div" />
+                <div>
+
+                <Button type='button' text='Cancel' color='primary' onClick={cancel} />
+                <Button type='submit' text='Submit' color='primary' />
+                </div>
+            </Form>)}
+
+            </Formik>
         </div>
     );
 };
 export const ProfileItems = ({ id }: Props) => {
+    const message = useContext(MessageContext);
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
+    const [editing, setEditing] = useState<boolean>(false);
+    const [toEdit, setToEdit] = useState<Post | Comment | null>(null);
 
     useEffect(() => {
         getPostsByID(Number(id), 'posts')
@@ -61,6 +145,7 @@ export const ProfileItems = ({ id }: Props) => {
         try {
             const result = await deletePost(id);
             console.log('Result from deleting post: ', result);
+            message?.success('Post deleted successfully!');
         } catch (error) {
             console.log('ERror from deleting post: ', error);
             
@@ -71,6 +156,7 @@ export const ProfileItems = ({ id }: Props) => {
         try {
             const result = await deleteComment(id);
             console.log('Result from deleting comment: ', result);
+            message?.success('Comment deleted successfully!');
         } catch (error) {
             if (error instanceof Error) {
                 console.log('ERror from deleting comment: ', error.message);
@@ -78,6 +164,10 @@ export const ProfileItems = ({ id }: Props) => {
         }
     };
 
+    const editFunc = (item: Post | Comment) => {
+        setEditing(true);
+        setToEdit(item);
+    };
     const changeView = (e: any) => {    
         if (isFilter(e)) setFilter(e);
     };
@@ -87,14 +177,14 @@ export const ProfileItems = ({ id }: Props) => {
             case Filter.posts:
                 return posts.map(post => (
                     <div key={post.postId}>
-                        <EditButtons id={id} onClick={() => deletePostFunc(post.postId)} />
+                        <EditButtons id={id} onDelete={() => deletePostFunc(post.postId)} onEdit={() => editFunc(post)} />
                         <PostBox post={post} preview={true} />
                     </div>                
                 ));
             case Filter.comments:
                 return comments.map(comment => (
                     <div key={comment.commentId}>
-                        <EditButtons id={id} onClick={() => deleteCommentFunc(comment.commentId)}/>
+                        <EditButtons id={id} onDelete={() => deleteCommentFunc(comment.commentId)} onEdit={() => editFunc(comment)} />
                         <CommentBox comment={comment} />
                     </div>
                 ));
@@ -104,6 +194,7 @@ export const ProfileItems = ({ id }: Props) => {
     };
     return (
         <div>
+            {editing && <EditBox item={toEdit} cancel={() => setEditing(false)}/>}
             <div className="filter-container">
                 {Object.values(Filter).map(value => (
                     <button className="filter-item" key={value} onClick={() => changeView(value)}>{value}</button>

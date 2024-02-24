@@ -51,3 +51,13 @@ export const deleteComment = async (id: number) => {
     });
     return result;
 };
+
+export const editPostOrComment = async (id: number, content: { description: string, title: string }, type?: string) => {
+    console.log('Conent: ', content);
+    const result = await axios.post(`${baseUrl}/posts/${id}/?type=${type}`, content, {
+        headers: {
+            'Authorization': userToken,
+        },
+    });
+    return result;
+};
