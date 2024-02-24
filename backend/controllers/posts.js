@@ -88,7 +88,7 @@ router.post('/comment', tokenExtractor, async (req, res, next) => {
 	try {
 		const { id } = req.decodedToken;
 		const song = await findOrCreateSong(songName, songId, artistName, artistId);
-		const comment = await Comment.create({ userId: id, songId: song.id, text: title, postId, description: description });
+		const comment = await Comment.create({ userId: id, songId: song.id, title, postId, description: description });
 		const returnComment = await Comment.findByPk(comment.id, {
 			include: [
 				{
@@ -105,6 +105,34 @@ router.post('/comment', tokenExtractor, async (req, res, next) => {
 	}
 });
 
+router.post('/:id', tokenExtractor, async (req, res) => {
+	const { id } = req.params;
+	const { type } = req.query;
+	const { title, description } = req.body;
+	console.log('ID: ', id, 'title and desc: ', title, ' ja desc: ', description, ' ja type: ', type);
+	try {
+		if (title === '') {
+			throw new Error('Title cannot be empty');
+		}
+		let item;
+		if (type === 'post') {
+			console.log('Tulee tänne postii');
+			item = await Post.findByPk(id);
+		} else if (type === 'comment') {
+			console.log('Tulee tänne commenttii')
+			item = await Comment.findByPk(id);
+		}
+
+		item.title = title;
+		item.description = description;
+		await item.save();
+		res.status(200).end();
+	} catch (error) {
+		console.log('Tulee tän ja ', error)
+		res.status(500).json({ error })
+	}
+
+})
 router.get('/comments/:id', async (req, res) => {
 	try {
 		const query = req.query.type ? req.query.type.toLowerCase() : null

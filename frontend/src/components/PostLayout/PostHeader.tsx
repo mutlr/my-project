@@ -25,8 +25,7 @@ const PostHeader = (props: PostHeaderProps) => {
         e.stopPropagation();
         navigate(`/profile/${id}`, { replace: true });
     };
-    const display = props.user.id === user?.user?.id ? '' : 'none';
-    console.log('Post headeris: ', user?.user?.id, props.user.id, 'ja ', display);
+
     return (
         <div className='postheader-container'>
             <div className='postheader-top'>
