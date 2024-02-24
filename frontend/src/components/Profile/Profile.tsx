@@ -1,6 +1,6 @@
 import React, { ReactElement, ReactNode, useContext, useEffect, useState } from "react";
 import './Profile.css';
-import { Post, Comment } from "../../types";
+import { Post, Comment, EditValues } from "../../types";
 import { commentMap, postMap } from "../../utils/utils";
 import PostBox from "../PostLayout/PostBox";
 import { getPostsByID, getComments, deleteComment, deletePost, editPostOrComment } from "../../services/postService";
@@ -53,21 +53,13 @@ interface EditBoxProps {
     cancel: () => void,
 }
 
-const isPost = (post: any): post is Post => {
-    return post;
-};
-
-const isComment = (comment: any): comment is Comment => {
-    return comment;
-};
 const EditBox = ({ item, cancel, ...props }: EditBoxProps) => {
     if (!item) return null;
     const title = item.title ? item.title : '';
     const description = item.description ? item.description : '';
-    const handleSubmit = async (values: any) => {
+    const handleSubmit = async (values: EditValues) => {
 
         if ('postId' in item ) {
-            console.log('Is a post: ', );
             editPostOrComment(item.postId, { ...values }, 'post')
             .then(result => console.log('Result from editing post: ', result))
             .catch(error => console.log('Error from editing a post: ', error));

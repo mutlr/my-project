@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommentEntry, SongForm } from "../types";
+import { CommentEntry, EditValues, SongForm } from "../types";
 import { userToken, baseUrl } from "./serviceUtils";
 export const getPosts = async () => {
     const result = await axios.get(`${baseUrl}/posts`);
@@ -52,7 +52,7 @@ export const deleteComment = async (id: number) => {
     return result;
 };
 
-export const editPostOrComment = async (id: number, content: { description: string, title: string }, type?: string) => {
+export const editPostOrComment = async (id: number, content: EditValues, type?: string) => {
     console.log('Conent: ', content);
     const result = await axios.post(`${baseUrl}/posts/${id}/?type=${type}`, content, {
         headers: {

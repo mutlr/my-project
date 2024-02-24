@@ -65,3 +65,8 @@ export interface Comment extends BasePost {
 export type Colors = 'primary' | 'secondary' | 'red' | 'light';
 
 export type ButtonTypes = 'submit' | 'reset' | 'button';
+
+export interface EditValues {
+    title: string,
+    description: string,
+}
