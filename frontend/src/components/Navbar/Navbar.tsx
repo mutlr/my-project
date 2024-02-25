@@ -12,7 +12,7 @@ const Navbar = () => {
             <h1 id='logo'>LOGO</h1>
             <ul className='navbar-link-container'>
                 <li className='navbar-link'><Link to={'/'}>Home</Link></li>
-                <li className='navbar-link'><Link to={'/myprofile'}>Profile</Link></li>
+                {user?.user && <li className='navbar-link'><Link to={'/myprofile'}>Profile</Link></li>}
                 {!user?.user && <li className='navbar-link'><Link to={'/login'}>Login</Link></li>}
                 {!user?.user && <li className='navbar-link'><Link to={'/register'}>Register</Link></li>}
                 {user?.user && <li className='navbar-link' onClick={user.logout}>Logout</li>}

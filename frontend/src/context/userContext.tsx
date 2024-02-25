@@ -26,52 +26,48 @@ export const UserProvider = ({ children }: Props) => {
 
     useEffect(() => {
         const loggedUser = localStorage.getItem('loggedUser');
-        const accessToken = localStorage.getItem('accessToken');
+        let user;
         let tokenInterval: NodeJS.Timer;
         if (loggedUser) {
-            const user = JSON.parse(loggedUser);
+            user = JSON.parse(loggedUser);
             setUser({ username: user.username, id: user.id });
             setToken(user.token);
         }
-        if (loggedUser && accessToken) {
-            //refreshToken();
-            //setAuthenticated(true);
+        if (loggedUser && user.authenticated) {
+            refreshToken();
+            setAuthenticated(true);
             tokenInterval = setInterval(() => refreshToken(), 3550000);
         }
 
         return () => clearInterval(tokenInterval);
     }, []);
 
-    const addUserToStorage = (token: string, id: number, accessToken: string | null, username: string) => {
-        console.log('Kun loggaa user accessi: ', accessToken);
-        localStorage.setItem('loggedUser', JSON.stringify({ token, id, username }));
-        if (accessToken) {
+    const addUserToStorage = (token: string, id: number, authenticated: boolean | null, username: string) => {
+        localStorage.setItem('loggedUser', JSON.stringify({ token, id, username, authenticated }));
+        if (authenticated) {
             setAuthenticated(true);
-            localStorage.setItem('accessToken', accessToken);
         }
     };
     const refreshToken = () => {
         refreshSpotifyToken()
-        .then(result => localStorage.setItem('accessToken', result.data.accessToken))
         .catch(err => {
-
             console.log('Error from refreshing token: ', err);
+            message?.error('Error refreshing spotify token!');
         });
     };
 
     const login = async (values: LoginValues) => {
         try {
             const result = await userLogin(values);
-            console.log('Result from login: ', result);
-            setUser({ username: result.username, id: result.id });
-            addUserToStorage(result.token, result.id, result.accessToken, result.username);
+            const { username, id, token, authenticated } = result;
+            setUser({ username, id });
+            addUserToStorage(token, id, authenticated, username);
             message?.success('Logged in!');
             navigate('');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 message?.error(error.response?.data.error);
                 console.log('Error in login: ', error);
-
             }
         }
     };
@@ -94,7 +90,6 @@ export const UserProvider = ({ children }: Props) => {
             if (axios.isAxiosError(error)) {
                 message?.error(error.response?.data.error);
                 console.log('Error in login: ', error);
-
             }
         }
     };
