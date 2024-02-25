@@ -21,7 +21,7 @@ export const authenticateSpotify = async (code: string) => {
     console.log('Tokeni funcis: ', userToken);
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
-        
+
         headers: {
             'Authorization': userToken,
         }

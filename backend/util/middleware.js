@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, } = require('./config');
-const { Song, Admin } = require('../models');
+const { Admin } = require('../models');
 const { checkAdminTime } = require('../util/utils');
 
 const errorHandler = (error, req, res, next) => {
@@ -33,12 +33,9 @@ const apiTokenExtractor = async (req, res, next) => {
 	req.api_token = admin.token;
 	next();
 };
-const songFinder = async (req, res, next) => {
-	return await Song.findOne({ where: { songName: req.songName } });
-};
+
 module.exports = {
 	errorHandler,
 	tokenExtractor,
-	songFinder,
 	apiTokenExtractor,
 };

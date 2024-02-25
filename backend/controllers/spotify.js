@@ -13,19 +13,19 @@ const spotifyApi = new SpotifyWebApi({
 });
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
-    const { code } = req.body;
-    try {
-        const data = await spotifyApi.authorizationCodeGrant(code)
-        const user = await User.findByPk(req.decodedToken.id);
+	const { code } = req.body;
+	try {
+		const data = await spotifyApi.authorizationCodeGrant(code);
+		const user = await User.findByPk(req.decodedToken.id);
 
-        user.access_token = data.body.access_token;
-        user.refresh_token = data.body.refresh_token;
-        await user.save();
-        res.status(200).end()
-    } catch (error) {
-        console.log('Something went wrong!', error)
-        res.status(500).json({ error })
-    }
+		user.access_token = data.body.access_token;
+		user.refresh_token = data.body.refresh_token;
+		await user.save();
+		res.status(200).end();
+	} catch (error) {
+		console.log('Something went wrong!', error);
+		res.status(500).json({ error });
+	}
 });
 
 router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
@@ -45,16 +45,16 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 
 router.get('/audio/:songid', apiTokenExtractor, async (req, res) => {
 	try {
-			const { songid } = req.params;
-			const result = await axios.get(`https://api.spotify.com/v1/tracks/${songid}`, {
-				headers: {
-					'Authorization': `Bearer ${req.api_token}`,
-				}
-			});
-		
-			res.status(200).json({ data: result.data.preview_url });
+		const { songid } = req.params;
+		const result = await axios.get(`https://api.spotify.com/v1/tracks/${songid}`, {
+			headers: {
+				'Authorization': `Bearer ${req.api_token}`,
+			}
+		});
+
+		res.status(200).json({ data: result.data.preview_url });
 	} catch (error) {
-		res.status(500).json({ error })
+		res.status(500).json({ error });
 	}
 });
 module.exports = router;

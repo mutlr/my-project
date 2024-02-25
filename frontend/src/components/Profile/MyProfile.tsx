@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { authenticateSpotify } from "../../services/userService";
-import { ProfileHeader, ProfileItems } from "./Profile";
+import ProfileHeader from "./ProfileHeader";
+import ProfileItems from "./ProfileItems";
 
 interface Props {
     id: number | undefined
@@ -36,7 +37,7 @@ const MyProfile = ({ id }: Props) => {
                 <ProfileHeader />
                 <AuthenticationButton />
             </div>
-            <ProfileItems id={id} />
+            <ProfileItems id={id} isUser={true} />
         </div>
     );
 };

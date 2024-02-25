@@ -2,8 +2,8 @@ const router = require('express').Router();
 const { Song, Post, Comment, User } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { findArtist } = require('../util/utils');
-const {sequelize } = require('../util/db')
-const { Op } = require('sequelize')
+const { Op } = require('sequelize');
+
 router.get('/', async (req, res) => {
 	const posts = await Post.findAll();
 	res.status(200).json({ posts });
@@ -11,43 +11,43 @@ router.get('/', async (req, res) => {
 
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
-		const post = await Post.findByPk(req.params.id); 
+		const post = await Post.findByPk(req.params.id);
 		if (post.userId !== req.decodedToken.id || !post) {
-			return res.status(400).json({ error: 'Something went wrong with deleting post!'});
+			return res.status(400).json({ error: 'Something went wrong with deleting post!' });
 		}
 
 		await post.destroy();
 		res.status(200).json({ post });
 	} catch (error) {
-		console.log(error)
-		res.status(500).json({ error })
+		console.log(error);
+		res.status(500).json({ error });
 	}
 });
 
 router.delete('/comment/:id', tokenExtractor, async (req, res) => {
-	console.log('Tulee kommenttii: ', req.params.id)
+	console.log('Tulee kommenttii: ', req.params.id);
 	try {
-		const comment = await Comment.findByPk(req.params.id); 
+		const comment = await Comment.findByPk(req.params.id);
 		if (comment.userId !== req.decodedToken.id || !comment) {
-			return res.status(400).json({ error: 'Something went wrong with deleting comment!'});
+			return res.status(400).json({ error: 'Something went wrong with deleting comment!' });
 		}
 
 		await comment.destroy();
 		res.status(200).json({ comment });
 	} catch (error) {
-		console.log(error)
-		res.status(500).json({ error })
+		console.log(error);
+		res.status(500).json({ error });
 	}
 });
 
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
-	const query = req.query.type ? req.query.type.toLowerCase() : null
-	console.log('ID ku hakee postin: ', id, query)
+	const query = req.query.type ? req.query.type.toLowerCase() : null;
+	console.log('ID ku hakee postin: ', id, query);
 	try {
 		if (query === 'posts') {
-			const posts = await Post.findAll({ where: { userId: id }})
-			return res.status(200).json({ posts })
+			const posts = await Post.findAll({ where: { userId: id } });
+			return res.status(200).json({ posts });
 		}
 		const post = await Post.findByPk(id);
 		if (!post) return res.status(404).json({ error: 'No post found by ID' });
@@ -119,7 +119,7 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 			console.log('Tulee tänne postii');
 			item = await Post.findByPk(id);
 		} else if (type === 'comment') {
-			console.log('Tulee tänne commenttii')
+			console.log('Tulee tänne commenttii');
 			item = await Comment.findByPk(id);
 		}
 
@@ -128,24 +128,24 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 		await item.save();
 		res.status(200).end();
 	} catch (error) {
-		console.log('Tulee tän ja ', error)
-		res.status(500).json({ error })
+		console.log('Tulee tän ja ', error);
+		res.status(500).json({ error });
 	}
 
-})
+});
 router.get('/comments/:id', async (req, res) => {
 	try {
-		const query = req.query.type ? req.query.type.toLowerCase() : null
+		const query = req.query.type ? req.query.type.toLowerCase() : null;
 		const { id } = req.params;
-		const where = {}
+		const where = {};
 		if (query === 'comments') {
 			where.userId = {
 				[Op.eq]: id
-			}
+			};
 		} else {
 			where.postId = {
 				[Op.eq]: id
-			}
+			};
 		}
 		const comments = await Comment.findAll({
 			where,
