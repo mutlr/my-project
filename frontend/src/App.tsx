@@ -47,7 +47,7 @@ function App () {
                 <Route path='/login' element={<Login />}/>
                 <Route path='/register' element={<Register />}/>
                 <Route path="post/:id" element={<PostPage post={postMatchResult} user={user?.user} />} />
-                <Route path='/myprofile' element={<MyProfile id={user?.user?.id}/>} />
+                <Route path='/myprofile' element={<MyProfile id={user?.user?.id} authenticated={user?.authenticated}/>} />
                 <Route path='profile/:id' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
