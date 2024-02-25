@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import './Postheader.css';
 import { User } from "../../types";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../../context/userContext";
-import axios from "axios";
+
 interface PostHeaderProps {
     user: User,
     song: string,
@@ -17,7 +16,6 @@ const formatDate = (d: string) => {
     return date.toLocaleDateString().replaceAll('/', '.');
 };
 const PostHeader = (props: PostHeaderProps) => {
-    const user = useContext(UserContext);
     const navigate = useNavigate();
 
     const goToProfile = (e: React.SyntheticEvent, id: number | undefined) => {

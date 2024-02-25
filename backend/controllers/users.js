@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
-const { signToken, timeChecker } = require('../util/utils');
+const { signToken } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
@@ -28,14 +28,14 @@ router.get('/:id/:type', async (req, res) => {
 	try {
 		if (type === 'comments') {
 			const data = await Comment.findAll({ where: { id } });
-			return 		res.status(200).json({ data })
+			return res.status(200).json({ data });
 		} else if ( type === 'posts') {
-			const data = await Post.findAll({ where: { id }})
-			return res.status(200).json({ data })
-		}		
-		res.status(200).json({ result })
+			const data = await Post.findAll({ where: { id } });
+			return res.status(200).json({ data });
+		}
+		res.status(200).json({ data: 'Nothing found' });
 	} catch (error) {
-		res.status(500).json({ error })
+		res.status(500).json({ error });
 	}
 });
 router.get('/', async (req, res) => {
