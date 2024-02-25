@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, } = require('./config');
-const { Admin } = require('../models');
-const { checkAdminTime } = require('../util/utils');
+const { Admin, User } = require('../models');
+const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
 const errorHandler = (error, req, res, next) => {
 	if (error.name === 'SequelizeUniqueConstraintError') {
@@ -34,8 +34,24 @@ const apiTokenExtractor = async (req, res, next) => {
 	next();
 };
 
+const refreshUserToken = async (req, res, next) => {
+	const user = await User.findByPk(req.params.id, {
+		attributes: ['updatedAt', 'refreshToken']
+	});
+
+	if (timeChecker(user.updatedAt)) {
+		const data = await refreshToken(user.refreshToken);
+		user.accessToken = data.access_token;
+		user.refreshToken = data.refresh_token;
+		await user.save();
+	}
+
+	next();
+}
+
 module.exports = {
 	errorHandler,
 	tokenExtractor,
 	apiTokenExtractor,
+	refreshUserToken,
 };

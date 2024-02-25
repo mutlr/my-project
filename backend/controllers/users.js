@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
-const { signToken } = require('../util/utils');
+const { signToken, refreshToken } = require('../util/utils');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const axios = require('axios');
 
@@ -52,22 +52,6 @@ router.post('/', async (req, res, next) => {
 		next(error);
 	}
 });
-
-const refreshToken = async (token) => {
-	const body = new URLSearchParams({
-		grant_type: 'refresh_token',
-		refresh_token: token,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET
-	});
-	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		}
-	});
-	console.log(result);
-	return result.data;
-};
 
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {

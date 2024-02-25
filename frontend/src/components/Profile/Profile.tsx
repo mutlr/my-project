@@ -10,7 +10,7 @@ const Profile = () => {
 
     return (
         <div className="profile-container">
-            <ProfileHeader />
+            <ProfileHeader id={Number(id)} />
             <ProfileItems id={Number(id)} isUser={false} />
         </div>
     );

@@ -18,7 +18,6 @@ export const authenticateSpotify = async (code: string) => {
         const user = JSON.parse(loggedUser);
         setToken(user.token);
     }
-    console.log('Tokeni funcis: ', userToken);
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
 
@@ -36,6 +35,5 @@ export const refreshSpotifyToken = async () => {
             'Authorization': userToken,
         }
      });
-    console.log('Reponse from token: ', response);
     return response;
 };
