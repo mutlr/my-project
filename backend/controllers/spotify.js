@@ -9,7 +9,7 @@ const { User } = require('../models');
 const spotifyApi = new SpotifyWebApi({
 	clientId: CLIENT_ID,
 	clientSecret: CLIENT_SECRET,
-	redirectUri: 'http://localhost:3000/profile',
+	redirectUri: 'http://localhost:3000/myprofile',
 });
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
@@ -17,9 +17,10 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	try {
 		const data = await spotifyApi.authorizationCodeGrant(code);
 		const user = await User.findByPk(req.decodedToken.id);
-
-		user.access_token = data.body.access_token;
-		user.refresh_token = data.body.refresh_token;
+		const { access_token, refresh_token } = data.body;
+		console.log('Tulee spotify authenttii ja token: ', access_token, ' ja refresh: ', refresh_token)
+		user.accessToken = access_token;
+		user.refreshToken = refresh_token;
 		await user.save();
 		res.status(200).end();
 	} catch (error) {
