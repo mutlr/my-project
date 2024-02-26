@@ -1,8 +1,9 @@
 import React from "react";
-import Audiobar from "./Audiobar";
-import PostHeader from "./PostHeader";
 import { Comment } from "../../types";
 import './PostLayout.css';
+import { Link } from "react-router-dom";
+import Content from "./Content";
+import PostHeader from "./PostHeader";
 
 
 interface Props {
@@ -11,15 +12,20 @@ interface Props {
 const CommentBox = ({ comment }: Props) => {
     return (
         <div className="postbox">
-        <PostHeader
+            <PostHeader
             user={{ username: comment.user.username, id: comment.user.id }}
-            song={comment.song.songName}
-            artist={comment.artist.artistName}
-            title={comment.title}
             createdAt={comment.createdAt}
-            id={comment.commentId} />
-        <p className="description">{comment.description}</p>
-        <Audiobar songId={comment.song.songId}/>
+            />
+            <Link to={`/post/${comment.commentId}`}>
+                <Content 
+                title={comment.title}
+                artist={comment.artist.artistName}
+                song={comment.song.songName}
+                songId={comment.song.songId}
+                id={comment.commentId}
+                description={comment.description}
+                />
+            </Link>
     </div>
     );
 };

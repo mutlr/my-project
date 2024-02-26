@@ -4,6 +4,7 @@ import Audiobar from "./Audiobar";
 import PostHeader from "./PostHeader";
 import { Post } from "../../types";
 import './PostLayout.css';
+import Content from "./Content";
 
 interface PostProps {
     post: Post,
@@ -13,19 +14,20 @@ interface PostProps {
 const PostBox = ({ post, preview }: PostProps) => {
     return (
         <div className="postbox">
-        <Link to={`post/${post.postId}`}>
-            <PostHeader
-                user={{ username: post.user.username, id: post.user.id }}
-                song={post.song.songName}
-                artist={post.artist.artistName}
-                title={post.title}
-                createdAt={post.createdAt}
-                id={post.postId}
-                />
+        <PostHeader
+        user={{ username: post.user.username, id: post.user.id }}
+        createdAt={post.createdAt}
+        />
+        <Link to={`/post/${post.postId}`}>
+            <Content 
+            title={post.title}
+            artist={post.artist.artistName}
+            song={post.song.songName}
+            songId={post.song.songId}
+            id={post.postId}
+            description={preview ? null : post.description}
+            />
         </Link>
-        {!preview &&
-        <p className="description">{post.description}</p>}
-        <Audiobar songId={post.song.songId}/>
     </div>
     );
 };
