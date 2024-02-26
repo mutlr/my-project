@@ -18,11 +18,11 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
 
         if ('postId' in item ) {
             editPostOrComment(item.postId, { ...values }, 'post')
-            .then(result => console.log('Result from editing post: ', result))
+            .then(() => cancel())
             .catch(error => console.log('Error from editing a post: ', error));
         } else if ('commentId' in item) {
             editPostOrComment(item.commentId, { ...values }, 'comment')
-            .then(result => console.log('Result from editing comment: ', result))
+            .then(() => cancel())
             .catch(error => console.log('Error from editing a comment: ', error));
         }
     };
