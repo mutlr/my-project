@@ -12,6 +12,9 @@ const errorHandler = (error, req, res, next) => {
 		return res.status(404).json({ error: error.parent.detail });
 	} else if (error.name === 'SequelizeValidationError') {
 		return res.status(500).json({ error: error.errors[0].message });
+	} else if (error.error === 'invalid_grant' && error.error_description === 'Refresh token revoked') {
+		console.log('Tulee error middlewaree ja id: ', req.params);
+		return res.status(500).json({ error: error.error_description });
 	}
 	next(error);
 };
@@ -38,16 +41,24 @@ const refreshUserToken = async (req, res, next) => {
 	const user = await User.findByPk(req.params.id, {
 		attributes: ['updatedAt', 'refreshToken']
 	});
-
-	if (timeChecker(user.updatedAt)) {
-		const data = await refreshToken(user.refreshToken);
-		user.accessToken = data.access_token;
-		user.refreshToken = data.refresh_token;
-		await user.save();
+	const is = timeChecker(user.updatedAt);
+	console.log('Tulee true timechekris: 0', is, ' ja user token: ', user.refreshToken);
+	if (user.refreshToken && timeChecker(user.updatedAt) === true) {
+		console.log('Menee uusii käyttäjän tokenin: ', user.refreshToken);
+		try {
+			const data = await refreshToken(user.refreshToken);
+			user.accessToken = data.access_token;
+			user.refreshToken = data.refresh_token;
+			await user.save();
+		} catch (error) {
+			user.accessToken = null;
+			user.refreshToken = null;
+			await user.save();
+			next(error.response.data);
+		}
 	}
-
 	next();
-}
+};
 
 module.exports = {
 	errorHandler,

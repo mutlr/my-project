@@ -2,6 +2,7 @@ import React from "react";
 import ProfileHeader from "./ProfileHeader";
 import ProfileItems from "./ProfileItems";
 import AuthenticationButton from "../SpotifyAuthentication/AuthenticationButton";
+import './MyProfile.css';
 
 interface Props {
     id: number | undefined,

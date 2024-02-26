@@ -3,6 +3,7 @@ import { Formik, Field, ErrorMessage, Form } from "formik";
 import { editPostOrComment } from "../../services/postService";
 import { Post, EditValues, Comment } from "../../types";
 import Button from "../Button/Button";
+import './EditForm.css';
 
 interface Props {
     item: Post | Comment | null,

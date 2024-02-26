@@ -5,7 +5,8 @@ import { Post, Comment } from "../../types";
 import { postMap, commentMap } from "../../utils/utils";
 import CommentBox from "../PostLayout/CommentBox";
 import PostBox from "../PostLayout/PostBox";
-import EditForm from "./EditForm";
+import EditForm from "../EditForm/EditForm";
+import './ProfileItems.css';
 
 interface Props {
     id: number,

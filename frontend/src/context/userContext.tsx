@@ -10,7 +10,8 @@ interface UserContextProps {
     login: (values: LoginValues) => void,
     logout: () => void,
     register: (values: RegisterFormValues) => void,
-    authenticated: boolean
+    authenticated: boolean,
+    addUserToStorageAndSetUser: (token: string, id: number, authenticated: boolean | null, username: string) => void,
 }
 
 const UserContext = createContext<UserContextProps | null>(null);
@@ -42,7 +43,8 @@ export const UserProvider = ({ children }: Props) => {
         return () => clearInterval(tokenInterval);
     }, []);
 
-    const addUserToStorage = (token: string, id: number, authenticated: boolean | null, username: string) => {
+    const addUserToStorageAndSetUser = (token: string, id: number, authenticated: boolean | null, username: string) => {
+        setUser({ username, id });
         localStorage.setItem('loggedUser', JSON.stringify({ token, id, username, authenticated }));
         if (authenticated) {
             setAuthenticated(true);
@@ -60,8 +62,7 @@ export const UserProvider = ({ children }: Props) => {
         try {
             const result = await userLogin(values);
             const { username, id, token, authenticated } = result;
-            setUser({ username, id });
-            addUserToStorage(token, id, authenticated, username);
+            addUserToStorageAndSetUser(token, id, authenticated, username);
             message?.success('Logged in!');
             navigate('');
         } catch (error) {
@@ -82,8 +83,7 @@ export const UserProvider = ({ children }: Props) => {
     const register = async (values: RegisterFormValues) => {
         try {
             const result = await userRegister(values);
-            setUser({ username: result.username, id: result.id });
-            addUserToStorage(result.token, result.id, result.accessToken, result.username);
+            addUserToStorageAndSetUser(result.token, result.id, false, result.username);
             message?.success('Registered successfully!');
             navigate('');
         } catch (error) {
@@ -101,6 +101,7 @@ export const UserProvider = ({ children }: Props) => {
             logout,
             register,
             authenticated,
+            addUserToStorageAndSetUser,
         }}>
             {children}
         </UserContext.Provider>

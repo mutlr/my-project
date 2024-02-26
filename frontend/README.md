@@ -12,3 +12,6 @@ Tuntitaulukko frontend:
     Fixed postlayout and better way to add to lists 3h
     User context 1.5h
     Spotify authentication and refresh 25h
+    Profile and deleting posts and comments 9h
+    Editing comments and posts 3h
+    Spotify tietojen hakeminen ja näyttäminen 2h

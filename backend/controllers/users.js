@@ -2,8 +2,6 @@ const router = require('express').Router();
 const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken, refreshToken } = require('../util/utils');
-const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
-const axios = require('axios');
 
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
@@ -39,7 +37,7 @@ router.get('/:id/:type', async (req, res) => {
 	}
 });
 router.get('/', async (req, res) => {
-	const users = await User.findAll({});
+	const users = await User.findAll({ attributes: ['accessToken'] });
 	res.status(200).json({ users });
 });
 
@@ -53,6 +51,7 @@ router.post('/', async (req, res, next) => {
 	}
 });
 
+//Tätä ei varmaa tarvii ees
 router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
@@ -64,7 +63,7 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 		await user.save();
 		res.status(200).end();
 	} catch (error) {
-		console.log('Error in refreshing token: ', error);
+		console.log('Error in refreshing token: ');
 		res.status(500).json({ error });
 	}
 });
