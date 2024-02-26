@@ -15,6 +15,7 @@ const spotifyApi = new SpotifyWebApi({
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
 	try {
+		const token = req.headers['authorization'].split(' ')[1];
 		const data = await spotifyApi.authorizationCodeGrant(code);
 		const user = await User.findByPk(req.decodedToken.id);
 		const { access_token, refresh_token } = data.body;
@@ -23,7 +24,7 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 		user.refreshToken = refresh_token;
 
 		await user.save();
-		res.status(200).end();
+		res.status(200).json({ token, username: user.username, id: user.id, authenticated: true });
 	} catch (error) {
 		console.log('Something went wrong!', error);
 		res.status(500).json({ error });
@@ -42,6 +43,7 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 		res.status(200).json({ data: result.data.tracks.items });
 	} catch (error) {
 		console.log('Error in getting songs:', error);
+		res.status(500).json({ error });
 	}
 });
 
@@ -65,45 +67,49 @@ router.get('/user/me', tokenExtractor, apiTokenExtractor, async (req, res) => {
 		const user = await User.findByPk(req.decodedToken.id, {
 			attributes: ['accessToken'],
 		});
-		console.log('Tulee: ', user.accessToken)
 		const result = await axios.get('https://api.spotify.com/v1/me', {
 			headers: {
 				'Authorization': `Bearer ${user.accessToken}`
 			}
 		});
-		console.log('REsult from spotify me: ', result)
 		res.status(200).json({ data: result.data });
 	} catch (error) {
-		res.status(500).json({ error })
+		res.status(500).json({ error });
 	}
-})
+});
 
 router.get('/info/:id', refreshUserToken, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.params.id, {
 			attributes: ['accessToken', 'name'],
 		});
+
+		if (!user.accessToken) {
+			return res.status(200).json({ player: null, userInfo: null, username: user.username });
+		}
+
 		const headers = {
 			Authorization: `Bearer ${user.accessToken}`
-		}
+		};
 		const currentlyPlaying = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', { headers });
-		const info = await axios.get('https://api.spotify.com/v1/me', { headers })
-		
+		const info = await axios.get('https://api.spotify.com/v1/me', { headers });
+
 		const userInfo= {
 			display_name: info.data.display_name,
 			uri: info.data.href,
 			country: info.data.country
-		}
+		};
 
 		const player = currentlyPlaying.data === '' ? null : {
 			preview_url: currentlyPlaying.data.item.preview_url,
 			name: currentlyPlaying.data.item.name,
 			artist: currentlyPlaying.data.item.album.artists[0].name
-		}
+		};
 
-		res.status(200).json({ userInfo, player, username: user.username })
+		res.status(200).json({ userInfo, player, username: user.username, });
 	} catch (error) {
-		console.log(error)
+		res.status(500).json({ error });
 	}
-})
+});
+
 module.exports = router;

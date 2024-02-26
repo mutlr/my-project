@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { UserInfo } from '../types';
 //import { baseUrl } from './serviceUtils';
 
 /*export let api = '';
@@ -27,11 +28,8 @@ export const getAudio = async (songId: string) => {
     return result.data.data;
 };
 
-/*export const getUserPlaylists = async (token: string) => {
-    const result = await axios.get(`${SPOTIFY_BASE_URL}/users/me`, {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-        }
-    });
-    return result;
-};*/
+export const getUserSpotifyInfo = async (id: number): Promise<UserInfo> => {
+    const result = await axios.get<UserInfo>(`http://localhost:3001/spotifyapi/info/${id}`);
+    const data: UserInfo = result.data;
+    return data;
+};

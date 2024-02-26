@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, CLIENT_ID, CLIENT_SECRET } = require('./config');
-const { Artist, Admin, User } = require('../models');
+const { Artist, Admin, } = require('../models');
 const axios = require('axios');
 const signToken = (user) => {
 	return jwt.sign(user, SECRET);
@@ -22,19 +22,22 @@ const timeChecker = (updatedAt) => {
 };
 
 const refreshToken = async (token) => {
-	const body = new URLSearchParams({
-		grant_type: 'refresh_token',
-		refresh_token: token,
-		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET
-	});
-	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		}
-	});
-	console.log(result);
-	return result.data;
+	try {
+		const body = new URLSearchParams({
+			grant_type: 'refresh_token',
+			refresh_token: token,
+			client_id: CLIENT_ID,
+			client_secret: CLIENT_SECRET
+		});
+		const result = await axios.post('https://accounts.spotify.com/api/token', body, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			}
+		});
+		return result.data;
+	} catch (error) {
+		console.log('Error refreshToken: ', error);
+	}
 };
 const refreshAdminToken = async () => {
 	let options = {

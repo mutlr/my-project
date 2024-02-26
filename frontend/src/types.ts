@@ -70,3 +70,17 @@ export interface EditValues {
     title: string,
     description: string,
 }
+
+export interface UserInfo {
+    player: {
+        preview_url: string,
+        name: string,
+        artist: string,
+    } | null,
+    username: string,
+    userInfo: {
+        display_name: string,
+        uri: string,
+        country: string,
+    } | null,
+}
