@@ -13,9 +13,7 @@
     padding-bottom: 4px;
     box-sizing: content-box;
 }
-.filter-item:active {
-    border-bottom: 4px solid var(--light-color);
-}
+
 .profile-container {
     padding: 0 8px;
 }
@@ -33,4 +31,9 @@
     width: clamp(100px, max-content, 200px  );
     font-size: 24px;
     padding: 0 10px;
+}
+
+.underline {
+    border-bottom: 2px solid white;
+    margin-bottom: 4px;
 }

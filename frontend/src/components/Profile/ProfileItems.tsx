@@ -112,7 +112,7 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
             {editing && <EditForm item={toEdit} cancel={() => setEditing(false)}/>}
             <div className="filter-container">
                 {Object.values(Filter).map(value => (
-                    <button className="filter-item" key={value} onClick={() => changeView(value)}>{value}</button>
+                    <button className={`filter-item ${value === filter ? 'underline' : ''}`} key={value} onClick={() => changeView(value)}>{value}</button>
                 ))}
             </div>
             <div className="profile-items">
