@@ -17,7 +17,6 @@ const findArtist = async (id, artistName) => {
 const timeChecker = (updatedAt) => {
 	const old = new Date(updatedAt);
 	const today = new Date();
-	console.log('Time chekcer: ', updatedAt, Math.floor((today - old) / 1000 / 60) >= 58);
 	return Math.floor((today - old) / 1000 / 60) >= 58;
 };
 
