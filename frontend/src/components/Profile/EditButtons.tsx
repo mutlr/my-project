@@ -1,5 +1,5 @@
 import React from "react";
-import './EditForm.css';
+import './EditButtons.css';
 
 interface Props {
     onDelete: () => void,
