@@ -7,6 +7,7 @@ import CommentBox from "../PostLayout/CommentBox";
 import PostBox from "../PostLayout/PostBox";
 import EditForm from "../EditForm/EditForm";
 import './ProfileItems.css';
+import EditButtons from "./EditButtons";
 
 interface Props {
     id: number,
@@ -18,24 +19,11 @@ enum Filter {
     comments = 'Comments',
 }
 
-interface Eprops {
-    onDelete: () => void,
-    onEdit: () => void,
-    id: number,
-}
 
 const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
-const EditButtons = ({ onDelete, onEdit, ...props }: Eprops) => {
-    return (
-        <div className="edit-container">
-            <button className="edit-btn edit btn-grad" onClick={onEdit}>Edit</button>
-            <button className="delete-btn edit btn-grad" onClick={onDelete}>Delete</button>
-        </div>
-    );
-};
 
 const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const message = useContext(MessageContext);

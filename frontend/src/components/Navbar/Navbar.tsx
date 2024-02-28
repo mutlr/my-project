@@ -29,7 +29,7 @@ const Navbar = () => {
             <Burgermenu />
             <h1 id='logo'>LOGO</h1>
             <div className='navbar-desktop'>
-                <NavbarLinks 
+                <NavbarLinks
                     user={!user?.user ? false : true}
                     logout={() => user?.logout()}/>
             </div>
