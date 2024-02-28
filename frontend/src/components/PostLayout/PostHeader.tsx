@@ -1,7 +1,7 @@
 import React from "react";
 import './Postheader.css';
 import { User } from "../../types";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 interface PostHeaderProps {
     user?: User,
@@ -16,13 +16,6 @@ const formatDate = (d: string) => {
     return date.toLocaleDateString().replaceAll('/', '.');
 };
 const PostHeader = (props: PostHeaderProps) => {
-    const navigate = useNavigate();
-
-    const goToProfile = (e: React.SyntheticEvent, id: number | undefined) => {
-        e.preventDefault();
-        e.stopPropagation();
-        navigate(`/profile/${id}`, { replace: true });
-    };
 
     return (
         <div className='postheader-container'>

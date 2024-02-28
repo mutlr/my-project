@@ -6,13 +6,12 @@ interface Props {
     artist: string,
     song: string,
     songId: string,
-    id: number,
 }
 const Content = (props: Props) => {
     return (
-    <div >
+    <div>
         <p>{props.title}</p>
-        <p className="description">{props.description}</p>
+        {props.description && <p className="description">{props.description}</p>}
         <p>{props.song} by {props.artist}</p>
         <Audiobar songId={props.songId}/>
     </div>

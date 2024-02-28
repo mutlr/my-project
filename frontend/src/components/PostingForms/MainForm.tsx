@@ -4,6 +4,8 @@ import { SongListing } from '../../types';
 import { useDebounce } from "@uidotdev/usehooks";
 import { getSongs } from '../../services/apiServices';
 import Button from '../Button/Button';
+import axios, { isAxiosError } from 'axios';
+
 interface MainFormProps {
     addToList (list: SongListing[]): void,
     title: string
@@ -18,7 +20,8 @@ const MainForm = (props: MainFormProps) => {
 
     useEffect(() => {
         if (formik.values.song.length < 3) return;
-        getSongs(formik.values.song).then((result: any) => {
+        const controller = new AbortController();
+        getSongs(formik.values.song, controller).then(result => {
            props.addToList(result.filter((f: any) => f.preview_url !== null).map((r: any): SongListing => {
             return {
                 song: {
@@ -32,7 +35,15 @@ const MainForm = (props: MainFormProps) => {
                 image: r.album.images[0].url
             };
             }).slice(0, 8));
+        })
+        .catch(error => {
+            if (isAxiosError(error) && axios.isCancel(error)) {
+                console.log('Cancelled');
+            } else {
+                console.log(error);
+            }
         });
+        return () => controller.abort();
     }, [debouncedSearchTerm]);
 
     return (

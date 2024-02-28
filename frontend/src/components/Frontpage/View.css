@@ -1,0 +1,8 @@
+.frontpage-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    flex-basis: 100%;
+}

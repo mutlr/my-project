@@ -33,6 +33,7 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 
 router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 	try {
+		console.log('Hakee musiikkii');
 		const { name } = req.params;
 		const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=20`, {
 			headers: {

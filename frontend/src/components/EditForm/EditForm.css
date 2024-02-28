@@ -1,16 +1,42 @@
 .edit-container {
-    width: auto;
-    background-color: red;
-    margin-left: auto;
+    padding-right: 16px;
     display: flex;
-    gap: 10px;
+    gap: 20px;
     justify-content: flex-end;
+    margin-top: 14px;
 }
-.edit-btn {
+
+.edit {
     width: auto;
     height: 30px;
-    background-color: blue;
     border: 0px;
     border-radius: 12px;
-    padding: 0 12px;
+
 }
+
+.edit-btn {
+    background-color: var(--light-color);
+}
+.delete-btn {
+    background-color: var(--error-color);
+}
+         
+.btn-grad {
+    background-image: linear-gradient(to right, #808282 0%, #514A9D  51%, #24C6DC  100%);
+    margin: 10px;
+    padding: 15px 45px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;            
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+  }
+
+  .btn-grad:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+ 
