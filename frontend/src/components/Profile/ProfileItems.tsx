@@ -79,14 +79,14 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
         switch(filter) {
             case Filter.posts:
                 return posts.map(post => (
-                    <div key={post.postId}>
+                    <div key={post.postId} className="profile-content">
                         {isUser && <EditButtons id={id} onDelete={() => deletePostFunc(post.postId)} onEdit={() => editFunc(post)} />}
                         <PostBox post={post} preview={true} />
                     </div>
                 ));
             case Filter.comments:
                 return comments.map(comment => (
-                    <div key={comment.commentId}>
+                    <div key={comment.commentId} className="profile-content">
                         {isUser && <EditButtons id={id} onDelete={() => deleteCommentFunc(comment.commentId)} onEdit={() => editFunc(comment)} />}
                         <CommentBox comment={comment} />
                     </div>
@@ -96,17 +96,17 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
         }
     };
     return (
-        <div>
+        <>
             {editing && <EditForm item={toEdit} cancel={() => setEditing(false)}/>}
             <div className="filter-container">
                 {Object.values(Filter).map(value => (
                     <button className={`filter-item ${value === filter ? 'underline' : ''}`} key={value} onClick={() => changeView(value)}>{value}</button>
                 ))}
             </div>
-            <div className="profile-items">
+            <div className="profile-content-container">
                 {layout()}
             </div>
-        </div>
+        </>
     );
 };
 
