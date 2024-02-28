@@ -37,7 +37,7 @@ router.get('/:id/:type', async (req, res) => {
 	}
 });
 router.get('/', async (req, res) => {
-	const users = await User.findAll({ attributes: ['accessToken'] });
+	const users = await User.findAll({});
 	res.status(200).json({ users });
 });
 
