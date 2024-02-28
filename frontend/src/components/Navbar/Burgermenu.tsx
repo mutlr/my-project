@@ -29,7 +29,7 @@ const Burgermenu = forwardRef((_, ref) => {
                 <div className='burger-line'></div>
             </div>
             <div className='burger-content' style={isOpen}>
-                <NavbarLinks 
+                <NavbarLinks
                     user={!user?.user ? false : true}
                     toggle={toggleVisibility}
                     logout={logoutClick}
