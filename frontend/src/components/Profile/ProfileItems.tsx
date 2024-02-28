@@ -31,8 +31,8 @@ const isFilter = (e: any): e is Filter => {
 const EditButtons = ({ onDelete, onEdit, ...props }: Eprops) => {
     return (
         <div className="edit-container">
-            <button className="edit-btn" onClick={onEdit}>Edit</button>
-            <button className="edit-btn" onClick={onDelete}>Delete</button>
+            <button className="edit-btn edit btn-grad" onClick={onEdit}>Edit</button>
+            <button className="delete-btn edit btn-grad" onClick={onDelete}>Delete</button>
         </div>
     );
 };

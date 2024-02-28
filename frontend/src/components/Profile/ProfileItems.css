@@ -25,6 +25,10 @@
     align-items: center;
 }
 
+.profile-items > div:first-child .edit-container {
+    margin-top: 20px;
+}
+
 .profile-select {
     background-color: var(--primary-color);
     height: 40px;

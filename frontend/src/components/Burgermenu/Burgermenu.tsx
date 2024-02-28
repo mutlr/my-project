@@ -1,22 +1,19 @@
 import './Burgermenu.css';
-import React, { useState, useImperativeHandle, forwardRef, useContext } from 'react';
+import React, { useImperativeHandle, forwardRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
+import useVisibility from '../../hooks/useVisibility';
 
 const Burgermenu = forwardRef((_, ref) => {
     const user = useContext(UserContext)
-;    const [visible, setVisible] = useState<boolean>(false);
-
-    const isOpen = { display: visible ? '' : 'none' };
-    const toggleVisibility = () => {
-        setVisible(!visible);
-    };
+;    const { isOpen, toggleVisibility } = useVisibility();
 
     useImperativeHandle(ref, () => {
         return (
             toggleVisibility
         );
     });
+
     const logoutClick = () => {
         toggleVisibility();
         user?.logout();

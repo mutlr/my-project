@@ -18,8 +18,8 @@ export const initToken = async () => {
     console.log('Api now: ', api);
     return result;
 };*/
-export const getSongs = async (name: string) => {
-    const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`);
+export const getSongs = async (name: string, controller: AbortController) => {
+    const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`, { signal: controller?.signal });
     return result.data.data;
 };
 
