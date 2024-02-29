@@ -19,7 +19,6 @@
 
 @media only screen and (max-width: 600px) {
     .postbox {
-        width: 100%;
-        min-width: 0;
+        min-width: 200px;
     }
  }

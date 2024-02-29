@@ -13,13 +13,10 @@ const MyProfile = ({ id, authenticated }: Props) => {
     if (!id) return null;
 
     return (
-        <div className="profile-container">
-            <div className="myprofile-header">
-                <ProfileHeader id={id}/>
-                {!authenticated &&<AuthenticationButton />}
-            </div>
+        <>
+            <ProfileHeader id={id}/>
             <ProfileItems id={id} isUser={true} />
-        </div>
+        </>
     );
 };
 

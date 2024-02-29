@@ -31,9 +31,7 @@ const AuthenticationButton = () => {
         }
     }, [code]);
     return (
-        <div className="auth-btn-container">
-            <a id="auth-btn" href={URL}><p>Authenticate Spotify</p></a>
-        </div>
+            <a id="auth" className="btn" href={URL}><p>Authenticate Spotifyy</p></a>
     );
 };
 
