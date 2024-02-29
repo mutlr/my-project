@@ -4,6 +4,7 @@ import './Navbar.css';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
 import { User } from '../../types';
+import logo from '../../assets/Spotify_icon.svg.png';
 
 interface Props {
     user: boolean,
@@ -27,7 +28,7 @@ const Navbar = () => {
     return (
         <div className="navbar-main">
             <Burgermenu />
-            <h1 id='logo'>LOGO</h1>
+            <img id='logo' src={logo}/>
             <div className='navbar-desktop'>
                 <NavbarLinks
                     user={!user?.user ? false : true}

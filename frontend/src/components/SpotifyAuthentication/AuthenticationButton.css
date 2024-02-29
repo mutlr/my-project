@@ -1,28 +1,22 @@
-#auth-btn {
-    font-size: 26px;
-    text-decoration: none;    
-}
-
-.auth-btn-container {
-    width: fit-content;
-    background-color: #1ED760;
+#auth p{
+    font-size: 18px;
+    text-decoration: none;  
     border-radius: 20px;
-    padding: 6px;
-    height: 80px;
-    margin-left: auto;
-    margin-right: 20px;
+    flex-shrink: 3;
+    background-color: #1ED760;
+    padding: 12px;
     text-align: center;
-    align-items: center;
-    display: inline-flex;
-    flex-shrink: 1;
+    margin-right: 8px;
 }
-
+#auth {
+    text-decoration: none;
+}
 
 @media only screen and (max-width: 600px) {
-    #auth-btn {
-        font-size: 16px;
-        flex-shrink: 1;
-        display: inline-block;
-        width: 100%;
+    #auth p {
+        font-size: 14px;
+        font-weight: bold;
+        margin-right: 0;
+        padding: 8px;
     }
 }

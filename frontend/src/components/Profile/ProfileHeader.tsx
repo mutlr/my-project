@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import './ProfileHeader.css';
 import { UserInfo } from "../../types";
 import { MessageContext } from "../../context/messageContext";
+import cat from '../../assets/kitty-cat-kitten-pet-45201.jpeg';
 interface Props {
     id: number,
 }
@@ -27,7 +28,7 @@ const ProfileHeader = (props: Props) => {
     return (
     <div className="profile-header-container">
         <div className="profile-info">
-            <img className="userimage" />
+            <img className="userimage" src={cat}/>
             <div>
                 <h2>{info?.username}</h2>
                 {info?.userInfo && <p>@{info?.userInfo.display_name}</p>}
