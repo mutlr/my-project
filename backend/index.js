@@ -23,7 +23,6 @@ app.use('/posts', postRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/spotifyapi', spotifyRouter);
-
 app.use(errorHandler);
 
 const checkAdmin = async () => {

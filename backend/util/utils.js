@@ -39,7 +39,7 @@ const refreshToken = async (token) => {
 	}
 };
 const refreshAdminToken = async () => {
-	let options = {
+	const options = {
 		url: 'https://accounts.spotify.com/api/token',
 		method: 'POST',
 		headers: {

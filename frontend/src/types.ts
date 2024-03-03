@@ -5,7 +5,6 @@ export interface LoginValues {
 
 export interface RegisterFormValues extends LoginValues {
     email: string,
-    name: string,
 }
 
 export interface UserValues {

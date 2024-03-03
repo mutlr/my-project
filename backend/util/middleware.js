@@ -39,10 +39,9 @@ const apiTokenExtractor = async (req, res, next) => {
 
 const refreshUserToken = async (req, res, next) => {
 	const user = await User.findByPk(req.params.id, {
-		attributes: ['updatedAt', 'refreshToken']
+		attributes: ['updatedAt']
 	});
 	const is = timeChecker(user.updatedAt);
-	console.log('Tulee true timechekris: 0', is, ' ja user token: ', user.refreshToken);
 	if (user.refreshToken && timeChecker(user.updatedAt) === true) {
 		console.log('Menee uusii käyttäjän tokenin: ', user.refreshToken);
 		try {

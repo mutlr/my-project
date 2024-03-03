@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Comment, Post } = require('../models');
+const { User, Comment, Post, Auth } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken, refreshToken } = require('../util/utils');
 
@@ -37,8 +37,18 @@ router.get('/:id/:type', async (req, res) => {
 	}
 });
 router.get('/', async (req, res) => {
-	const users = await User.findAll({});
+	const users = await User.findAll({
+		include: {
+			model: Auth,
+		}
+	});
 	res.status(200).json({ users });
+});
+
+router.get('/:id', async (req, res) => {
+	const user = await User.findByPk(req.params.id, {
+	});
+	res.status(200).json({ user });
 });
 
 router.post('/', async (req, res, next) => {
@@ -52,10 +62,12 @@ router.post('/', async (req, res, next) => {
 });
 
 //Tätä ei varmaa tarvii ees
-router.post('/refreshtoken', tokenExtractor, async (req, res) => {
+/*router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
-			attributes: ['refreshToken', 'updatedAt']
+			include: {
+				model: Auth,
+			}
 		});
 		const result = await refreshToken(user.refreshToken);
 		user.accessToken = result.access_token;
@@ -67,5 +79,5 @@ router.post('/refreshtoken', tokenExtractor, async (req, res) => {
 		res.status(500).json({ error });
 	}
 });
-
+*/
 module.exports = router;

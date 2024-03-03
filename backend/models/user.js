@@ -1,11 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize  } = require('../util/db');
-class User extends Model {
-	static async spotifyValues() {
-		return this.accessToken
-		;
-	}
-}
+class User extends Model {}
 
 User.init({
 	id: {
@@ -23,15 +18,6 @@ User.init({
 			},
 			notNull: {
 				msg: 'An email is required'
-			},
-		}
-	},
-	name: {
-		type: DataTypes.STRING,
-		allowNull: false,
-		validate: {
-			notNull: {
-				msg: 'A name is required'
 			},
 		}
 	},
@@ -55,14 +41,6 @@ User.init({
 			},
 		},
 	},
-	accessToken: {
-		type: DataTypes.STRING,
-		defaultValue: null
-	},
-	refreshToken: {
-		type: DataTypes.STRING,
-		defaultValue: null
-	}
 },{
 	sequelize,
 	underscored: true,
