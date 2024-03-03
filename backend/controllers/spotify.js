@@ -1,39 +1,62 @@
 const router = require('express').Router();
 const axios = require('axios');
-const { apiTokenExtractor, tokenExtractor, refreshUserToken } = require('../util/middleware');
+const { apiTokenExtractor, tokenExtractor } = require('../util/middleware');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
-const { User } = require('../models');
+const { User, Auth } = require('../models');
 
-const SpotifyWebApi = require('spotify-web-api-node');
-
-const spotifyApi = new SpotifyWebApi({
-	clientId: CLIENT_ID,
-	clientSecret: CLIENT_SECRET,
-	redirectUri: 'http://localhost:3000/myprofile',
-});
+const getUserTokens = async (code) => {
+	try {
+		const options = {
+			url: 'https://accounts.spotify.com/api/token',
+			method: 'POST',
+			headers: {
+				'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			params: {
+				grant_type: 'authorization_code',
+				code,
+				redirect_uri: 'http://localhost:3000/myprofile',
+			}
+		};
+		const result = await axios(options)
+		return result.data;
+	} catch (error) {
+		throw error
+	}
+}
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
 	try {
+		const { id, username } = req.decodedToken;
 		const token = req.headers['authorization'].split(' ')[1];
-		const data = await spotifyApi.authorizationCodeGrant(code);
-		const user = await User.findByPk(req.decodedToken.id);
-		const { access_token, refresh_token } = data.body;
 
-		user.accessToken = access_token;
-		user.refreshToken = refresh_token;
+		const { access_token, refresh_token } = await getUserTokens(code);
 
-		await user.save();
-		res.status(200).json({ token, username: user.username, id: user.id, authenticated: true });
+		const [auth, created] = await Auth.findOrCreate({ 
+			where: { userId: id },
+			defaults: {
+				accessToken: access_token,
+				refreshToken: refresh_token,
+			}
+		});
+
+		if (!created) {
+			auth.accessToken = access_token;
+			auth.refreshToken = refresh_token;
+			await auth.save();
+		}
+
+		res.status(200).json({ token, username, id, authenticated: true });
 	} catch (error) {
 		console.log('Something went wrong!', error);
-		res.status(500).json({ error });
+		res.status(500).json({ error: error.response.data.error_description });
 	}
 });
 
 router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 	try {
-		console.log('Hakee musiikkii');
 		const { name } = req.params;
 		const result = await axios.get(`https://api.spotify.com/v1/search?q=${name}&type=track&limit=20`, {
 			headers: {
@@ -79,11 +102,9 @@ router.get('/user/me', tokenExtractor, apiTokenExtractor, async (req, res) => {
 	}
 });
 
-router.get('/info/:id', refreshUserToken, async (req, res) => {
+router.get('/info/:id', async (req, res) => {
 	try {
-		const user = await User.findByPk(req.params.id, {
-			attributes: ['accessToken', 'name'],
-		});
+		const user = await User.findByPk(req.params.id, {});
 
 		if (!user.accessToken) {
 			return res.status(200).json({ player: null, userInfo: null, username: user.username });

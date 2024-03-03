@@ -18,6 +18,7 @@ export const authenticateSpotify = async (code: string) => {
         const user = JSON.parse(loggedUser);
         setToken(user.token);
     }
+    //await axios.post(`${baseUrl}/spotifyapi/test`, { code });
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
 

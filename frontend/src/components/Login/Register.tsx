@@ -11,7 +11,7 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().min(6, 'Password must be at least 6 chars').required('Password is required')
 });
 
-const initialValues: RegisterFormValues = { username: '', email: '', password: '', name: '' };
+const initialValues: RegisterFormValues = { username: '', email: '', password: '' };
 
 const Register = () => {
     const user = useContext(UserContext);
@@ -29,10 +29,6 @@ const Register = () => {
                     <label htmlFor="email">Email</label>
                     <Field type="email" className="formInput" name="email" />
                     <ErrorMessage name="email" component='div' className="error"/>
-
-                    <label htmlFor="name">Name</label>
-                    <Field type="text" className="formInput" name="name" />
-                    <ErrorMessage name="name" component='div' className="error"/>
 
                     <label htmlFor="username">Username</label>
                     <Field type="text" className="formInput"  name="username" />

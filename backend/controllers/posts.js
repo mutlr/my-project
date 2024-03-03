@@ -43,12 +43,13 @@ router.delete('/comment/:id', tokenExtractor, async (req, res) => {
 router.get('/:id', async (req, res) => {
 	const { id } = req.params;
 	const query = req.query.type ? req.query.type.toLowerCase() : null;
-	console.log('ID ku hakee postin: ', id, query);
+
 	try {
 		if (query === 'posts') {
 			const posts = await Post.findAll({ where: { userId: id } });
 			return res.status(200).json({ posts });
 		}
+
 		const post = await Post.findByPk(id);
 		if (!post) return res.status(404).json({ error: 'No post found by ID' });
 		res.status(200).json({ post });
@@ -109,17 +110,15 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 	const { id } = req.params;
 	const { type } = req.query;
 	const { title, description } = req.body;
-	console.log('ID: ', id, 'title and desc: ', title, ' ja desc: ', description, ' ja type: ', type);
+
 	try {
 		if (title === '') {
 			throw new Error('Title cannot be empty');
 		}
 		let item;
 		if (type === 'post') {
-			console.log('Tulee tänne postii');
 			item = await Post.findByPk(id);
 		} else if (type === 'comment') {
-			console.log('Tulee tänne commenttii');
 			item = await Comment.findByPk(id);
 		}
 
@@ -128,7 +127,6 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 		await item.save();
 		res.status(200).end();
 	} catch (error) {
-		console.log('Tulee tän ja ', error);
 		res.status(500).json({ error });
 	}
 

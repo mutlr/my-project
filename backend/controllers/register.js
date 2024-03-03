@@ -1,13 +1,13 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { User, } = require('../models');
 const bcrypt = require('bcrypt');
 const { signToken } = require('../util/utils');
 
 router.post('/', async (req, res, next) => {
-	const { username, name, email, password } = req.body;
+	const { username, email, password } = req.body;
 	try {
 		const saltedPassword = await bcrypt.hash(password, 10);
-		const user = await User.create({ username, name, email, password: saltedPassword });
+		const user = await User.create({ username, email, password: saltedPassword });
 		const token = signToken({ username: user.username, id: user.id });
 		res.status(201).json({ token, username: user.username, id: user.id });
 	} catch (error) {

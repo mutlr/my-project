@@ -4,6 +4,7 @@ import { authenticateSpotify } from "../../services/userService";
 import './AuthenticationButton.css';
 import UserContext from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { isAxiosError } from "axios";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = 'http://localhost:3000/myprofile';
@@ -26,7 +27,10 @@ const AuthenticationButton = () => {
             })
             .catch(error => {
                 console.log('Error during authentication: ', error);
-                message?.error('There was an error authenticating. Try again later!');
+                if (isAxiosError(error)) {
+                    message?.error(error.response?.data ? error.response?.data.error : 'There was an error authenticating. Try again later!');
+                }
+                navigate('/myprofile');
             });
         }
     }, [code]);
