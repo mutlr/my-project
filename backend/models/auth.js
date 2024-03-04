@@ -1,11 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const { sequelize } = require('../util/db');
 
-class Auth extends Model {
-	static loggaa (){
-		console.log('This in loggaa; ', this);
-	}
-}
+class Auth extends Model {}
 
 Auth.init({
 	id: {

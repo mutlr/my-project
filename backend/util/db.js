@@ -28,14 +28,14 @@ const rollbackMigration = async () => {
 const connectToDatabase = async () => {
 	try {
 		await sequelize.authenticate();
+		console.log('Tulee connectii');
 		await runMigrations();
 		console.log('database connected');
 	} catch (err) {
-		console.log('connecting database failed');
+		console.log('connecting database failed', err);
 		return process.exit(1);
 	}
-
 	return null;
 };
 
-module.exports = { connectToDatabase, sequelize, rollbackMigration };
+module.exports = { connectToDatabase, sequelize, rollbackMigration, runMigrations };

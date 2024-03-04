@@ -19,12 +19,12 @@ const getUserTokens = async (code) => {
 				redirect_uri: 'http://localhost:3000/myprofile',
 			}
 		};
-		const result = await axios(options)
+		const result = await axios(options);
 		return result.data;
 	} catch (error) {
-		throw error
+		throw error;
 	}
-}
+};
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
@@ -34,7 +34,7 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 
 		const { access_token, refresh_token } = await getUserTokens(code);
 
-		const [auth, created] = await Auth.findOrCreate({ 
+		const [auth, created] = await Auth.findOrCreate({
 			where: { userId: id },
 			defaults: {
 				accessToken: access_token,
