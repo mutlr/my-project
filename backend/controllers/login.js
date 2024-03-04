@@ -20,8 +20,8 @@ router.post('/', async (req, res) => {
 		}
 		const { username, id } = user;
 		const token = signToken({ username, id });
-		const authenticated = user.auth ? true : false
-		
+		const authenticated = user.auth ? true : false;
+
 		res.status(200).json({ token, username, id, authenticated });
 	} catch (error) {
 		console.log(error);
