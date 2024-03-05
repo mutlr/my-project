@@ -41,7 +41,6 @@ const refreshUserToken = async (req, res, next) => {
 	const user = await User.findByPk(req.params.id, {
 		attributes: ['updatedAt']
 	});
-	const is = timeChecker(user.updatedAt);
 	if (user.refreshToken && timeChecker(user.updatedAt) === true) {
 		console.log('Menee uusii käyttäjän tokenin: ', user.refreshToken);
 		try {

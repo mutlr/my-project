@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { PORT } = require('./util/config');
-const { connectToDatabase, sequelize, runMigrations } = require('./util/db');
+const { connectToDatabase } = require('./util/db');
 const { checkAdminTime } = require('./util/utils');
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
@@ -40,24 +40,20 @@ const checkAdmin = async () => {
 };
 
 const start = async () => {
-	console.log('Tulee starttii');
+	if (process.env.NODE_ENV === 'test') return;
 	await connectToDatabase();
-	if (process.env.NODE_ENV !== 'test') {
-		await checkAdmin();
-		await checkAdminTime();
-	}
-	/*app.listen(PORT, () => {
+	await checkAdmin();
+	await checkAdminTime();
+
+	app.listen(PORT, () => {
 		console.log('Server running on port ' + PORT);
-	});*/
-	return app;
+	});
+	setInterval(async () => {
+		console.log('Refreshing admin token!');
+		await checkAdminTime();
+	}, 59 * 60000);
 };
 
-
-/*setInterval(async () => {
-	console.log('Refreshing admin token!');
-	await checkAdminTime();
-}, 59 * 60000);*/
-
-//start();
+start();
 
 module.exports = app;
