@@ -73,7 +73,6 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 	const { songId, songName } = req.body.song;
 	try {
 		const { id } = req.decodedToken;
-		console.log('User: ', songId, songName)
 		const song = await findOrCreateSong(songName, songId, artistName, artistId);
 		const postId = await Post.create({ userId: id, title, songId: song.id, description });
 		const post = await Post.findByPk(postId.id);

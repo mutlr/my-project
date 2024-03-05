@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { User, Comment, Post, Auth } = require('../models');
+const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
-const { signToken, refreshToken } = require('../util/utils');
+const { signToken } = require('../util/utils');
 
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
@@ -37,11 +37,7 @@ router.get('/:id/:type', async (req, res) => {
 	}
 });
 router.get('/', async (req, res) => {
-	const users = await User.findAll({
-		include: {
-			model: Auth,
-		}
-	});
+	const users = await User.findAll({});
 	res.status(200).json({ users });
 });
 

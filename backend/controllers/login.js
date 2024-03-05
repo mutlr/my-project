@@ -14,7 +14,6 @@ router.post('/', async (req, res) => {
 			}
 		});
 		const match = user ? await bcrypt.compare(password, user.password) : null;
-		console.log('In login comes 404!!!!!!!!!!!!!!!!!!!!!!!!!', password, ' ja ', user)
 
 		if (!user || !match) {
 			return res.status(404).json({ error: 'Invalid username or password' });
