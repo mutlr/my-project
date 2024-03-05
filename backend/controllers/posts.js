@@ -25,7 +25,6 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 });
 
 router.delete('/comment/:id', tokenExtractor, async (req, res) => {
-	console.log('Tulee kommenttii: ', req.params.id);
 	try {
 		const comment = await Comment.findByPk(req.params.id);
 		if (comment.userId !== req.decodedToken.id || !comment) {
@@ -120,9 +119,8 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 			item = await Post.findByPk(id);
 		} else if (type === 'comment') {
 			item = await Comment.findByPk(id);
-			console.log('Edit itemi!!!!!!!!!!!!!!!!!!!!, ', item, ' ja id', id)
 		}
-		if (req.decodedToken.id !== item.userId ) return res.status(400).json({ error: 'Not your content to edit'})
+		if (req.decodedToken.id !== item.userId ) return res.status(400).json({ error: 'Not your content to edit' });
 		item.title = title;
 		item.description = description;
 		await item.save();

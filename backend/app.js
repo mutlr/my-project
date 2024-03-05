@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const { PORT } = require('./util/config');
 const { connectToDatabase } = require('./util/db');
 const { checkAdminTime } = require('./util/utils');
 const userRouter = require('./controllers/users');
@@ -44,10 +43,6 @@ const start = async () => {
 	await connectToDatabase();
 	await checkAdmin();
 	await checkAdminTime();
-
-	app.listen(PORT, () => {
-		console.log('Server running on port ' + PORT);
-	});
 	setInterval(async () => {
 		console.log('Refreshing admin token!');
 		await checkAdminTime();

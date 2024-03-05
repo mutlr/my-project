@@ -105,14 +105,14 @@ describe('Backend tests', () => {
 			expect(postsAfter.body.posts).toHaveLength(4);
 		});
 		it('Can edit your post', async () => {
-			const edits = { title: 'Edited post tile', description: 'Edit post description'}
-			await api.post('/posts/4?type=post').set('authorization', `Bearer ${token}`).send(edits).expect(200)
-		})
+			const edits = { title: 'Edited post tile', description: 'Edit post description' };
+			await api.post('/posts/4?type=post').set('authorization', `Bearer ${token}`).send(edits).expect(200);
+		});
 		it('Cant edit someone elses post', async () => {
-			const edits = { title: 'Edited post tile', description: 'Edit post description'}
-			const res = await api.post('/posts/2?type=post').set('authorization', `Bearer ${token}`).send(edits).expect(400)
+			const edits = { title: 'Edited post tile', description: 'Edit post description' };
+			const res = await api.post('/posts/2?type=post').set('authorization', `Bearer ${token}`).send(edits).expect(400);
 			expect(res.error).toBeDefined();
-		})
+		});
 		it('Can delete post', async () => {
 			const postsBefore = await api.get('/posts').expect(200);
 			await api.delete('/posts/4').set('authorization', `Bearer ${token}`).expect(200);
@@ -145,7 +145,7 @@ describe('Backend tests', () => {
 		beforeAll(async () => {
 			const comment = { title: 'Comment for post', description: 'Comment number 1 description', song, artist, postId: 1 };
 			await api.post('/posts/comment').set('authorization', `Bearer ${token}`).send(comment).expect(201);
-		})
+		});
 		it('Commenting with token', async () => {
 			const commentsBefore = await api.get('/posts/comments/1').expect(200);
 			expect(commentsBefore.body.comments).toHaveLength(2);
@@ -154,7 +154,7 @@ describe('Backend tests', () => {
 
 			const commentsAfter = await api.get('/posts/comments/1').expect(200);
 			expect(commentsAfter.body.comments).toHaveLength(3);
-		})
+		});
 		it('Cant comment without token', async () => {
 			const commentsBefore = await api.get('/posts/comments/1').expect(200);
 			expect(commentsBefore.body.comments).toHaveLength(3);
@@ -164,23 +164,23 @@ describe('Backend tests', () => {
 
 			const commentsAfter = await api.get('/posts/comments/1').expect(200);
 			expect(commentsAfter.body.comments).toHaveLength(3);
-		})
+		});
 		it('Can edit your comment', async () => {
-			const edits = { title: 'Edited comment title', description: 'Edit comment description'}
-			await api.post('/posts/2?type=comment').set('authorization', `Bearer ${token}`).send(edits).expect(200)
-		})
+			const edits = { title: 'Edited comment title', description: 'Edit comment description' };
+			await api.post('/posts/2?type=comment').set('authorization', `Bearer ${token}`).send(edits).expect(200);
+		});
 		it('Cant edit someone elses comment', async () => {
-			const edits = { title: 'Edited comment title', description: 'Edit comment description'}
-			const res = await api.post('/posts/1?type=comment').set('authorization', `Bearer ${token}`).send(edits).expect(400)
+			const edits = { title: 'Edited comment title', description: 'Edit comment description' };
+			const res = await api.post('/posts/1?type=comment').set('authorization', `Bearer ${token}`).send(edits).expect(400);
 			expect(res.error).toBeDefined();
-		})
+		});
 		it('Can delete comment', async () => {
 			await api.delete('/posts/comment/2').set('authorization', `Bearer ${token}`).expect(200);
 		});
 		it('Cant delete someone elses post', async () => {
 			await api.delete('/posts/1').set('authorization', `Bearer ${token}`).expect(400);
 		});
-	})
+	});
 	afterAll(async () => {
 		await emptyDatabase();
 	});

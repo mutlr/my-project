@@ -28,7 +28,6 @@ const rollbackMigration = async () => {
 const connectToDatabase = async () => {
 	try {
 		await sequelize.authenticate();
-		console.log('Tulee connectii');
 		await runMigrations();
 		console.log('database connected');
 	} catch (err) {

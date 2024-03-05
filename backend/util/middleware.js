@@ -42,7 +42,6 @@ const refreshUserToken = async (req, res, next) => {
 		attributes: ['updatedAt']
 	});
 	if (user.refreshToken && timeChecker(user.updatedAt) === true) {
-		console.log('Menee uusii käyttäjän tokenin: ', user.refreshToken);
 		try {
 			const data = await refreshToken(user.refreshToken);
 			user.accessToken = data.access_token;
