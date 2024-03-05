@@ -5,25 +5,21 @@ const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const { User, Auth } = require('../models');
 
 const getUserTokens = async (code) => {
-	try {
-		const options = {
-			url: 'https://accounts.spotify.com/api/token',
-			method: 'POST',
-			headers: {
-				'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-			params: {
-				grant_type: 'authorization_code',
-				code,
-				redirect_uri: 'http://localhost:3000/myprofile',
-			}
-		};
-		const result = await axios(options);
-		return result.data;
-	} catch (error) {
-		throw error;
-	}
+	const options = {
+		url: 'https://accounts.spotify.com/api/token',
+		method: 'POST',
+		headers: {
+			'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+			'Content-Type': 'application/x-www-form-urlencoded',
+		},
+		params: {
+			grant_type: 'authorization_code',
+			code,
+			redirect_uri: 'http://localhost:3000/myprofile',
+		}
+	};
+	const result = await axios(options);
+	return result.data;
 };
 
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {

@@ -66,44 +66,44 @@ describe('Backend tests', () => {
 			expect(res.body).toBeDefined();
 		});
 	});
-	it('Cant post without token', async () => {
-		const postsBefore = await api.get('/posts').expect(200);
+	describe('Post tests', () => {
+		it('Cant post without token', async () => {
+			const postsBefore = await api.get('/posts').expect(200);
 
-		const song = {
-			songName: 'New random song',
-			songId: 'song_id',
-		};
-		const artist = {
-			artistName: 'Artist name',
-			artistId: 'artist_id'
-		};
-		const post = { title: 'Post number 1 title', description: 'Post number 1 description', song, artist };
+			const song = {
+				songName: 'New random song',
+				songId: 'song_id',
+			};
+			const artist = {
+				artistName: 'Artist name',
+				artistId: 'artist_id'
+			};
+			const post = { title: 'Post number 1 title', description: 'Post number 1 description', song, artist };
 
-		await api.post('/posts').send(post).expect(500);
-		const postsAfter = await api.get('/posts').expect(200);
+			await api.post('/posts').send(post).expect(500);
+			const postsAfter = await api.get('/posts').expect(200);
 
-		expect(postsBefore.body.posts).toHaveLength(3);
-		expect(postsAfter.body.posts).toHaveLength(3);
-	});
-	it('User can post with token', async () => {
-		const postsBefore = await api.get('/posts').expect(200);
+			expect(postsBefore.body.posts).toHaveLength(3);
+			expect(postsAfter.body.posts).toHaveLength(3);
+		});
+		it('User can post with token', async () => {
+			const postsBefore = await api.get('/posts').expect(200);
+			const song = {
+				songName: 'New random song',
+				songId: 'song_id',
+			};
+			const artist = {
+				artistName: 'Artist name',
+				artistId: 'artist_id'
+			};
+			const post = { title: 'Post number 1 title', description: 'Post number 1 description', song, artist };
 
-		const song = {
-			songName: 'New random song',
-			songId: 'song_id',
-		};
-		const artist = {
-			artistName: 'Artist name',
-			artistId: 'artist_id'
-		};
-		const post = { title: 'Post number 1 title', description: 'Post number 1 description', song, artist };
+			await api.post('/posts').set('authorization', `Bearer ${token}`).send(post).expect(201);
+			const postsAfter = await api.get('/posts').expect(200);
 
-		await api.post('/posts').set('authorization', `Bearer ${token}`).send(post).expect(201);
-		const postsAfter = await api.get('/posts').expect(200);
-
-		expect(postsBefore.body.posts).toHaveLength(3);
-		expect(postsAfter.body.posts).toHaveLength(4);
-
+			expect(postsBefore.body.posts).toHaveLength(3);
+			expect(postsAfter.body.posts).toHaveLength(4);
+		});
 	});
 	afterAll(async () => {
 		await emptyDatabase();
