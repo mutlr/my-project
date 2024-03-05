@@ -1,4 +1,4 @@
-const { User, Song, Artist, Post } = require('../models/index');
+const { User, Song, Artist, Post, Comment } = require('../models/index');
 const initDatabase = async () => {
 	try {
 		await User.bulkCreate([
@@ -22,7 +22,9 @@ const initDatabase = async () => {
 			{ title: 'Post number 2 title', description: 'Post number 2 description', userId: 1, songId: 'hotline_bling' },
 			{ title: 'Post number 3 title', description: 'Post number 3 description', userId: 2, songId: 'bad_blood' },
 		]);
-		console.log('Database initted: ');
+		await Comment.bulkCreate([
+			{ title: 'Comment title', description: 'Comment description', userId: 2, songId: 'bad_blood', postId: 1 },
+		]);
 	} catch (error) {
 		console.log('Error in bulk insert: ', error);
 	}
@@ -32,6 +34,7 @@ const emptyDatabase = async () => {
 	await Song.truncate({ cascade: true, restartIdentity: true });
 	await Artist.truncate({ cascade: true, restartIdentity: true });
 	await Post.truncate({ cascade: true, restartIdentity: true });
+	await Comment.truncate({ cascade: true, restartIdentity: true });
 };
 
 module.exports = { initDatabase, emptyDatabase };

@@ -120,8 +120,9 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 			item = await Post.findByPk(id);
 		} else if (type === 'comment') {
 			item = await Comment.findByPk(id);
+			console.log('Edit itemi!!!!!!!!!!!!!!!!!!!!, ', item, ' ja id', id)
 		}
-
+		if (req.decodedToken.id !== item.userId ) return res.status(400).json({ error: 'Not your content to edit'})
 		item.title = title;
 		item.description = description;
 		await item.save();
@@ -154,7 +155,7 @@ router.get('/comments/:id', async (req, res) => {
 				model: Song,
 			}]
 		});
-		res.status(201).json({ comments });
+		res.status(200).json({ comments });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
