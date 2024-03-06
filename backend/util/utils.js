@@ -53,10 +53,24 @@ const refreshAdminToken = async () => {
 	const result = await axios(options);
 	return result.data.access_token;
 };
-
+const checkAdmin = async () => {
+	try {
+		const admin = await Admin.findByPk(1);
+		if (!admin) {
+			const newAdmin = await Admin.create({ id: 1 });
+			const token = await refreshAdminToken();
+			newAdmin.token = token;
+			await newAdmin.save();
+			console.log('Admin not found, created one');
+		}
+	} catch (error) {
+		console.log('Error during admin check!', error);
+	}
+};
 const checkAdminTime = async () => {
 	const admin = await Admin.findByPk(1);
 	if (timeChecker(admin.updatedAt) === true) {
+		console.log('Admin check time is truth: ')
 		const token = await refreshAdminToken();
 		admin.token = token;
 		await admin.save();
@@ -70,4 +84,5 @@ module.exports = {
 	refreshAdminToken,
 	checkAdminTime,
 	refreshToken,
+	checkAdmin,
 };

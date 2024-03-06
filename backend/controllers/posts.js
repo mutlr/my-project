@@ -5,7 +5,7 @@ const { findArtist } = require('../util/utils');
 const { Op } = require('sequelize');
 
 router.get('/', async (req, res) => {
-	const posts = await Post.findAll();
+	const posts = await Post.findAll({});
 	res.status(200).json({ posts });
 });
 
