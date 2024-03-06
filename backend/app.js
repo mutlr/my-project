@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const { connectToDatabase } = require('./util/db');
 const { checkAdminTime } = require('./util/utils');
+const { PORT } = require('./util/config')
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
 const songRouter = require('./controllers/songs');
@@ -43,6 +44,9 @@ const start = async () => {
 	await connectToDatabase();
 	await checkAdmin();
 	await checkAdminTime();
+	app.listen(PORT, () => {
+		console.log('App running on port', PORT);
+	});
 	setInterval(async () => {
 		console.log('Refreshing admin token!');
 		await checkAdminTime();
