@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const { connectToDatabase } = require('./util/db');
-const { checkAdminTime } = require('./util/utils');
+const { checkAdminTime, checkAdmin } = require('./util/utils');
 const { PORT } = require('./util/config')
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
@@ -26,18 +26,6 @@ app.use('/login', loginRouter);
 app.use('/spotifyapi', spotifyRouter);
 
 app.use(errorHandler);
-
-const checkAdmin = async () => {
-	try {
-		const admin = await Admin.findByPk(1);
-		if (!admin) {
-			await Admin.create({ id: 1 });
-		}
-		console.log('Admin not found, created one');
-	} catch (error) {
-		console.log('Error during admin check!', error);
-	}
-};
 
 const start = async () => {
 	if (process.env.NODE_ENV === 'test') return;

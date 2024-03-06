@@ -21,7 +21,10 @@ const getUserTokens = async (code) => {
 	const result = await axios(options);
 	return result.data;
 };
+const getSpotifyID = async () => {
+	const info = await axios.get('https://api.spotify.com/v1/me', { headers });
 
+}
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
 	try {
@@ -29,18 +32,25 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 		const token = req.headers['authorization'].split(' ')[1];
 
 		const { access_token, refresh_token } = await getUserTokens(code);
-
+		const spotifyData = await axios.get('https://api.spotify.com/v1/me', {
+			headers: {
+				'Authorization': `Bearer ${access_token}`,
+			}
+		});
+		console.log('Spotify id: ', spotifyData.data) 
 		const [auth, created] = await Auth.findOrCreate({
 			where: { userId: id },
 			defaults: {
 				accessToken: access_token,
 				refreshToken: refresh_token,
+				spotifyId: spotifyData.data.id,
 			}
 		});
 
 		if (!created) {
 			auth.accessToken = access_token;
 			auth.refreshToken = refresh_token;
+			auth.spotifyId = spotifyData.data.id;
 			await auth.save();
 		}
 
