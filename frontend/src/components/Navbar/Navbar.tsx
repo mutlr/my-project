@@ -3,7 +3,6 @@ import React, { useContext } from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
-import { User } from '../../types';
 import logo from '../../assets/Spotify_icon.svg.png';
 
 interface Props {

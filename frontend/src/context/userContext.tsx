@@ -48,13 +48,6 @@ export const UserProvider = ({ children }: Props) => {
             setAuthenticated(true);
         }
     };
-    const refreshToken = () => {
-        refreshSpotifyToken()
-        .catch(err => {
-            console.log('Error from refreshing token: ', err);
-            message?.error('Error refreshing spotify token!');
-        });
-    };
 
     const login = async (values: LoginValues) => {
         try {

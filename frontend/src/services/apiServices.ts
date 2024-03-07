@@ -33,3 +33,8 @@ export const getUserSpotifyInfo = async (id: number): Promise<UserInfo> => {
     const data: UserInfo = result.data;
     return data;
 };
+
+export const getPlaylists = async (id: number) => {
+    const result = await axios.get(`http://localhost:3001/spotifyapi/playlists/${id}`);
+    return result.data.data;
+};

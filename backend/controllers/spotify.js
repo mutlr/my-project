@@ -91,7 +91,7 @@ router.get('/audio/:songid', apiTokenExtractor, async (req, res) => {
 
 router.get('/info/:id', refreshUserToken, async (req, res) => {
 	try {
-		const token = req.userSpotifyToken
+		const token = req.userSpotifyToken;
 		const username = req.username;
 		const headers = {
 			Authorization: `Bearer ${token}`
@@ -117,37 +117,60 @@ router.get('/info/:id', refreshUserToken, async (req, res) => {
 		res.status(500).json({ error });
 	}
 });
+const getPlaylists = async (token, spotifyID) => {
+	const headers = {
+		Authorization: `Bearer ${token}`
+	};
+	const result = await axios.get(`https://api.spotify.com/v1/users/${spotifyID}/playlists`, { headers });
+	const URLS = [];
+	for (const v of result.data.items) {
+		URLS.push(v.href);
+	}
+	return Promise.all(URLS.map(url => {
+		return axios.get(url, { headers })
+			.then(result => {
+				return result.data;
+			});
+	}));
+};
+const extractPlaylistData = (data) => {
+	const lists = [];
+	for (const [key, value] of Object.entries(data)) {
+		if (value.tracks.items.length === 0) continue;
+		console.log(value.tracks.items);
+		const playlist = {
+			name: value.name,
+			items: []
+		};
 
-router.get('/playlists/:id',refreshUserToken,  async (req, res) => {
-	try {		
+		for (const v of value.tracks.items) {
+			const item = {
+				song_name: v.track.name,
+				artist: v.track.artists[0].name,
+				preview_url: v.track.preview_url,
+				id: v.track.id,
+			};
+			playlist.items.push(item);
+		}
+		lists.push(playlist);
+	}
+	return lists;
+};
+router.get('/playlists/:id', refreshUserToken, async (req, res) => {
+	try {
 		const user = await User.findByPk(1, {
 			include: {
 				model: Auth,
 			}
-		})
-		const result = await axios.get(`https://api.spotify.com/v1/users/${user.auth.spotifyId}/playlists`, {
-			headers: {
-				Authorization: `Bearer ${user.auth.accessToken}`
-			}
 		});
-		const tracks = result.data.items[0].tracks.href;
-		const playlist = await axios.get(tracks, {
-			headers: {
-				Authorization: `Bearer ${user.auth.accessToken}`
-			}
-		});
-		const t = playlist.data.items
-		for (const [key, value] of Object.entries(t)) {
-			const track = {
-				name: value.track.name,
-				artist: value.track.artists[0].name,
-			}
-			console.log(track);
-		}
-		res.status(200).json({ data: result.data, playlist: playlist.data.items })
+		if (!user.auth) return res.status(200).json({ data: null });
+		const { accessToken, spotifyId } = user.auth;
+		const playlist = await getPlaylists(accessToken, spotifyId);
+		const data = extractPlaylistData(playlist);
+		res.status(200).json({ data, playlist: playlist });
 	} catch (error) {
-		console.log('Error in playlist: ', error)
-		res.status(500).json({ error })
+		console.log('Error in playlist: ', error);
+		res.status(500).json({ error });
 	}
-})
+});
 module.exports = router;

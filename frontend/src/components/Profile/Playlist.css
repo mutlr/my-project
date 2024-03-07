@@ -24,3 +24,13 @@
     padding: 0 8px;
     max-width: 600px;
 }
+.playlist-item-container {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+.playlist-box {
+    border-radius: 20px;
+    background: linear-gradient(0deg, var(--primary-color) 70%, var(--light-color) 100%);     
+    padding: 20px 16px;
+}
