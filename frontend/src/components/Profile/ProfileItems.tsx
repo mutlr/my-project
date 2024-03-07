@@ -8,6 +8,7 @@ import PostBox from "../PostLayout/PostBox";
 import EditForm from "../EditForm/EditForm";
 import './ProfileItems.css';
 import EditButtons from "./EditButtons";
+import Playlist from "./Playlist";
 
 interface Props {
     id: number,
@@ -17,6 +18,7 @@ interface Props {
 enum Filter {
     posts = 'Posts',
     comments = 'Comments',
+    playlists = 'Playlists',
 }
 
 
@@ -32,8 +34,9 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [editing, setEditing] = useState<boolean>(false);
     const [toEdit, setToEdit] = useState<Post | Comment | null>(null);
-
+    
     useEffect(() => {
+        console.log('Hakee postei');
         getPostsByID(Number(id), 'posts')
         .then((result: any) => setPosts(result.map((r: any): Post => postMap(r))))
         .catch(err => console.log('Error getting user posts: ', err));
@@ -91,6 +94,8 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
                         <CommentBox comment={comment} />
                     </div>
                 ));
+            case Filter.playlists:
+                return <Playlist />;
             default:
                 return <h1>Tbh, something didnt work as expected</h1>;
         }

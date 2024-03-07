@@ -1,0 +1,26 @@
+.playlist-container {
+    width: 100%;
+}
+
+.playlist-name {
+    font-size: 24px;
+    text-align: center;
+    margin: 20px 0 15px 0;
+    border-bottom: 2px solid white;
+    padding-bottom: 6px;
+}
+
+.playlist-inner {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 14px;
+}   
+
+.playlist-main-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0 8px;
+    max-width: 600px;
+}
