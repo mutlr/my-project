@@ -34,7 +34,7 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [editing, setEditing] = useState<boolean>(false);
     const [toEdit, setToEdit] = useState<Post | Comment | null>(null);
-    
+
     useEffect(() => {
         console.log('Hakee postei');
         getPostsByID(Number(id), 'posts')
@@ -95,7 +95,7 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
                     </div>
                 ));
             case Filter.playlists:
-                return <Playlist />;
+                return <Playlist id={id} />;
             default:
                 return <h1>Tbh, something didnt work as expected</h1>;
         }

@@ -49,16 +49,16 @@ const refreshUserToken = async (req, res, next) => {
 
 		if (!user.auth) return res.status(200).json({ player: null, userInfo: null, username: user.username });
 
-		const auth = await Auth.findByPk(user.auth.id)
+		const auth = await Auth.findByPk(user.auth.id);
 		if (user.auth && timeChecker(user.updatedAt) === true) {
 			const data = await refreshToken(auth.refreshToken);
-			console.log('Ja tulee uusimaan!')
+			console.log('Ja tulee uusimaan!');
 			auth.accessToken = data.access_token;
 			auth.refreshToken = data.refresh_token;
 			await auth.save();
 		}
 		req.username = user.username;
-		req.userSpotifyToken = auth.accessToken;;
+		req.userSpotifyToken = auth.accessToken;
 	} catch (error) {
 		next(error.response.data);
 	}

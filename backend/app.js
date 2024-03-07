@@ -3,7 +3,7 @@ const app = express();
 const cors = require('cors');
 const { connectToDatabase } = require('./util/db');
 const { checkAdminTime, checkAdmin } = require('./util/utils');
-const { PORT } = require('./util/config')
+const { PORT } = require('./util/config');
 const userRouter = require('./controllers/users');
 const artistRouter = require('./controllers/artists');
 const songRouter = require('./controllers/songs');
@@ -11,7 +11,6 @@ const postRouter = require('./controllers/posts');
 const registerRouter = require('./controllers/register');
 const loginRouter = require('./controllers/login');
 const spotifyRouter = require('./controllers/spotify');
-const { Admin } = require('./models');
 const { errorHandler } = require('./util/middleware');
 
 console.log('Tulee täönne');
