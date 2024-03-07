@@ -12,7 +12,7 @@ interface ButtonProps  {
 }
 
 
-const Button = ({ text, color, onClick, type = 'button', style }: ButtonProps) => {
+const Button = ({ text, color, onClick, type = 'button', style, }: ButtonProps) => {
     const backgroundStyle = {
         backgroundColor: ColorList[color || 'secondary'],
         display: 'inline-flex',
