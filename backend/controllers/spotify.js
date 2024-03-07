@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const axios = require('axios');
-const { apiTokenExtractor, tokenExtractor } = require('../util/middleware');
+const { apiTokenExtractor, tokenExtractor, refreshUserToken } = require('../util/middleware');
 const { CLIENT_ID, CLIENT_SECRET } = require('../util/config');
 const { User, Auth } = require('../models');
 
@@ -21,10 +21,7 @@ const getUserTokens = async (code) => {
 	const result = await axios(options);
 	return result.data;
 };
-const getSpotifyID = async () => {
-	const info = await axios.get('https://api.spotify.com/v1/me', { headers });
 
-}
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
 	try {
@@ -37,7 +34,7 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 				'Authorization': `Bearer ${access_token}`,
 			}
 		});
-		console.log('Spotify id: ', spotifyData.data) 
+
 		const [auth, created] = await Auth.findOrCreate({
 			where: { userId: id },
 			defaults: {
@@ -92,37 +89,17 @@ router.get('/audio/:songid', apiTokenExtractor, async (req, res) => {
 	}
 });
 
-router.get('/user/me', tokenExtractor, apiTokenExtractor, async (req, res) => {
+router.get('/info/:id', refreshUserToken, async (req, res) => {
 	try {
-		const user = await User.findByPk(req.decodedToken.id, {
-			attributes: ['accessToken'],
-		});
-		const result = await axios.get('https://api.spotify.com/v1/me', {
-			headers: {
-				'Authorization': `Bearer ${user.accessToken}`
-			}
-		});
-		res.status(200).json({ data: result.data });
-	} catch (error) {
-		res.status(500).json({ error });
-	}
-});
-
-router.get('/info/:id', async (req, res) => {
-	try {
-		const user = await User.findByPk(req.params.id, {});
-
-		if (!user.accessToken) {
-			return res.status(200).json({ player: null, userInfo: null, username: user.username });
-		}
-
+		const token = req.userSpotifyToken
+		const username = req.username;
 		const headers = {
-			Authorization: `Bearer ${user.accessToken}`
+			Authorization: `Bearer ${token}`
 		};
-		const currentlyPlaying = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', { headers });
 		const info = await axios.get('https://api.spotify.com/v1/me', { headers });
+		const currentlyPlaying = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', { headers });
 
-		const userInfo= {
+		const userInfo = {
 			display_name: info.data.display_name,
 			uri: info.data.href,
 			country: info.data.country
@@ -134,10 +111,43 @@ router.get('/info/:id', async (req, res) => {
 			artist: currentlyPlaying.data.item.album.artists[0].name
 		};
 
-		res.status(200).json({ userInfo, player, username: user.username, });
+		res.status(200).json({ userInfo, player, username, });
 	} catch (error) {
+		//console.log('ERror in info: ', error)
 		res.status(500).json({ error });
 	}
 });
 
+router.get('/playlists/:id',refreshUserToken,  async (req, res) => {
+	try {		
+		const user = await User.findByPk(1, {
+			include: {
+				model: Auth,
+			}
+		})
+		const result = await axios.get(`https://api.spotify.com/v1/users/${user.auth.spotifyId}/playlists`, {
+			headers: {
+				Authorization: `Bearer ${user.auth.accessToken}`
+			}
+		});
+		const tracks = result.data.items[0].tracks.href;
+		const playlist = await axios.get(tracks, {
+			headers: {
+				Authorization: `Bearer ${user.auth.accessToken}`
+			}
+		});
+		const t = playlist.data.items
+		for (const [key, value] of Object.entries(t)) {
+			const track = {
+				name: value.track.name,
+				artist: value.track.artists[0].name,
+			}
+			console.log(track);
+		}
+		res.status(200).json({ data: result.data, playlist: playlist.data.items })
+	} catch (error) {
+		console.log('Error in playlist: ', error)
+		res.status(500).json({ error })
+	}
+})
 module.exports = router;

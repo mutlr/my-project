@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, } = require('./config');
-const { Admin, User } = require('../models');
+const { Admin, User, Auth } = require('../models');
 const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
 const errorHandler = (error, req, res, next) => {
@@ -38,21 +38,29 @@ const apiTokenExtractor = async (req, res, next) => {
 };
 
 const refreshUserToken = async (req, res, next) => {
-	const user = await User.findByPk(req.params.id, {
-		attributes: ['updatedAt']
-	});
-	if (user.refreshToken && timeChecker(user.updatedAt) === true) {
-		try {
-			const data = await refreshToken(user.refreshToken);
-			user.accessToken = data.access_token;
-			user.refreshToken = data.refresh_token;
-			await user.save();
-		} catch (error) {
-			user.accessToken = null;
-			user.refreshToken = null;
-			await user.save();
-			next(error.response.data);
+	try {
+		const user = await User.findByPk(req.params.id, {
+			include: {
+				model: Auth,
+				attributes: ['id']
+			},
+			attributes: ['updatedAt']
+		});
+
+		if (!user.auth) return res.status(200).json({ player: null, userInfo: null, username: user.username });
+
+		const auth = await Auth.findByPk(user.auth.id)
+		if (user.auth && timeChecker(user.updatedAt) === true) {
+			const data = await refreshToken(auth.refreshToken);
+			console.log('Ja tulee uusimaan!')
+			auth.accessToken = data.access_token;
+			auth.refreshToken = data.refresh_token;
+			await auth.save();
 		}
+		req.username = user.username;
+		req.userSpotifyToken = auth.accessToken;;
+	} catch (error) {
+		next(error.response.data);
 	}
 	next();
 };
