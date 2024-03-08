@@ -33,6 +33,7 @@ const refreshToken = async (token) => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 		});
+		console.log('Data from func: ', result.data);
 		return result.data;
 	} catch (error) {
 		console.log('Error refreshToken: ', error);
