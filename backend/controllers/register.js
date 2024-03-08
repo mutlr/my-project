@@ -9,7 +9,7 @@ router.post('/', async (req, res, next) => {
 		const saltedPassword = await bcrypt.hash(password, 10);
 		const user = await User.create({ username, email, password: saltedPassword });
 		const token = signToken({ username: user.username, id: user.id });
-		res.status(201).json({ token, username: user.username, id: user.id });
+		res.status(201).json({ token, username: user.username, id: user.id, authenticated: false });
 	} catch (error) {
 		console.log('Error on register: ', error.message);
 		next(error);

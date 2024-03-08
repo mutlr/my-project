@@ -10,17 +10,21 @@ Auth.init({
 		autoIncrement: true,
 	},
 	accessToken: {
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(1000),
 		defaultValue: null
 	},
 	refreshToken: {
-		type: DataTypes.STRING,
+		type: DataTypes.STRING(1000),
 		defaultValue: null
 	},
 	spotifyId: {
 		type: DataTypes.STRING,
 		defaultValue: null
 	},
+	playlist: {
+		type: DataTypes.STRING,
+		defaultValue: null,
+	}
 }, {
 	sequelize,
 	underscored: true,

@@ -13,7 +13,6 @@ const loginRouter = require('./controllers/login');
 const spotifyRouter = require('./controllers/spotify');
 const { errorHandler } = require('./util/middleware');
 
-console.log('Tulee täönne');
 app.use(cors());
 app.use(express.json());
 app.use('/users', userRouter);

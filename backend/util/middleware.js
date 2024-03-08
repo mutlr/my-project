@@ -38,29 +38,26 @@ const apiTokenExtractor = async (req, res, next) => {
 };
 
 const refreshUserToken = async (req, res, next) => {
+	const id = req.params.id || req.decodedToken.id;
+	console.log('ID: in user refresh: ', id);
 	try {
-		const user = await User.findByPk(req.params.id, {
+		const user = await User.findByPk(id, {
 			include: {
 				model: Auth,
-				attributes: ['id']
+				attributes: ['updatedAt', 'accessToken', 'refreshToken']
 			},
-			attributes: ['updatedAt']
 		});
-
 		if (!user.auth) return res.status(200).json({ player: null, userInfo: null, username: user.username });
 
-		const auth = await Auth.findByPk(user.auth.id);
-		if (user.auth && timeChecker(user.updatedAt) === true) {
-			const data = await refreshToken(auth.refreshToken);
-			console.log('Ja tulee uusimaan!');
-			auth.accessToken = data.access_token;
-			auth.refreshToken = data.refresh_token;
-			await auth.save();
+		if (user.auth && timeChecker(user.auth.updatedAt) === true) {
+			const data = await refreshToken(user.auth.refreshToken);
+			user.auth.accessToken = data.access_token;
+			await user.auth.save();
 		}
 		req.username = user.username;
-		req.userSpotifyToken = auth.accessToken;
+		req.userSpotifyToken = user.auth.accessToken;
 	} catch (error) {
-		next(error.response.data);
+		next(error);
 	}
 	next();
 };
