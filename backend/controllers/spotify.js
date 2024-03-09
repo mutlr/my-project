@@ -185,8 +185,9 @@ const createPlaylist = async (user) => {
 	user.auth.playlist = playlistResult.data.id;
 	await user.auth.save();
 };
+
 router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res) => {
-	const { songid } = req.body;
+	const { songId } = req.body;
 	try {
 		const user = await User.findByPk(req.decodedToken.id, {
 			include: {
@@ -199,7 +200,7 @@ router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res)
 			await createPlaylist(user);
 		}
 		await axios.post(`https://api.spotify.com/v1/playlists/${playlist}/tracks`,
-			{ uris: [songid] },
+			{ uris: ['spotify:track:' + songId] },
 			{
 				headers: {
 					'Authorization': `Bearer ${accessToken}`,

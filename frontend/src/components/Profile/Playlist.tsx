@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import cat from '../../assets/kitty-cat-kitten-pet-45201.jpeg';
 import './Playlist.css';
 import Audiobar from "../PostLayout/Audiobar";
-import { getPlaylists } from "../../services/apiServices";
+import { getPlaylists, addToPlaylist } from "../../services/apiServices";
 import Button from "../Button/Button";
+import axios from "axios";
+import { MessageContext } from "../../context/messageContext";
 interface PlaylistItemProps {
-    items: Item[]
+    items: Item[],
+    addToPlaylist: (songId: string) => void,
 }
 interface Item {
     song_name: string,
@@ -32,6 +35,10 @@ const PlaylistItem = (props: PlaylistItemProps) => {
                                 <p>{value.song_name}</p>
                                 <p>{value.artist}</p>
                             </div>
+                            <Button text="+" color="primary"
+                                style={{ marginLeft: 'auto', padding: '8px', fontSize: '16px', }}
+                                onClick={() => props.addToPlaylist(value.id)}
+                            />
                         </div>
                         <Audiobar songId={value.id}/>
                     </div>
@@ -51,6 +58,7 @@ const PlaylistItem = (props: PlaylistItemProps) => {
 const Playlist = (props: { id: number}) => {
     const [playlists, setPlaylists] = useState<Playlist[] | null>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const message = useContext(MessageContext);
     useEffect(() => {
         getPlaylists(props.id)
         .then(result => {
@@ -67,15 +75,24 @@ const Playlist = (props: { id: number}) => {
 
     if (loading) return <div>Loading...</div>;
     if (!playlists) return <div>This user has no playlists</div>;
+
+    const addToPlaylistFunc = async (songId: string) => {
+        try {
+            await addToPlaylist(songId);
+            message?.success('Song added to Spotify playlist.');
+        } catch (error) {
+            console.log('Error adding to playlist: ', error);
+            message?.error('Something went wrong adding song to playlist');
+        }
+    };
     return (
         <div className="playlist-main-container">
             <div className="playlist-container">
                 {playlists.map(p => (
                     <>
                         <p className="playlist-name">{p.name}</p>
-                        <PlaylistItem items={p.items}/>
+                        <PlaylistItem items={p.items} addToPlaylist={addToPlaylistFunc}/>
                     </>
-
                 ))}
             </div>
         </div>

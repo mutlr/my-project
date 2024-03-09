@@ -11,7 +11,7 @@ interface UserContextProps {
     logout: () => void,
     register: (values: RegisterFormValues) => void,
     authenticated: boolean,
-    addUserToStorageAndSetUser: (token: string, id: number, authenticated: boolean | null, username: string) => void,
+    addUserToStorageAndSetUser: (token: string, id: number, authenticated: boolean, username: string) => void,
 }
 
 const UserContext = createContext<UserContextProps | null>(null);
@@ -41,7 +41,7 @@ export const UserProvider = ({ children }: Props) => {
         return () => clearInterval(tokenInterval);
     }, []);
 
-    const addUserToStorageAndSetUser = (token: string, id: number, authenticated: boolean | null, username: string) => {
+    const addUserToStorageAndSetUser = (token: string, id: number, authenticated: boolean, username: string) => {
         setUser({ username, id });
         localStorage.setItem('loggedUser', JSON.stringify({ token, id, username, authenticated }));
         if (authenticated) {
@@ -53,6 +53,7 @@ export const UserProvider = ({ children }: Props) => {
         try {
             const result = await userLogin(values);
             const { username, id, token, authenticated } = result;
+            console.log('Result from login: ', result);
             addUserToStorageAndSetUser(token, id, authenticated, username);
             message?.success('Logged in!');
             navigate('');

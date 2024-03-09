@@ -16,7 +16,7 @@ const MyProfile = ({ id, authenticated }: Props) => {
         <>
             <ProfileHeader id={id}/>
             <ProfileItems id={id} isUser={true} />
-            {!authenticated && <AuthenticationButton />}
+            <AuthenticationButton />
         </>
     );
 };

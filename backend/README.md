@@ -9,3 +9,4 @@ Tuntitaulukko backend:
     Spotify authentication and refresh 23h
     Moving spotify api calls to backend 4h
     Testit semmonen 9-12h
+    Playlistin hakeminen ja lisääminen 7h
