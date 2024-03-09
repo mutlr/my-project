@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { UserInfo } from '../types';
+import { userToken } from './serviceUtils';
 //import { baseUrl } from './serviceUtils';
 
 /*export let api = '';
@@ -37,4 +38,13 @@ export const getUserSpotifyInfo = async (id: number): Promise<UserInfo> => {
 export const getPlaylists = async (id: number) => {
     const result = await axios.get(`http://localhost:3001/spotifyapi/playlists/${id}`);
     return result.data.data;
+};
+
+export const addToPlaylist = async (songId: string) => {
+    const result = await axios.post('http://localhost:3001/spotifyapi/addtoplaylist', { songId }, {
+        headers: {
+            'Authorization': userToken,
+        }
+    });
+    return result;
 };

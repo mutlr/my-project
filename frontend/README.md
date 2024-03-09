@@ -15,3 +15,4 @@ Tuntitaulukko frontend:
     Profile and deleting posts and comments 9h
     Editing comments and posts 3h
     Spotify tietojen hakeminen ja näyttäminen 2h
+    Playlist tekeminen 3.5h
