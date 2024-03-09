@@ -5,14 +5,32 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
+import axios from 'axios';
+import { userLogin } from '../../services/userService';
+import { useNavigate } from "react-router-dom";
+import { MessageContext } from '../../context/messageContext';
 
 const initialValues: LoginValues = { username: '', password: '' };
 
 const Login = () => {
     const user = useContext(UserContext);
-    const handleLogin = (values: LoginValues, actions: any) => {
-        user?.login(values);
-        actions.resetForm();
+    const message = useContext(MessageContext);
+    const navigate = useNavigate();
+    const handleLogin = async (values: LoginValues, actions: any) => {
+        try {
+            const result = await userLogin(values);
+            const { username, id, token, authenticated } = result;
+            console.log('Result from login: ', result);
+            user?.addUserToStorageAndSetUser(token, id, authenticated, username);
+            message?.success('Logged in!');
+            navigate('/');
+            actions.resetForm();
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                message?.error(error.response?.data.error);
+                console.log('Error in login: ', error);
+            }
+        }
     };
     return (
         <div className="form-main">

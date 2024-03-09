@@ -51,7 +51,7 @@ function App () {
                 <Route path='profile/:id' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
-            {user && location.pathname === '/' &&
+            {user?.user && location.pathname === '/' &&
             <Togglable
                 buttonText='Add a post'
                 toggleVisibility={toggleVisibility}

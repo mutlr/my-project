@@ -1,15 +1,12 @@
 import React, { ReactElement, ReactNode, createContext, useState, useEffect, useContext } from "react";
-import { LoginValues, RegisterFormValues, User } from "../types";
-import { refreshSpotifyToken, userLogin, userRegister } from "../services/userService";
+import { User } from "../types";
 import { MessageContext } from "./messageContext";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { setToken } from "../services/serviceUtils";
+
 interface UserContextProps {
     user: User | null,
-    login: (values: LoginValues) => void,
     logout: () => void,
-    register: (values: RegisterFormValues) => void,
     authenticated: boolean,
     addUserToStorageAndSetUser: (token: string, id: number, authenticated: boolean, username: string) => void,
 }
@@ -49,49 +46,18 @@ export const UserProvider = ({ children }: Props) => {
         }
     };
 
-    const login = async (values: LoginValues) => {
-        try {
-            const result = await userLogin(values);
-            const { username, id, token, authenticated } = result;
-            console.log('Result from login: ', result);
-            addUserToStorageAndSetUser(token, id, authenticated, username);
-            message?.success('Logged in!');
-            navigate('');
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                message?.error(error.response?.data.error);
-                console.log('Error in login: ', error);
-            }
-        }
-    };
-
     const logout = () => {
         setUser(null);
         localStorage.clear();
         message?.success('Logged out!');
-        navigate('');
+        navigate('/');
     };
 
-    const register = async (values: RegisterFormValues) => {
-        try {
-            const result = await userRegister(values);
-            addUserToStorageAndSetUser(result.token, result.id, false, result.username);
-            message?.success('Registered successfully!');
-            navigate('');
-        } catch (error) {
-            if (axios.isAxiosError(error)) {
-                message?.error(error.response?.data.error);
-                console.log('Error in login: ', error);
-            }
-        }
-    };
     return (
         <UserContext.Provider
         value={{
             user,
-            login,
             logout,
-            register,
             authenticated,
             addUserToStorageAndSetUser,
         }}>

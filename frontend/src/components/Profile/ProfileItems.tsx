@@ -26,17 +26,18 @@ const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
+const ProfileContent = () => {
+    
+}
 
 const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const message = useContext(MessageContext);
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
-    const [editing, setEditing] = useState<boolean>(false);
     const [toEdit, setToEdit] = useState<Post | Comment | null>(null);
 
     useEffect(() => {
-        console.log('Hakee postei');
         getPostsByID(Number(id), 'posts')
         .then((result: any) => setPosts(result.map((r: any): Post => postMap(r))))
         .catch(err => console.log('Error getting user posts: ', err));
@@ -49,19 +50,18 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
 
     const deletePostFunc = async (postId: number) => {
         try {
-            const result = await deletePost(postId);
-            console.log('Result from deleting post: ', result);
+            await deletePost(postId);
+            setPosts(posts.filter(post => post.postId !== postId));
             message?.success('Post deleted successfully!');
         } catch (error) {
             console.log('ERror from deleting post: ', error);
-
         }
     };
 
     const deleteCommentFunc = async (commentId: number) => {
         try {
-            const result = await deleteComment(commentId);
-            console.log('Result from deleting comment: ', result);
+            await deleteComment(commentId);
+            setComments(comments.filter(com => com.commentId !== commentId));
             message?.success('Comment deleted successfully!');
         } catch (error) {
             if (error instanceof Error) {
@@ -71,7 +71,6 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
     };
 
     const editFunc = (item: Post | Comment) => {
-        setEditing(true);
         setToEdit(item);
     };
     const changeView = (e: any) => {
@@ -102,7 +101,7 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
     };
     return (
         <>
-            {editing && <EditForm item={toEdit} cancel={() => setEditing(false)}/>}
+            {toEdit && <EditForm item={toEdit} cancel={() => setToEdit(null)}/>}
             <div className="filter-container">
                 {Object.values(Filter).map(value => (
                     <button className={`filter-item ${value === filter ? 'underline' : ''}`} key={value} onClick={() => changeView(value)}>{value}</button>
