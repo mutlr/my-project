@@ -11,7 +11,7 @@ interface UserContextProps {
     addUserToStorageAndSetUser: (token: string, id: number, authenticated: boolean, username: string) => void,
 }
 
-const UserContext = createContext<UserContextProps | null>(null);
+const UserContext = createContext<UserContextProps>({} as UserContextProps);
 
 interface Props {
     children: ReactNode | ReactElement,

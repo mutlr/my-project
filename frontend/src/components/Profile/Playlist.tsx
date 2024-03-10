@@ -4,11 +4,13 @@ import './Playlist.css';
 import Audiobar from "../PostLayout/Audiobar";
 import { getPlaylists, addToPlaylist } from "../../services/apiServices";
 import Button from "../Button/Button";
-import axios from "axios";
 import { MessageContext } from "../../context/messageContext";
+import UserContext from "../../context/userContext";
+
 interface PlaylistItemProps {
     items: Item[],
     addToPlaylist: (songId: string) => void,
+    authenticated: boolean,
 }
 interface Item {
     song_name: string,
@@ -21,7 +23,7 @@ interface Playlist {
     items: Item[],
 }
 
-const PlaylistItem = (props: PlaylistItemProps) => {
+const PlaylistItems = (props: PlaylistItemProps) => {
     const [amount, setAmount] = useState<number>(5);
     return (
         <div className="playlist-item-container">
@@ -35,10 +37,10 @@ const PlaylistItem = (props: PlaylistItemProps) => {
                                 <p>{value.song_name}</p>
                                 <p>{value.artist}</p>
                             </div>
-                            <Button text="+" color="primary"
+                            {props.authenticated && <Button text="+" color="primary"
                                 style={{ marginLeft: 'auto', padding: '8px', fontSize: '16px', }}
                                 onClick={() => props.addToPlaylist(value.id)}
-                            />
+                            />}
                         </div>
                         <Audiobar songId={value.id}/>
                     </div>
@@ -59,6 +61,7 @@ const Playlist = (props: { id: number}) => {
     const [playlists, setPlaylists] = useState<Playlist[] | null>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const message = useContext(MessageContext);
+    const user = useContext(UserContext);
     useEffect(() => {
         getPlaylists(props.id)
         .then(result => {
@@ -91,7 +94,7 @@ const Playlist = (props: { id: number}) => {
                 {playlists.map(p => (
                     <>
                         <p className="playlist-name">{p.name}</p>
-                        <PlaylistItem items={p.items} addToPlaylist={addToPlaylistFunc}/>
+                        <PlaylistItems items={p.items} addToPlaylist={addToPlaylistFunc} authenticated={user.authenticated} />
                     </>
                 ))}
             </div>

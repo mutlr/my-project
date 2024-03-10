@@ -26,10 +26,6 @@ const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
 
-const ProfileContent = () => {
-    
-}
-
 const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const message = useContext(MessageContext);
     const [filter, setFilter] = useState<Filter>(Filter.posts);

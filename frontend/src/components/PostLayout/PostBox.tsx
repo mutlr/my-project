@@ -4,6 +4,7 @@ import PostHeader from "./PostHeader";
 import { Post } from "../../types";
 import './PostLayout.css';
 import Content from "./Content";
+import Button from "../Button/Button";
 
 interface PostProps {
     post: Post,
@@ -13,10 +14,15 @@ interface PostProps {
 const PostBox = ({ post, preview }: PostProps) => {
     return (
         <div className="postbox">
-            <PostHeader
-                user={{ username: post.user.username, id: post.user.id }}
-                createdAt={post.createdAt}
-            />
+            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }}>
+                <PostHeader
+                    user={{ username: post.user.username, id: post.user.id }}
+                    createdAt={post.createdAt}
+                />
+                <Button text="+" color="primary"
+                    style={{ marginLeft: 'auto', padding: '8px', fontSize: '16px', }}
+                    onClick={() => console.log('Hello')} />
+            </div>
             <Link className="box-link" to={`/post/${post.postId}`}>
                 <Content
                     title={post.title}
