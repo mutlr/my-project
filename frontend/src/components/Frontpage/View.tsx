@@ -8,7 +8,7 @@ interface Props {
 }
 const View = (props: Props) => {
     return (
-        <div className='frontpage-container'>
+        <div className='frontpage-container' style={{ border: '2px solid red' }}>
             {props.posts.map(post => (
                 <PostBox
                 post={post}

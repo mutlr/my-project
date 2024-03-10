@@ -24,7 +24,7 @@ function App () {
     const [posts, setPosts] = useState<Post[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
     const location = useLocation();
-
+    console.log('User context: ', user);
     useEffect(() => {
         getPosts()
         .then(posts => setPosts(posts.map((p: any) => postMap(p))));
@@ -51,7 +51,7 @@ function App () {
                 <Route path='profile/:id' element={<Profile />} />
                 <Route path='/test' element={<Test />}/>
             </Routes>
-            {user?.user && location.pathname === '/' &&
+            {user.user && location.pathname === '/' &&
             <Togglable
                 buttonText='Add a post'
                 toggleVisibility={toggleVisibility}
