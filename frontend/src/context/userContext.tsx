@@ -41,6 +41,7 @@ export const UserProvider = ({ children }: Props) => {
     const addUserToStorageAndSetUser = (token: string, id: number, authenticated: boolean, username: string) => {
         setUser({ username, id });
         localStorage.setItem('loggedUser', JSON.stringify({ token, id, username, authenticated }));
+        setToken(token);
         if (authenticated) {
             setAuthenticated(true);
         }

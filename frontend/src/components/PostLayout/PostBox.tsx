@@ -5,13 +5,17 @@ import { Post } from "../../types";
 import './PostLayout.css';
 import Content from "./Content";
 import Button from "../Button/Button";
+import usePlaylist from "../../hooks/usePlaylist";
 
 interface PostProps {
     post: Post,
     preview: boolean,
+    authenticated?: boolean,
 }
 
-const PostBox = ({ post, preview }: PostProps) => {
+const PostBox = ({ post, preview, authenticated }: PostProps) => {
+    const addToPlaylist = usePlaylist();
+
     return (
         <div className="postbox">
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', justifyContent: 'center' }}>
@@ -19,9 +23,9 @@ const PostBox = ({ post, preview }: PostProps) => {
                     user={{ username: post.user.username, id: post.user.id }}
                     createdAt={post.createdAt}
                 />
-                <Button text="+" color="primary"
+                {authenticated && <Button text="+" color="primary"
                     style={{ marginLeft: 'auto', padding: '8px', fontSize: '16px', }}
-                    onClick={() => console.log('Hello')} />
+                    onClick={() => addToPlaylist(post.song.songId)} />}
             </div>
             <Link className="box-link" to={`/post/${post.postId}`}>
                 <Content

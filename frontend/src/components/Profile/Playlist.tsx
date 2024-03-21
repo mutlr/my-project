@@ -2,10 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import cat from '../../assets/kitty-cat-kitten-pet-45201.jpeg';
 import './Playlist.css';
 import Audiobar from "../PostLayout/Audiobar";
-import { getPlaylists, addToPlaylist } from "../../services/apiServices";
+import { getPlaylists } from "../../services/apiServices";
 import Button from "../Button/Button";
-import { MessageContext } from "../../context/messageContext";
 import UserContext from "../../context/userContext";
+import usePlaylist from "../../hooks/usePlaylist";
 
 interface PlaylistItemProps {
     items: Item[],
@@ -60,12 +60,11 @@ const PlaylistItems = (props: PlaylistItemProps) => {
 const Playlist = (props: { id: number}) => {
     const [playlists, setPlaylists] = useState<Playlist[] | null>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const message = useContext(MessageContext);
     const user = useContext(UserContext);
+    const addToPlaylist = usePlaylist();
     useEffect(() => {
         getPlaylists(props.id)
         .then(result => {
-            console.log('Result from playlist: ', result);
             if (result === null) {
                 setPlaylists(null);
                 return;
@@ -80,13 +79,7 @@ const Playlist = (props: { id: number}) => {
     if (!playlists) return <div>This user has no playlists</div>;
 
     const addToPlaylistFunc = async (songId: string) => {
-        try {
-            await addToPlaylist(songId);
-            message?.success('Song added to Spotify playlist.');
-        } catch (error) {
-            console.log('Error adding to playlist: ', error);
-            message?.error('Something went wrong adding song to playlist');
-        }
+        addToPlaylist(songId);
     };
     return (
         <div className="playlist-main-container">

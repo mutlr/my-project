@@ -9,6 +9,7 @@ import EditForm from "../EditForm/EditForm";
 import './ProfileItems.css';
 import EditButtons from "./EditButtons";
 import Playlist from "./Playlist";
+import UserContext from "../../context/userContext";
 
 interface Props {
     id: number,
@@ -28,6 +29,7 @@ const isFilter = (e: any): e is Filter => {
 
 const ProfileItems = ({ id, isUser, ...props }: Props) => {
     const message = useContext(MessageContext);
+    const user = useContext(UserContext);
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [posts, setPosts] = useState<Post[]>([]);
     const [comments, setComments] = useState<Comment[]>([]);
@@ -79,14 +81,14 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
                 return posts.map(post => (
                     <div key={post.postId} className="profile-content">
                         {isUser && <EditButtons id={id} onDelete={() => deletePostFunc(post.postId)} onEdit={() => editFunc(post)} />}
-                        <PostBox post={post} preview={true} />
+                        <PostBox post={post} preview={true} authenticated={user.authenticated} />
                     </div>
                 ));
             case Filter.comments:
                 return comments.map(comment => (
                     <div key={comment.commentId} className="profile-content">
                         {isUser && <EditButtons id={id} onDelete={() => deleteCommentFunc(comment.commentId)} onEdit={() => editFunc(comment)} />}
-                        <CommentBox comment={comment} />
+                        <CommentBox comment={comment} authenticated={user.authenticated} />
                     </div>
                 ));
             case Filter.playlists:
