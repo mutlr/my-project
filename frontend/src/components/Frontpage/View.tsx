@@ -5,6 +5,7 @@ import './View.css';
 
 interface Props {
     posts: Post[],
+    authenticated: boolean,
 }
 const View = (props: Props) => {
     return (
@@ -14,6 +15,7 @@ const View = (props: Props) => {
                 post={post}
                 preview={true}
                 key={post.postId}
+                authenticated={props.authenticated}
                 />
             ))}
         </div>
