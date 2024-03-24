@@ -15,7 +15,6 @@ const ProfileHeader = (props: Props) => {
     useEffect(() => {
         axios.get(`http://localhost:3001/spotifyapi/info/${props.id}`)
         .then(result => {
-            console.log(result);
             const data: UserInfo = result.data;
             setInfo(data);
         })
@@ -26,6 +25,7 @@ const ProfileHeader = (props: Props) => {
             }
         });
     }, []);
+    if (!info) return null;
     return (
     <div className="profile-header-container">
         <div className="profile-info">

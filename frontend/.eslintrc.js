@@ -18,8 +18,9 @@ module.exports = {
             ],
             "parserOptions": {
                 "sourceType": "script"
-            }
-        }
+            },
+            
+        },
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {

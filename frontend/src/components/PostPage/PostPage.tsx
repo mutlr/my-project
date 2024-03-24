@@ -38,7 +38,7 @@ const PostPage = (props: PostPageProps) => {
             <Togglable
                 buttonText="Comment"
                 toggleVisibility={toggleVisibility}
-                isOpen={isOpen.display}>
+                isOpen={isOpen}>
                 <Commentform
                     postId={props.post.postId}
                     toggleVisibility={toggleVisibility}

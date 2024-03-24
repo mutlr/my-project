@@ -18,17 +18,14 @@ export const authenticateSpotify = async (code: string) => {
         const user = JSON.parse(loggedUser);
         setToken(user.token);
     }
-    //await axios.post(`${baseUrl}/spotifyapi/test`, { code });
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
-
         headers: {
             'Authorization': userToken,
         }
     });
     return result.data;
 };
-
 
 export const refreshSpotifyToken = async () => {
     const response = await axios.post(`${baseUrl}/users/refreshtoken`, null, {
@@ -37,4 +34,9 @@ export const refreshSpotifyToken = async () => {
         }
      });
     return response;
+};
+
+export const searchUsers = async (name: string): Promise<{ username: string, id: number }[]> => {
+    const result = await axios.get(`http://localhost:3001/users/getusers/${name}`);
+    return result.data.users;
 };
