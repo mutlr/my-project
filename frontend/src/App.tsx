@@ -18,20 +18,19 @@ import useVisibility from './hooks/useVisibility';
 import Test from './test';
 import userContext from './context/userContext';
 import MyProfile from './components/Profile/MyProfile';
+import Navbarr from './components/Navbar/Navbar';
 
 function App () {
     const user = useContext(userContext);
     const [posts, setPosts] = useState<Post[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
     const location = useLocation();
-    console.log('User context: ', user);
     useEffect(() => {
         getPosts()
         .then(posts => setPosts(posts.map((p: any) => postMap(p))));
     }, []);
 
     const addToList = (post: Post) => {
-        /* Concat post to list on add */
         setPosts(posts.concat(post));
     };
     const postMatch = useMatch('/post/:id');
@@ -55,7 +54,7 @@ function App () {
             <Togglable
                 buttonText='Add a post'
                 toggleVisibility={toggleVisibility}
-                isOpen={isOpen.display}>
+                isOpen={isOpen}>
                 <Postform toggleVisibility={toggleVisibility} addToList={addToList}/>
             </Togglable >}
         </div>

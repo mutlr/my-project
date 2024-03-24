@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User, Comment, Post } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { signToken } = require('../util/utils');
+const { Op } = require('sequelize');
 
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
@@ -20,8 +21,24 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		res.status(500).json({ error });
 	}
 });
-
-router.get('/:id/:type', async (req, res) => {
+router.get('/getusers/:name', async (req, res) => {
+	const { name } = req.params;
+	try {
+			const users = await User.findAll({
+				where: {
+					username: {
+						[Op.like]: `%${name}%`
+					},
+				},
+				limit: 5,
+			});
+			console.log('Users from search: ', users)
+			res.status(200).json({ users })
+	} catch (error) {
+		res.status(500).json({ error })
+	}
+})
+/*router.get('usercontent/:id/:type', async (req, res) => {
 	const { id, type } = req.params;
 	try {
 		if (type === 'comments') {
@@ -33,9 +50,10 @@ router.get('/:id/:type', async (req, res) => {
 		}
 		res.status(200).json({ data: 'Nothing found' });
 	} catch (error) {
+		console.log('Tulee tähä: !!!!!!!')
 		res.status(500).json({ error });
 	}
-});
+});*/
 router.get('/', async (req, res) => {
 	const users = await User.findAll({});
 	res.status(200).json({ users });
@@ -76,4 +94,5 @@ router.post('/', async (req, res, next) => {
 	}
 });
 */
+
 module.exports = router;

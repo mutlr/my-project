@@ -9,7 +9,7 @@ const useVisibility = () => {
     };
     return {
         toggleVisibility,
-        isOpen,
+        isOpen: isOpen.display,
     };
 };
 
