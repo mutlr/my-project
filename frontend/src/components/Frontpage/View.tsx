@@ -1,7 +1,8 @@
 import React from 'react';
 import { Post, } from '../../types';
-import PostBox from '../PostLayout/PostBox';
+import PostBox from '../PostLayout/PostContainer';
 import './View.css';
+import usePlaylist from '../../hooks/usePlaylist';
 
 interface Props {
     posts: Post[],
@@ -14,7 +15,7 @@ const View = (props: Props) => {
                 <PostBox
                 post={post}
                 preview={true}
-                key={post.postId}
+                key={post.id}
                 authenticated={props.authenticated}
                 />
             ))}

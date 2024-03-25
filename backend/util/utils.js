@@ -1,11 +1,19 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, CLIENT_ID, CLIENT_SECRET } = require('./config');
-const { Artist, Admin, } = require('../models');
+const { Artist, Admin, Song } = require('../models');
 const axios = require('axios');
 const signToken = (user) => {
 	return jwt.sign(user, SECRET);
 };
 
+const findOrCreateSong = async (name, songId, artistName, artistId) => {
+	const artist = await findArtist(artistId, artistName);
+	const song = await Song.findByPk(songId);
+	if (!song) {
+		return await Song.create({ id: songId, songName: name, artistId: artist.id });
+	}
+	return song;
+};
 const findArtist = async (id, artistName) => {
 	const artist = await Artist.findByPk(id);
 	if (artist === null) {
@@ -85,4 +93,5 @@ module.exports = {
 	checkAdminTime,
 	refreshToken,
 	checkAdmin,
+	findOrCreateSong
 };

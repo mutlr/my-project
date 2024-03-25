@@ -1,4 +1,4 @@
-import { userToken, baseUrl, setToken } from "./serviceUtils";
+import { userToken, baseUrl, setToken } from "../utils/serviceUtils";
 import axios from "axios";
 import { LoginValues, RegisterFormValues, } from "../types";
 

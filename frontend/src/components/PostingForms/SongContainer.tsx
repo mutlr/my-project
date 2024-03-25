@@ -1,5 +1,6 @@
 import React from "react";
 import { SongEntry, SongListing } from "../../types";
+import { Song } from "../SongDetails/SongDetails";
 export interface SongProps {
     s: SongListing,
     chooseSong: (song: SongEntry) => void,
@@ -20,10 +21,7 @@ const SongContainer = ({ s, chooseSong }: SongProps) => {
     };
     return (
         <div className='song-container' onClick={handlePress}>
-            <img src={s.image} className='song-image'/>
-            <div className='song-description'>
-                <p>{s.song.songName} by {s.artist.artistName}</p>
-            </div>
+            <Song name={s.song.songName} artist={s.artist.artistName} id="3" imageURL={s.image}/>
         </div>
     );
 };

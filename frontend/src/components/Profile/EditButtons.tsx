@@ -4,10 +4,9 @@ import './EditButtons.css';
 interface Props {
     onDelete: () => void,
     onEdit: () => void,
-    id: number,
 }
 
-const EditButtons = ({ onDelete, onEdit, ...props }: Props) => {
+const EditButtons = ({ onDelete, onEdit }: Props) => {
     return (
         <div className="edit-container">
             <button className="delete-btn edit" onClick={onDelete}>Delete</button>

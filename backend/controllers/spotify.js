@@ -67,6 +67,7 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 		});
+		console.log('Track itemi: ', result.data.tracks.items)
 		res.status(200).json({ data: result.data.tracks.items });
 	} catch (error) {
 		console.log('Error in getting songs:', error);
@@ -143,11 +144,13 @@ const extractPlaylistData = (data) => {
 		};
 
 		for (const v of value.tracks.items) {
+			const data = v.track;
 			const item = {
-				song_name: v.track.name,
-				artist: v.track.artists[0].name,
-				preview_url: v.track.preview_url,
-				id: v.track.id,
+				song_name: data.name,
+				artist: data.artists[0].name,
+				preview_url: data.preview_url,
+				id: data.id,
+				image_url: data.album.images[2].url,
 			};
 			playlist.items.push(item);
 		}

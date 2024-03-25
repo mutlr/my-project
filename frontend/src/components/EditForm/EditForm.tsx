@@ -1,12 +1,12 @@
 import React from "react";
 import { Formik, Field, ErrorMessage, Form } from "formik";
-import { editPostOrComment } from "../../services/postService";
-import { Post, EditValues, Comment } from "../../types";
+import { Post, EditValues } from "../../types";
 import Button from "../Button/Button";
 
 interface Props {
-    item: Post | Comment | null,
+    item: Post | null,
     cancel: () => void,
+    handleEdit: (values: EditValues) => void,
 }
 
 const EditForm = ({ item, cancel, ...props }: Props) => {
@@ -14,17 +14,9 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
     const title = item.title ? item.title : '';
     const description = item.description ? item.description : '';
     const handleSubmit = async (values: EditValues) => {
-
-        if ('postId' in item ) {
-            editPostOrComment(item.postId, { ...values }, 'post')
-            .then(() => cancel())
-            .catch(error => console.log('Error from editing a post: ', error));
-        } else if ('commentId' in item) {
-            editPostOrComment(item.commentId, { ...values }, 'comment')
-            .then(() => cancel())
-            .catch(error => console.log('Error from editing a comment: ', error));
-        }
+        props.handleEdit(values);
     };
+
     return (
         <div className="postform-container" >
             <Formik
@@ -46,7 +38,7 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
                     style={{ backgroundColor: 'white' }}
                     />
                 </div>
-                    <ErrorMessage name="fullname" component="div" />
+                <ErrorMessage name="fullname" component="div" />
 
 
                 <div className='input-container'>
@@ -58,7 +50,7 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
                     className="formInput"
                     />
                 </div>
-                <ErrorMessage name="email" component="div" />
+                <ErrorMessage name="description" component="div" />
                 <div>
 
                 <Button type='button' text='Cancel' color='primary' onClick={cancel} />
