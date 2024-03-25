@@ -4,6 +4,7 @@ import './ProfileHeader.css';
 import { UserInfo } from "../../types";
 import { MessageContext } from "../../context/messageContext";
 import cat from '../../assets/kitty-cat-kitten-pet-45201.jpeg';
+import { userSpotifyData } from "../../services/apiServices";
 interface Props {
     id: number,
 }
@@ -13,11 +14,8 @@ const ProfileHeader = (props: Props) => {
     const message = useContext(MessageContext);
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/spotifyapi/info/${props.id}`)
-        .then(result => {
-            const data: UserInfo = result.data;
-            setInfo(data);
-        })
+        userSpotifyData(props.id)
+        .then(data => setInfo(data))
         .catch((error): any => {
             if (axios.isAxiosError(error)) {
                 console.log('Error: header', error.response?.data.error.message);

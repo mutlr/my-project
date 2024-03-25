@@ -6,7 +6,7 @@ import { getPlaylists } from "../../services/apiServices";
 import Button from "../Button/Button";
 import UserContext from "../../context/userContext";
 import usePlaylist from "../../hooks/usePlaylist";
-
+import SongDetails from "../SongDetails/SongDetails";
 interface PlaylistItemProps {
     items: Item[],
     addToPlaylist: (songId: string) => void,
@@ -17,6 +17,7 @@ interface Item {
     artist: string,
     preview_url: string,
     id: string,
+    image_url: string,
 }
 interface Playlist {
     name: string,
@@ -31,17 +32,13 @@ const PlaylistItems = (props: PlaylistItemProps) => {
                 if (index < amount) {
                     return (
                     <div className="playlist-box" key={value.song_name + index}>
-                        <div className="playlist-inner">
-                            <img src={cat} style={{ height: '60px', width: '60px' }} className="userimage"/>
-                            <div>
-                                <p>{value.song_name}</p>
-                                <p>{value.artist}</p>
-                            </div>
-                            {props.authenticated && <Button text="+" color="primary"
-                                style={{ marginLeft: 'auto', padding: '8px', fontSize: '16px', }}
-                                onClick={() => props.addToPlaylist(value.id)}
-                            />}
-                        </div>
+                        <SongDetails 
+                            name={value.song_name} 
+                            artist={value.artist} 
+                            id={value.id}
+                            imageURL={value.image_url}
+                            authenticated={props.authenticated}
+                        />
                         <Audiobar songId={value.id}/>
                     </div>
                     );
@@ -65,6 +62,7 @@ const Playlist = (props: { id: number}) => {
     useEffect(() => {
         getPlaylists(props.id)
         .then(result => {
+            console.log('Result playlist haust: ', result);
             if (result === null) {
                 setPlaylists(null);
                 return;

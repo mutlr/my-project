@@ -1,5 +1,5 @@
-import { BasePost, Comment, Post } from "../types";
-const baseMap = (base: any): BasePost => {
+import { Post } from "../types";
+export const postMap = (base: any): Post => {
     return {
         title: base.title,
         description: base.description,
@@ -15,18 +15,8 @@ const baseMap = (base: any): BasePost => {
         artist: {
             artistName: base.song.artist.artistName,
             artistId: base.song.artist.id,
-        }
-    };
-};
-
-export const commentMap = (comment: any): Comment => {
-    return {
-        ...baseMap(comment), commentId: comment.id
-    };
-};
-
-export const postMap = (post: any): Post => {
-    return {
-        ...baseMap(post), postId: post.id
+        },
+        id: base.id,
+        commentId: base.postId,
     };
 };

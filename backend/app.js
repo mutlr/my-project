@@ -12,6 +12,7 @@ const registerRouter = require('./controllers/register');
 const loginRouter = require('./controllers/login');
 const spotifyRouter = require('./controllers/spotify');
 const { errorHandler } = require('./util/middleware');
+const commentRouter = require('./controllers/comments');
 
 app.use(cors());
 app.use(express.json());
@@ -22,7 +23,7 @@ app.use('/posts', postRouter);
 app.use('/register', registerRouter);
 app.use('/login', loginRouter);
 app.use('/spotifyapi', spotifyRouter);
-
+app.use('/comments', commentRouter);
 app.use(errorHandler);
 
 const start = async () => {

@@ -1,16 +1,16 @@
 import { FormValues  } from "./Postform";
 import { Formik } from 'formik';
-import { SongEntry, SongListing, Comment } from "../../types";
+import { Post, SongEntry, SongListing } from "../../types";
 import React, { useState } from "react";
 import { sendComment } from "../../services/postService";
 import SongContainer from "./SongContainer";
 import MainForm from "./MainForm";
 import ChosenSong from "./ChosenSong";
-import { commentMap } from '../../utils/utils';
+import { postMap } from '../../utils/utils';
 interface CommentformProps {
     postId: number,
     toggleVisibility: () => void,
-    addComment: (e: Comment) => void,
+    addComment: (e: Post) => void,
 }
 const initialValues: FormValues = { song: '', title: '', description: '' };
 
@@ -25,7 +25,7 @@ const Commentform = ({ postId, toggleVisibility, addComment }: CommentformProps)
         sendComment({ ...chosenSong, title: values.title, postId, description: values.description })
         .then(result => {
             toggleVisibility();
-            addComment(commentMap(result));
+            addComment(postMap(result));
         })
         .catch((error) => console.log('Error adding comment: ', error));
     };

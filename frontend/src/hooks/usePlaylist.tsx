@@ -4,7 +4,6 @@ import { MessageContext } from "../context/messageContext";
 
 const usePlaylist = () => {
     const message = useContext(MessageContext);
-
     const addSongToPlaylist = async (songId: string) => {
         try {
             await addToPlaylist(songId);

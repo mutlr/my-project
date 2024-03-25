@@ -1,58 +1,61 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Togglable from "../Togglable/Togglable";
 import Commentform from "../PostingForms/Commentform";
-import { Post, Comment, User } from "../../types";
-import { getComments } from "../../services/postService";
+import { Post, User } from "../../types";
+import { getCommentsByID } from "../../services/postService";
 import useVisibility from "../../hooks/useVisibility";
-import PostBox from "../PostLayout/PostBox";
-import CommentBox from "../PostLayout/CommentBox";
-import { commentMap } from "../../utils/utils";
-import UserContext from "../../context/userContext";
+import { postMap } from "../../utils/utils";
+import PostContainer, { PostComment } from "../PostLayout/PostContainer";
 interface PostPageProps {
-    post: Post | undefined | null,
+    post: Post | null,
     user?: User | undefined | null,
     authenticated: boolean,
 }
 
 const PostPage = (props: PostPageProps) => {
     const { id } = useParams();
-    const [comments, setComments] = useState<Comment[]>([]);
+    const [comments, setComments] = useState<Post[]>([]);
     const { toggleVisibility, isOpen } = useVisibility();
-    const addComment = (comment: Comment) => {
+    const addComment = (comment: Post) => {
         setComments(comments.concat(comment));
     };
     useEffect(() => {
-        getComments(Number(id))
+        getCommentsByID(Number(id))
         .then(result => {
-            setComments(result.map((c: any): Comment => commentMap(c)));
+            setComments(result.map((c: any): Post => postMap(c)));
         }).catch(error => console.log('Error getting comments: ', error));
     }, []);
 
-    if (!props.post) {
+    if (props.post === null) {
         return null;
     }
     return (
-        <div className="postpage-container">
+        <>
             {props.user &&
             <Togglable
                 buttonText="Comment"
                 toggleVisibility={toggleVisibility}
                 isOpen={isOpen}>
                 <Commentform
-                    postId={props.post.postId}
+                    postId={props.post.id}
                     toggleVisibility={toggleVisibility}
                     addComment={addComment}/>
             </Togglable>}
-            <PostBox post={props.post} preview={false} authenticated={props.authenticated}/>
-            {comments.map(c =>
-            <CommentBox
-                key={c.commentId}
-                comment={c}
-                authenticated={props.authenticated}
-                />
-            )}
-        </div>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px', marginTop: '24px' }}>
+                <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
+            </div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
+                {comments.map(c =>
+                <PostComment
+                    key={c.id}
+                    post={c}
+                    authenticated={props.authenticated}
+                    preview={false}
+                    />
+                )}
+            </div>
+        </>
     );
 };
 

@@ -46,21 +46,17 @@ export interface Song {
     songId: string,
     songName: string,
 }
-export interface BasePost {
+export interface Post {
     title: string,
     artist: Artist,
     song: Song,
     user: User,
     description: string,
     createdAt: string,
-}
-export interface Post extends BasePost{
-    postId: number,
+    id: number,
+    commentId?: number,
 }
 
-export interface Comment extends BasePost {
-    commentId: number,
-}
 export type Colors = 'primary' | 'secondary' | 'red' | 'light';
 
 export type ButtonTypes = 'submit' | 'reset' | 'button';

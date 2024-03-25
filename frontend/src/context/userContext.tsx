@@ -2,7 +2,7 @@ import React, { ReactElement, ReactNode, createContext, useState, useEffect, use
 import { User } from "../types";
 import { MessageContext } from "./messageContext";
 import { useNavigate } from "react-router-dom";
-import { setToken } from "../services/serviceUtils";
+import { setToken } from "../utils/serviceUtils";
 
 interface UserContextProps {
     user: User | null,
