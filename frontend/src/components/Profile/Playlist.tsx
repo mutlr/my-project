@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import cat from '../../assets/kitty-cat-kitten-pet-45201.jpeg';
 import './Playlist.css';
 import Audiobar from "../PostLayout/Audiobar";
 import { getPlaylists } from "../../services/apiServices";
@@ -32,9 +31,9 @@ const PlaylistItems = (props: PlaylistItemProps) => {
                 if (index < amount) {
                     return (
                     <div className="playlist-box" key={value.song_name + index}>
-                        <SongDetails 
-                            name={value.song_name} 
-                            artist={value.artist} 
+                        <SongDetails
+                            name={value.song_name}
+                            artist={value.artist}
                             id={value.id}
                             imageURL={value.image_url}
                             authenticated={props.authenticated}
@@ -62,7 +61,6 @@ const Playlist = (props: { id: number}) => {
     useEffect(() => {
         getPlaylists(props.id)
         .then(result => {
-            console.log('Result playlist haust: ', result);
             if (result === null) {
                 setPlaylists(null);
                 return;

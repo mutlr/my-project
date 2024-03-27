@@ -15,11 +15,8 @@ import PostPage from './components/PostPage/PostPage';
 import Postform from './components/PostingForms/Postform';
 import Togglable from './components/Togglable/Togglable';
 import useVisibility from './hooks/useVisibility';
-import Test from './test';
 import userContext from './context/userContext';
 import MyProfile from './components/Profile/MyProfile';
-import Navbarr from './components/Navbar/Navbar';
-import Reusable from './components/ReusableComponents/Reusable';
 
 function App () {
     const user = useContext(userContext);
@@ -49,7 +46,6 @@ function App () {
                 <Route path="post/:id" element={<PostPage post={postMatchResult ? postMatchResult : null} user={user?.user} authenticated={user.authenticated} />}/>
                 <Route path='/myprofile' element={<MyProfile id={user?.user?.id} authenticated={user?.authenticated}/>} />
                 <Route path='profile/:id' element={<Profile />} />
-                <Route path='/test' element={<Reusable />}/>
             </Routes>
             {user.user && location.pathname === '/' &&
             <Togglable

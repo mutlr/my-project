@@ -26,7 +26,7 @@ const Searchbar = () => {
     const [search, setSearch] = useState<string>("");
     const debouncedSearchTerm = useDebounce(search, 500);
     const [users, setUsers] = useState<{username: string, id: number}[]>([]);
-    
+
     useEffect(() => {
         if (search.length === 0) {
             clearData();
@@ -36,7 +36,7 @@ const Searchbar = () => {
         .then(result => setUsers(result.map(user => user)))
         .catch(error => console.log('Error from navbar search:', error));
     }, [debouncedSearchTerm]);
-    
+
     const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
         setSearch(e.currentTarget.value);
     };
@@ -49,15 +49,15 @@ const Searchbar = () => {
     return (
         <div className="search-main">
             <div className="search-container">
-                <input 
-                    id="search" 
-                    type="search" 
-                    placeholder="Search for users" 
-                    onChange={handleSearch} 
+                <input
+                    id="search"
+                    type="search"
+                    placeholder="Search for users"
+                    onChange={handleSearch}
                     value={search}/>
                 {search.length > 0 ?
                     <img className="search-image" src={Xicon} onClick={clearData}/> :
-                    <img className="search-image" src={magnify} />} 
+                    <img className="search-image" src={magnify} />}
                 {users.length > 0 && <div className="user-search">
                     {users.map(user =>
                     <a href={`/profile/${user.id}`} key={user.id}>
@@ -82,7 +82,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         <ul className='navbar-link-container' style={{ display: props.isOpen }}>
         <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/'}>Home</Link></li>
         {user.user && <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/myprofile'}>Profile</Link></li>}
-        {!user.user && 
+        {!user.user &&
         <>
             <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/login'}>Login</Link></li>
             <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/register'}>Register</Link></li>

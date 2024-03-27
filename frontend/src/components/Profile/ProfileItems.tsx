@@ -37,7 +37,7 @@ const ProfileContent = ({ isUser, post, edit, deletePost, authenticated }: Profi
         <PostContainer post={post} preview={true} authenticated={authenticated} />
     </div>
 );
-const ProfileItems = ({ id, isUser, ...props }: Props) => {
+const ProfileItems = ({ id, isUser }: Props) => {
     const user = useContext(UserContext);
     const [filter, setFilter] = useState<Filter>(Filter.posts);
     const [toEdit, setToEdit] = useState<Post | null>(null);
@@ -73,7 +73,7 @@ const ProfileItems = ({ id, isUser, ...props }: Props) => {
                             authenticated={user.authenticated}
                             post={post}
                             edit={editFunc}
-                            deletePost={postDelete} /> 
+                            deletePost={postDelete} />
                 ));
             case Filter.comments:
                 return comments.map(comment => (

@@ -10,9 +10,9 @@ const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = 'http://localhost:3000/myprofile';
 const SCOPE = 'user-read-private user-read-email playlist-modify-public playlist-modify-private user-read-currently-playing';
 const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
-let code = new URLSearchParams(window.location.search).get("code");
 
 const AuthenticationButton = () => {
+    let code = new URLSearchParams(window.location.search).get("code");
     const message = useContext(MessageContext);
     const user = useContext(UserContext);
     const navigate = useNavigate();

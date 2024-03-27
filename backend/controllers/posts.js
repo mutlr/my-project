@@ -1,21 +1,19 @@
 const router = require('express').Router();
-const { Song, Post, Comment, User } = require('../models');
-const { tokenExtractor } = require('../util/middleware');
+const { Post } = require('../models');
+const { tokenExtractor, postFinder } = require('../util/middleware');
 const { findOrCreateSong } = require('../util/utils');
-const { Op } = require('sequelize');
 
 router.get('/', async (req, res) => {
 	const posts = await Post.findAll({});
 	res.status(200).json({ posts });
 });
 
-router.delete('/:id', tokenExtractor, async (req, res) => {
+router.delete('/:id', tokenExtractor, postFinder, async (req, res) => {
 	try {
-		const post = await Post.findByPk(req.params.id);
+		const post = req.foundPost;
 		if (post.userId !== req.decodedToken.id || !post) {
-			return res.status(400).json({ error: 'Something went wrong with deleting post!' });
+			return res.status(400).json({ error: 'Not your post to delete!' });
 		}
-
 		await post.destroy();
 		res.status(200).json({ post });
 	} catch (error) {
@@ -24,33 +22,32 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 	}
 });
 
-router.get('/:id', async (req, res) => {
-	const { id } = req.params;
+router.get('/:id', postFinder, async (req, res) => {
 	try {
-		const post = await Post.findByPk(id);
-		if (!post) return res.status(404).json({ error: 'No post found by ID' });
+		const post = req.foundPost;
 		res.status(200).json({ data: post });
 	} catch (error) {
-		console.log('Error from id posting: ', error);
-		res.send(error);
+		res.status(300).json({ error });
 	}
 });
 
 router.get('/all/:id', async (req, res) => {
-	const { id } = req.params;
 	try {
+		const { id } = req.params;
+		if (!id || !Number(id)) return res.status(500).json({ error: 'Id missing' });
 		const posts = await Post.findAll({ where: { userId: id } });
-		return res.status(200).json({ data: posts })
+		return res.status(200).json({ data: posts });
 	} catch (error) {
-		console.log('Error from id posting: ', error);
-		res.send(error);
+		res.status(500).json({ error });
 	}
 });
 router.post('/', tokenExtractor, async (req, res, next) => {
-	const { title, description } = req.body;
-	const { artistId, artistName } = req.body.artist;
-	const { songId, songName } = req.body.song;
 	try {
+		const requestBody = req.body;
+		if (!requestBody.song || !requestBody.artist || !requestBody.title) return res.status(500).json({ error: 'Data missing' });
+		const { title, description } = requestBody;
+		const { artistId, artistName } = requestBody.artist;
+		const { songId, songName } = requestBody.song;
 		const { id } = req.decodedToken;
 		const song = await findOrCreateSong(songName, songId, artistName, artistId);
 		const postId = await Post.create({ userId: id, title, songId: song.id, description });
@@ -61,16 +58,12 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 	}
 });
 
-router.post('/:id', tokenExtractor, async (req, res) => {
-	const { id } = req.params;
+router.post('/:id', tokenExtractor, postFinder, async (req, res) => {
 	const { title, description } = req.body;
-
 	try {
-		if (title === '') {
-			throw new Error('Title cannot be empty');
-		}
-		const post = await Post.findByPk(id);
-		if (req.decodedToken.id !== post.userId ) return res.status(400).json({ error: 'Not your content to edit' });
+		if (title === '' || !title) return res.status(400).json({ error: 'Title cannot be empty' });
+		const post = req.foundPost;
+		if (req.decodedToken.id !== post.userId ) return res.status(401).json({ error: 'Not your content to edit' });
 		post.title = title;
 		post.description = description;
 		await post.save();

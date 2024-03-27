@@ -16,13 +16,13 @@ export const PostComment = ({ post, preview, authenticated }: Props) => {
         <div className="content-container">
             <ContentHeader user={post.user} createdAt={post.createdAt}/>
             <SongDetails
-                name={post.song.songName} 
-                artist={post.artist.artistName} 
+                name={post.song.songName}
+                artist={post.artist.artistName}
                 id={post.song.songId}
                 authenticated={authenticated} />
-            <PostInformation 
-                title={post.title} 
-                description={post.description} 
+            <PostInformation
+                title={post.title}
+                description={post.description}
                 preview={preview} />
             <Audiobar songId={post.song.songId} />
         </div>
@@ -34,13 +34,13 @@ const PostContainer = ({ post, preview, authenticated }: Props) => {
             <ContentHeader user={post.user} createdAt={post.createdAt}/>
             <Link className="box-link" to={`/post/${post.commentId ? post.commentId : post.id}`}>
                 <SongDetails
-                    name={post.song.songName} 
-                    artist={post.artist.artistName} 
+                    name={post.song.songName}
+                    artist={post.artist.artistName}
                     id={post.song.songId}
                     authenticated={authenticated} />
-                <PostInformation 
-                    title={post.title} 
-                    description={post.description} 
+                <PostInformation
+                    title={post.title}
+                    description={post.description}
                     preview={preview} />
                 <Audiobar songId={post.song.songId} />
             </Link>

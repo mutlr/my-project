@@ -1,9 +1,9 @@
 import React from "react";
 
 interface Props {
-    title: string, 
-    description: string, 
-    preview: boolean 
+    title: string,
+    description: string,
+    preview: boolean
 }
 const PostInformation = (props: Props) => {
     return (
