@@ -1,9 +1,10 @@
 const jwt = require('jsonwebtoken');
 const { SECRET, } = require('./config');
-const { Admin, User, Auth } = require('../models');
+const { Admin, User, Auth, Post } = require('../models');
 const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
 const errorHandler = (error, req, res, next) => {
+	console.log('Middleware error: ', error);
 	if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;
@@ -13,8 +14,9 @@ const errorHandler = (error, req, res, next) => {
 	} else if (error.name === 'SequelizeValidationError') {
 		return res.status(500).json({ error: error.errors[0].message });
 	} else if (error.error === 'invalid_grant' && error.error_description === 'Refresh token revoked') {
-		console.log('Tulee error middlewaree ja id: ', req.params);
 		return res.status(500).json({ error: error.error_description });
+	} else if (error.message === 'Post not found by ID') {
+		return res.status(404).json({ error: error.message });
 	}
 	next(error);
 };
@@ -24,6 +26,7 @@ const tokenExtractor = (req, res, next) => {
 	try {
 		const user = jwt.verify(token, SECRET);
 		req.decodedToken = user;
+		console.log('Decoded user: ', user);
 		next();
 	} catch (error) {
 		return res.status(404).json({ error: 'Invalid token' });
@@ -46,14 +49,18 @@ const refreshUserToken = async (req, res, next) => {
 				attributes: ['updatedAt', 'accessToken', 'refreshToken', 'id']
 			},
 		});
-		if (!user.auth) return res.status(200).json({ player: null, userInfo: null, username: user.username });
+		req.username = user.username;
+		if (!user.auth) {
+			req.userNotAuthenticated = true;
+			return next();
+		}
 
+		console.log('User in spotif refresh: ', user);
 		if (user.auth && timeChecker(user.auth.updatedAt) === true) {
 			const data = await refreshToken(user.auth.refreshToken);
 			user.auth.accessToken = data.access_token;
 			await user.auth.save();
 		}
-		req.username = user.username;
 		req.userSpotifyToken = user.auth.accessToken;
 	} catch (error) {
 		next(error);
@@ -61,9 +68,18 @@ const refreshUserToken = async (req, res, next) => {
 	next();
 };
 
+const postFinder = async (req, res, next) => {
+	const { id } = req.params;
+	if (!id || !Number(id)) return res.status(400).json({ error: 'ID missing' });
+	const post = await Post.findByPk(id);
+	if (!post) return res.status(404).json({ error: 'Post not found' });
+	req.foundPost = post;
+	next();
+};
 module.exports = {
 	errorHandler,
 	tokenExtractor,
 	apiTokenExtractor,
 	refreshUserToken,
+	postFinder,
 };

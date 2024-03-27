@@ -1,15 +1,15 @@
 const router = require('express').Router();
-const { Song, Post, Comment, User } = require('../models');
+const { Song, Comment, User } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { findOrCreateSong } = require('../util/utils');
-const { Op } = require('sequelize');
-
 
 router.post('/', tokenExtractor, async (req, res, next) => {
-	const { title, postId, description } = req.body;
-	const { artistId, artistName } = req.body.artist;
-	const { songId, songName } = req.body.song;
 	try {
+		const requestBody = req.body;
+		if (!requestBody.song || !requestBody.artist || !requestBody.title) return res.status(500).json({ error: 'Data missing' });
+		const { title, description } = requestBody;
+		const { artistId, artistName } = requestBody.artist;
+		const { songId, songName } = requestBody.song;
 		const { id } = req.decodedToken;
 		const song = await findOrCreateSong(songName, songId, artistName, artistId);
 		const comment = await Comment.create({ userId: id, songId: song.id, title, postId, description: description });
@@ -32,12 +32,12 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
 		const comment = await Comment.findByPk(req.params.id, {
-            include: [
-                {
-                    model: User,
-                }
-            ]
-        });
+			include: [
+				{
+					model: User,
+				}
+			]
+		});
 		if (comment.userId !== req.decodedToken.id || !comment) {
 			return res.status(400).json({ error: 'Something went wrong with deleting comment!' });
 		}
@@ -52,25 +52,25 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 router.get('/all/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
-		const comments = await Comment.findAll({ 
-            where: { userId: id },
-            include: [
-                {
-                    model: Song
-                },
-                {
-                    model: User,
-                },
-            ] 
-        });
-		return res.status(200).json({ data: comments })
+		const comments = await Comment.findAll({
+			where: { userId: id },
+			include: [
+				{
+					model: Song
+				},
+				{
+					model: User,
+				},
+			]
+		});
+		return res.status(200).json({ data: comments });
 	} catch (error) {
 		res.status(500).json({ error });
 	}
 });
 router.get('/:id', async (req, res) => {
 	try {
-		const { id } = req.params
+		const { id } = req.params;
 		const comments = await Comment.findAll({
 			where: { postId: id },
 			include: [
@@ -81,7 +81,7 @@ router.get('/:id', async (req, res) => {
 					model: Song,
 				}
 			],
-		})
+		});
 		res.status(200).json({ data: comments });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
@@ -92,9 +92,8 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 	const { title, description } = req.body;
 
 	try {
-		if (title === '') {
-			throw new Error('Title cannot be empty');
-		}
+		if (title === '' || !title) return res.status(400).json({ error: 'Title cannot be empty' });
+
 		const comment = await Comment.findByPk(id);
 		if (req.decodedToken.id !== comment.userId ) return res.status(400).json({ error: 'Not your content to edit' });
 		comment.title = title;

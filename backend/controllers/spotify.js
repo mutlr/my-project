@@ -53,7 +53,6 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 
 		res.status(200).json({ token, username, id, authenticated: true });
 	} catch (error) {
-		console.log('Something went wrong!', error);
 		res.status(500).json({ error: error.data });
 	}
 });
@@ -67,7 +66,7 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 		});
-		console.log('Track itemi: ', result.data.tracks.items)
+		console.log('Track itemi: ', result.data.tracks.items);
 		res.status(200).json({ data: result.data.tracks.items });
 	} catch (error) {
 		console.log('Error in getting songs:', error);
@@ -92,6 +91,9 @@ router.get('/audio/:songid', apiTokenExtractor, async (req, res) => {
 
 router.get('/info/:id', refreshUserToken, async (req, res) => {
 	try {
+		if (req.userNotAuthenticated === true) {
+			return res.status(200).json({ player: null, userInfo: null, username: req.username });
+		}
 		const token = req.userSpotifyToken;
 		const username = req.username;
 		const headers = {
@@ -114,7 +116,6 @@ router.get('/info/:id', refreshUserToken, async (req, res) => {
 
 		res.status(200).json({ userInfo, player, username, });
 	} catch (error) {
-		//console.log('ERror in info: ', error)
 		res.status(500).json({ error });
 	}
 });
@@ -137,13 +138,14 @@ const getPlaylists = async (token, spotifyID) => {
 const extractPlaylistData = (data) => {
 	const lists = [];
 	for (const [key, value] of Object.entries(data)) {
-		if (value.tracks.items.length === 0) continue;
+		const tracks = value.tracks.items;
+		if (tracks.length === 0) continue;
 		const playlist = {
 			name: value.name,
 			items: []
 		};
 
-		for (const v of value.tracks.items) {
+		for (const v of tracks) {
 			const data = v.track;
 			const item = {
 				song_name: data.name,
@@ -170,9 +172,8 @@ router.get('/playlists/:id', refreshUserToken, async (req, res) => {
 		const { accessToken, spotifyId } = user.auth;
 		const playlist = await getPlaylists(accessToken, spotifyId);
 		const data = extractPlaylistData(playlist);
-		res.status(200).json({ data, playlist: playlist });
+		res.status(200).json({ data });
 	} catch (error) {
-		console.log('Error in playlist: ', error.response.data);
 		res.status(500).json({ error });
 	}
 });
@@ -213,8 +214,7 @@ router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res)
 		);
 		res.status(201).end();
 	} catch (error) {
-		console.log('Error in adding to playlist: ', error );
-		res.status(500).json({ error: error });
+		res.status(500).json({ error });
 	}
 });
 module.exports = router;

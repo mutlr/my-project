@@ -5,8 +5,8 @@ const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = 'http://localhost:3000/test';
 const SCOPE = 'user-read-private user-read-email playlist-modify-public';
 const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
-const code = new URLSearchParams(window.location.search).get("code");
 const Test = () => {
+    const code = new URLSearchParams(window.location.search).get("code");
     useEffect(() => {
         if (code) {
             console.log('Menee tänne iffii cookindaa', code);
