@@ -18,3 +18,4 @@ Tuntitaulukko frontend:
     Playlist tekeminen 3.5h
     Navbar uudelleen teko 5h
     Komponenttien hienommuus, profiilin siistiminen ja hookin tekeminen postauksien editoimiseen ja kommenteille oma routeri. 6h
+    Formien uusiminen ja input komponentit 5h
