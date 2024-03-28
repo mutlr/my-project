@@ -16,7 +16,7 @@ const Togglable = forwardRef((props: Props, ref) => {
     Togglable.displayName = 'Togglable';
     return (
         <>
-            <div style={{ display: props.isOpen }}>{props.children}</div>
+            <div style={{ display: props.isOpen, }}>{props.children}</div>
             <p onClick={props.toggleVisibility} className='togglableBtn'>{props.isOpen === '' ? 'Back' : props.buttonText}</p>
         </>
     );

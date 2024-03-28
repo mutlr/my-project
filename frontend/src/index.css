@@ -3,15 +3,16 @@
   --secondary-color: #1c2541;
   --light-color: #4498ff;
   --error-color: #ff0000;
+  height: 100%;
 }
-html, body {
+* {
   margin: 0;
   padding: 0;
+  color: white;
 }
 body {
   background-color: var(--secondary-color);
   width: 100%;
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;

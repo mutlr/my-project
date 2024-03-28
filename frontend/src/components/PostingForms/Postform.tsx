@@ -1,51 +1,29 @@
-import React, { useState } from 'react';
-import { Formik } from 'formik';
+import React from 'react';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { Post, SongEntry, SongListing } from '../../types';
-import SongContainer from './SongContainer';
+import { Post, SongEntry } from '../../types';
 import MainForm from './MainForm';
-import ChosenSong from './ChosenSong';
 import { postMap } from '../../utils/utils';
 export interface FormValues {
     song: string,
     title: string,
-    description: string,
+    description?: string,
 }
 interface Props {
     toggleVisibility: () => void,
     addToList: (post: Post) => void,
 }
-const initialValues: FormValues = { song: '', title: '', description: '' };
 const Postform = (props: Props) => {
-    const [songs, setSongs] = useState<SongListing[]>([]);
-    const [chosenSong, setSong] = useState<SongEntry | null>(null);
-    const chooseSong = (song: SongEntry) => {
-        setSong(song);
-    };
-    const handleSubmit = async (values: FormValues) => {
-        if (!chosenSong) return;
-        sendPost({ ...chosenSong, title: values.title, description: values.description })
+    const handleSubmit = async (values: FormValues, song: SongEntry) => {
+        sendPost({ ...song, title: values.title, description: values.description ? values.description : '' })
         .then(result => {
-            console.log('Result from adding post: ', result);
             props.toggleVisibility();
             props.addToList(postMap(result));
         })
         .catch(error => console.log('ERror in submitting post: ', error));
     };
-    const addToList = (songList: SongListing[]) => {
-        setSongs(songList);
-    };
     return (
-        <div className='postform-container'>
-            <ChosenSong song={chosenSong} />
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                <MainForm addToList={(addToList)} title='Title for your post'/>
-            </Formik>
-            {songs.map(s => (
-                <SongContainer s={s} key={s.song.songId} chooseSong={chooseSong}/>
-            ))}
-        </div>
+        <MainForm handleSubmitData={handleSubmit}/>
     );
 };
 
