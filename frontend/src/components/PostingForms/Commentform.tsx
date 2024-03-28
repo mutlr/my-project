@@ -1,47 +1,26 @@
+import React from "react";
 import { FormValues  } from "./Postform";
-import { Formik } from 'formik';
-import { Post, SongEntry, SongListing } from "../../types";
-import React, { useState } from "react";
+import { Post, SongEntry } from "../../types";
 import { sendComment } from "../../services/postService";
-import SongContainer from "./SongContainer";
 import MainForm from "./MainForm";
-import ChosenSong from "./ChosenSong";
 import { postMap } from '../../utils/utils';
 interface CommentformProps {
     postId: number,
     toggleVisibility: () => void,
     addComment: (e: Post) => void,
 }
-const initialValues: FormValues = { song: '', title: '', description: '' };
 
 const Commentform = ({ postId, toggleVisibility, addComment }: CommentformProps) => {
-    const [songs, setSongs] = useState<SongListing[]>([]);
-    const [chosenSong, setSong] = useState<SongEntry | null>(null);
-    const chooseSong = (song: SongEntry) => {
-        setSong(song);
-    };
-    const handleSubmit = async (values: FormValues) => {
-        if (!chosenSong) return;
-        sendComment({ ...chosenSong, title: values.title, postId, description: values.description })
+    const handleSubmit = async (values: FormValues, song: SongEntry) => {
+        sendComment({ ...song, title: values.title, postId, description: values.description ? values.description : '' })
         .then(result => {
             toggleVisibility();
             addComment(postMap(result));
         })
         .catch((error) => console.log('Error adding comment: ', error));
     };
-    const addToList = (songList: SongListing[]) => {
-        setSongs(songList);
-    };
     return (
-        <div className='postform-container'>
-            <ChosenSong song={chosenSong} />
-            <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-                <MainForm addToList={(addToList)} title="Title for your comment"/>
-            </Formik>
-            {songs.map(s => (
-                <SongContainer s={s} key={s.song.songId} chooseSong={chooseSong}/>
-            ))}
-        </div>
+        <MainForm handleSubmitData={handleSubmit}/>
     );
 };
 

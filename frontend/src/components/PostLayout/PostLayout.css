@@ -10,7 +10,7 @@
     margin: 0 4px;
     padding: 12px 8px 12px 8px;
     max-width: 500px;
-    flex-grow: 1;
+    width: 100%;
 }
 .content-header {
     display: flex;
@@ -42,7 +42,13 @@
     height: 50px;
     border-radius: 50%;
 }
-
 .box-link {
     text-decoration: none;
+}
+
+.song-box {
+    display: flex;
+    gap: 10px; 
+    align-items: center;
+    padding: 8px 4px;
 }

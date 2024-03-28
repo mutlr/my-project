@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import './Login.css';
 import { LoginValues } from '../../types';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Button from '../Button/Button';
 import { Link } from 'react-router-dom';
 import UserContext from '../../context/userContext';
@@ -9,22 +8,30 @@ import axios from 'axios';
 import { userLogin } from '../../services/userService';
 import { useNavigate } from "react-router-dom";
 import { MessageContext } from '../../context/messageContext';
+import CustomInput from '../CustomInputs/CustomInput';
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useForm } from 'react-hook-form';
 
-const initialValues: LoginValues = { username: '', password: '' };
+const schema = yup.object().shape({
+    username: yup.string().required(),
+    password: yup.string().required(),
+});
 
 const Login = () => {
     const user = useContext(UserContext);
     const message = useContext(MessageContext);
     const navigate = useNavigate();
-    const handleLogin = async (values: LoginValues, actions: any) => {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<LoginValues>({ resolver: yupResolver(schema) });
+    const handleLogin = async (data: LoginValues) => {
         try {
-            const result = await userLogin(values);
+            const result = await userLogin({ username: data.username, password: data.password });
             const { username, id, token, authenticated } = result;
             console.log('Result from login: ', result);
             user?.addUserToStorageAndSetUser(token, id, authenticated, username);
             message?.success('Logged in!');
             navigate('/');
-            actions.resetForm();
+            reset();
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 message?.error(error.response?.data.error);
@@ -34,24 +41,11 @@ const Login = () => {
     };
     return (
         <div className="form-main">
-            <Formik initialValues={initialValues} className="loginForm"
-                onSubmit={handleLogin}>
-
-                <Form className="form">
-
-                    <label htmlFor="username">Username</label>
-                    <Field type="text" className="formInput"  name="username" />
-                    <ErrorMessage name="username" component='div' className="error"/>
-
-
-                    <label htmlFor="password">Password</label>
-                    <Field type="password" className="formInput"   name="password" />
-                    <ErrorMessage name="password" component='div' className="error"/>
-
-                    <Button type="submit" text='Sign In' color='light' />
-                </Form>
-            </Formik>
-
+            <form className="form" onSubmit={handleSubmit(handleLogin)}>
+                <CustomInput register={register} name='username' placeholder='Username' errors={errors} />
+                <CustomInput register={register} name='password' placeholder='Password' type='password' errors={errors} />
+                <Button type="submit" text='Sign In' color='light' />
+            </form>
             <Link to={'/register'}>Not a user? Click here to register</Link>
         </div>
     );

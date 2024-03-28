@@ -9,15 +9,21 @@ interface Props {
     authenticated?: boolean,
     imageURL?: string,
 }
-export const Song = ({ name, artist, imageURL }: Props) => {
+
+interface SongProps {
+    name: string,
+    artist: string,
+    imageURL?: string,
+}
+export const Song = ({ name, artist, imageURL }: SongProps) => {
     return (
-        <>
+        <div className="song-box">
             <img className="song-image" src={imageURL ? imageURL : cat}/>
-            <div style={{ display: 'inline-block', width: 'max-content' }}>
+            <div>
                 <p>{name}</p>
                 <p>{artist}</p>
             </div>
-        </>
+        </div>
     );
 };
 
@@ -25,7 +31,7 @@ const SongDetails = ({ id, name, artist, authenticated, imageURL }: Props) => {
     const addToPlaylist = usePlaylist();
     return (
         <div className="content-song-container">
-            <Song name={name} artist={artist} imageURL={imageURL} id="2" />
+            <Song name={name} artist={artist} imageURL={imageURL} />
             {authenticated && <Button text="+" color="primary"
                 onClick={() => addToPlaylist(id)}
             />}

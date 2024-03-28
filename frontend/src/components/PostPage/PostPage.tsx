@@ -7,6 +7,7 @@ import { getCommentsByID } from "../../services/postService";
 import useVisibility from "../../hooks/useVisibility";
 import { postMap } from "../../utils/utils";
 import PostContainer, { PostComment } from "../PostLayout/PostContainer";
+import './PostPage.css';
 interface PostPageProps {
     post: Post | null,
     user?: User | undefined | null,
@@ -32,29 +33,28 @@ const PostPage = (props: PostPageProps) => {
     }
     return (
         <>
-            {props.user &&
-            <Togglable
-                buttonText="Comment"
+        {props.user &&
+        <Togglable
+            buttonText="Comment"
+            toggleVisibility={toggleVisibility}
+            isOpen={isOpen}>
+            <Commentform
+                postId={props.post.id}
                 toggleVisibility={toggleVisibility}
-                isOpen={isOpen}>
-                <Commentform
-                    postId={props.post.id}
-                    toggleVisibility={toggleVisibility}
-                    addComment={addComment}/>
-            </Togglable>}
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '24px', marginTop: '24px' }}>
-                <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
-            </div>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', justifyContent: 'center' }}>
-                {comments.map(c =>
-                <PostComment
-                    key={c.id}
-                    post={c}
-                    authenticated={props.authenticated}
-                    preview={false}
-                    />
-                )}
-            </div>
+                addComment={addComment}/>
+        </Togglable>}
+        <div className="postpage-container">
+            <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
+            <p>Comments</p>
+            {comments.map(c =>
+            <PostComment
+                key={c.id}
+                post={c}
+                authenticated={props.authenticated}
+                preview={false}
+                />
+            )}
+        </div>
         </>
     );
 };

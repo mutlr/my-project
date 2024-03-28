@@ -1,8 +1,10 @@
 .frontpage-container {
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
     height: 100%;
     flex-wrap: wrap;
     justify-content: flex-start;
-    gap: 14px;
+    justify-content: center;
+    gap: 20px;
 }
