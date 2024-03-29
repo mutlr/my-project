@@ -54,8 +54,6 @@ const refreshUserToken = async (req, res, next) => {
 			req.userNotAuthenticated = true;
 			return next();
 		}
-
-		console.log('User in spotif refresh: ', user);
 		if (user.auth && timeChecker(user.auth.updatedAt) === true) {
 			const data = await refreshToken(user.auth.refreshToken);
 			user.auth.accessToken = data.access_token;

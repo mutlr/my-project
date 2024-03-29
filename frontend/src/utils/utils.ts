@@ -1,4 +1,6 @@
 import { Post } from "../types";
+
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 export const postMap = (base: any): Post => {
     return {
         title: base.title,

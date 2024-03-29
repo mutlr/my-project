@@ -22,6 +22,7 @@ const ProfileHeader = (props: Props) => {
                 message?.error(error.response?.data.error.message);
             }
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     if (!info) return null;
     return (

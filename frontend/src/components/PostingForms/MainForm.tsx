@@ -31,6 +31,7 @@ const MainForm = (props: MainFormProps) => {
         if (debouncedSearchTerm.length < 3) return;
         const controller = new AbortController();
         getSongs(debouncedSearchTerm, controller).then(result => {
+            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
            setSongs(result.filter((f: any) => f.preview_url !== null).map((r: any): SongListing => {
             return {
                 song: {
@@ -78,7 +79,7 @@ const MainForm = (props: MainFormProps) => {
                 <CustomTextarea register={register} placeholder='Description' name='description' errors={errors}/>
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
-                
+
                 <Button type='submit' text='Submit' color='primary' />
             </form>
             {songs.map(s => (

@@ -41,6 +41,7 @@ const Audiobar = ({ songId }: AudiobarProps) => {
             pauseAllAudio();
             setIsPlaying(false);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [songId]);
     if (loading) return null;
     return (

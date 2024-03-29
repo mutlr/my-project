@@ -25,6 +25,7 @@ function App () {
     const location = useLocation();
     useEffect(() => {
         getPosts()
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         .then(posts => setPosts(posts.map((p: any) => postMap(p))));
     }, []);
 

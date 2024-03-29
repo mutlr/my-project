@@ -26,7 +26,7 @@ interface ProfileContentProps {
     deletePost: (id: number) => void,
     authenticated: boolean,
 }
-
+// eslint-disable-next-line  @typescript-eslint/no-explicit-any
 const isFilter = (e: any): e is Filter => {
     return Object.values(Filter).includes(e);
 };
@@ -47,6 +47,8 @@ const ProfileItems = ({ id, isUser }: Props) => {
     const editFunc = (item: Post) => {
         setToEdit(item);
     };
+
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     const changeView = (e: any) => {
         if (isFilter(e)) setFilter(e);
     };

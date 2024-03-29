@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { MouseEventHandler, MutableRefObject, RefObject, forwardRef, useContext, useEffect, useRef, useState } from "react";
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import logo from '../../assets/Spotify_icon.svg.png';
@@ -35,6 +35,7 @@ const Searchbar = () => {
         searchUsers(debouncedSearchTerm)
         .then(result => setUsers(result.map(user => user)))
         .catch(error => console.log('Error from navbar search:', error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedSearchTerm]);
 
     const handleSearch = (e: React.FormEvent<HTMLInputElement>) => {
@@ -68,12 +69,12 @@ const Searchbar = () => {
         </div>
     );
 };
-interface NavbarLinksProps extends Props{
+interface NavbarLinksProps extends Props {
     isOpen: string
+    toggleVisibility: () => void,
 }
 const NavbarLinks = (props: NavbarLinksProps) => {
     const user = useContext(UserContext);
-
     const logout = () => {
         props.toggleVisibility();
         user.logout();
@@ -84,7 +85,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
         {user.user && <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/myprofile'}>Profile</Link></li>}
         {!user.user &&
         <>
-            <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/login'}>Login</Link></li>
+            <li className='nav-link' onClick={props.toggleVisibility} ><Link to={'/login'}>Login</Link></li>
             <li className='nav-link' onClick={props.toggleVisibility}><Link to={'/register'}>Register</Link></li>
         </>}
         {user.user && <li className='nav-link' onClick={logout}><Link to={'/'}>Logout</Link></li>}
@@ -93,14 +94,22 @@ const NavbarLinks = (props: NavbarLinksProps) => {
 };
 const Navbar = () => {
     const { isOpen, toggleVisibility } = useVisibility();
+    const width = useRef<HTMLDivElement>(null);
+    const toggle = () => {
+        const currentWidth = width.current?.clientWidth;
+        if (currentWidth && currentWidth < 600) {
+            toggleVisibility();
+        }
+    };
     return (
-        <div id="navbar">
+        <div ref={width} id="navbar">
             <img id='logo' src={logo}/>
-            <Burgerlines toggleVisibility={toggleVisibility}/>
+            <Burgerlines toggleVisibility={toggle}/>
             <Searchbar />
-            <NavbarLinks toggleVisibility={toggleVisibility} isOpen={isOpen}/>
+            <NavbarLinks toggleVisibility={toggle} isOpen={isOpen}/>
         </div>
     );
 };
 
+NavbarLinks.displayName = 'hi';
 export default Navbar;

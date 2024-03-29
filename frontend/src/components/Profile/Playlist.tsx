@@ -69,6 +69,7 @@ const Playlist = (props: { id: number}) => {
         })
         .catch(err => console.log('Error getting playlists: ', err))
         .finally(() => setLoading(false));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (loading) return <div>Loading...</div>;

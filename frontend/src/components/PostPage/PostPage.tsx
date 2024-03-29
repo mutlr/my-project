@@ -24,8 +24,10 @@ const PostPage = (props: PostPageProps) => {
     useEffect(() => {
         getCommentsByID(Number(id))
         .then(result => {
+            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
             setComments(result.map((c: any): Post => postMap(c)));
         }).catch(error => console.log('Error getting comments: ', error));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (props.post === null) {
