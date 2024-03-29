@@ -76,7 +76,7 @@ const MainForm = (props: MainFormProps) => {
 
                 <CustomInput register={register} name='title' placeholder='Title' errors={errors} />
 
-                <CustomTextarea register={register} placeholder='Description' name='description' errors={errors}/>
+                <CustomTextarea register={register} placeholder='Description' name='description' />
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
 

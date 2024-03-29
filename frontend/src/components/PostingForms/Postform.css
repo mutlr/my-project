@@ -4,12 +4,14 @@
     width: 100%;
     height: 100%;
     position: absolute;
+    left: 0;
     box-sizing: border-box;
     bottom: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: scroll;
+    padding: 0 10px;
 }
 .post-form {
     display: flex;

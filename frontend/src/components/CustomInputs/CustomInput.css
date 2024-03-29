@@ -22,13 +22,11 @@
     align-self: baseline;
     padding-bottom: 32px;
     justify-self: flex-start;
-    margin-left: 40px;
+    margin-left: 10px;
 }
-.error {
+.input-container input.error {
     border: 2px solid var(--error-color);
-    color: black;
-}
-.formInput {
+    color: var(--error-color);
 }
 
 .formInput {
@@ -42,7 +40,4 @@
 }
 label {
     font-size: 24px;
-}
-@media only screen and (max-width: 600px) {
-
 }

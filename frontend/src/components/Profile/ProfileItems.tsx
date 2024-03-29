@@ -32,7 +32,7 @@ const isFilter = (e: any): e is Filter => {
 };
 
 const ProfileContent = ({ isUser, post, edit, deletePost, authenticated }: ProfileContentProps) => (
-    <div className="">
+    <div className="profile-content">
         {isUser && <EditButtons onDelete={() => deletePost(post.id)} onEdit={() => edit(post)} />}
         <PostContainer post={post} preview={true} authenticated={authenticated} />
     </div>
@@ -101,7 +101,7 @@ const ProfileItems = ({ id, isUser }: Props) => {
                     <button className={`filter-item ${value === filter ? 'underline' : ''}`} key={value} onClick={() => changeView(value)}>{value}</button>
                 ))}
             </div>
-            <div className="profile-content-container">
+            <div className="profile-content-container" >
                 {layout()}
             </div>
         </>

@@ -63,7 +63,7 @@ export type ButtonTypes = 'submit' | 'reset' | 'button';
 
 export interface EditValues {
     title: string,
-    description: string,
+    description?: string,
 }
 
 export interface UserInfo {
