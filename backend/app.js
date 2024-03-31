@@ -14,13 +14,10 @@ const spotifyRouter = require('./controllers/spotify');
 const { errorHandler } = require('./util/middleware');
 const commentRouter = require('./controllers/comments');
 
-const path = require("path");
-
-app.use(express.static(path.join(__dirname, "..", "build")));
-app.use(express.static("public"));
-
 app.use(cors());
 app.use(express.json());
+app.use(express.static('build'))
+app.use(express.static("public"));
 
 app.use('/users', userRouter);
 app.use('/songs', songRouter);
