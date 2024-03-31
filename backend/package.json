@@ -11,7 +11,7 @@
     "start": "node app.js",
     "migration:down": "node util/rollback.js",
     "build": "cd ../frontend && npm install && npm run build",
-    "build-and-move": "npm run build && cp -r ../frontend/build/* . && cd .. && cd backend && npm install && npm start"
+    "build-and-move": "npm run build && cp -r ../frontend/build/* . && cd .. && cd backend && npm install"
   },
   "author": "",
   "license": "ISC",
