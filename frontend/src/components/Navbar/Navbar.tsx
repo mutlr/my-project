@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, MutableRefObject, RefObject, forwardRef, useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import logo from '../../assets/Spotify_icon.svg.png';
@@ -8,6 +8,7 @@ import useVisibility from "../../hooks/useVisibility";
 import UserContext from "../../context/userContext";
 import { useDebounce } from "@uidotdev/usehooks";
 import { searchUsers } from "../../services/userService";
+import { User } from "../../types";
 interface Props {
     toggleVisibility: () => void,
 }
@@ -25,7 +26,7 @@ const Burgerlines = (props: Props) => {
 const Searchbar = () => {
     const [search, setSearch] = useState<string>("");
     const debouncedSearchTerm = useDebounce(search, 500);
-    const [users, setUsers] = useState<{username: string, id: number}[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
 
     useEffect(() => {
         if (search.length === 0) {
@@ -94,15 +95,24 @@ const NavbarLinks = (props: NavbarLinksProps) => {
 };
 const Navbar = () => {
     const { isOpen, toggleVisibility } = useVisibility();
-    const width = useRef<HTMLDivElement>(null);
+    const ref = useRef<HTMLDivElement>(null);
+    window.onscroll = () => {
+        if (!ref.current) return;
+        if (window.scrollY > 60) {
+            ref.current.className = 'scroll';
+        } else {
+            ref.current.className = '';
+        }
+    };
+
     const toggle = () => {
-        const currentWidth = width.current?.clientWidth;
+        const currentWidth = ref.current?.clientWidth;
         if (currentWidth && currentWidth < 600) {
             toggleVisibility();
         }
     };
     return (
-        <div ref={width} id="navbar">
+        <div ref={ref} id="navbar">
             <img id='logo' src={logo}/>
             <Burgerlines toggleVisibility={toggle}/>
             <Searchbar />
@@ -111,5 +121,4 @@ const Navbar = () => {
     );
 };
 
-NavbarLinks.displayName = 'hi';
 export default Navbar;

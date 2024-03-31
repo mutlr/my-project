@@ -12,7 +12,6 @@ interface CustomInputProps<T extends FieldValues> {
 const CustomInput = <T extends FieldValues>({ register, name, placeholder, type = 'text', errors }: CustomInputProps<T>) => {
     const labelValue = name.charAt(0).toLocaleUpperCase() + name.substring(1, name.length);
     const errorMessage = errors && errors[name]?.message;
-    console.log('Error object: ', errorMessage);
     return (
         <div className='input-container'>
             {errorMessage &&

@@ -19,6 +19,7 @@ export const PostComment = ({ post, preview, authenticated }: Props) => {
                 name={post.song.songName}
                 artist={post.artist.artistName}
                 id={post.song.songId}
+                imageURL={post.song.imageUrl}
                 authenticated={authenticated} />
             <PostInformation
                 title={post.title}
@@ -32,10 +33,11 @@ const PostContainer = ({ post, preview, authenticated }: Props) => {
     return (
         <div className="content-container">
             <ContentHeader user={post.user} createdAt={post.createdAt}/>
-            <Link className="box-link" to={`/post/${post.commentId ? post.commentId : post.id}`}>
+            <Link className="box-link" to={`/post/${post.postIdInComment ? post.postIdInComment : post.id}`}>
                 <SongDetails
                     name={post.song.songName}
                     artist={post.artist.artistName}
+                    imageURL={post.song.imageUrl}
                     id={post.song.songId}
                     authenticated={authenticated} />
                 <PostInformation

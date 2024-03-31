@@ -47,9 +47,10 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 		if (!requestBody.song || !requestBody.artist || !requestBody.title) return res.status(500).json({ error: 'Data missing' });
 		const { title, description } = requestBody;
 		const { artistId, artistName } = requestBody.artist;
-		const { songId, songName } = requestBody.song;
+		const { songId, songName, imageUrl } = requestBody.song;
 		const { id } = req.decodedToken;
-		const song = await findOrCreateSong(songName, songId, artistName, artistId);
+		console.log('There is an image url in post: ', imageUrl);
+		const song = await findOrCreateSong(songName, songId, artistName, artistId, imageUrl);
 		const postId = await Post.create({ userId: id, title, songId: song.id, description });
 		const post = await Post.findByPk(postId.id);
 		res.status(201).json({ post });
@@ -67,7 +68,7 @@ router.post('/:id', tokenExtractor, postFinder, async (req, res) => {
 		post.title = title;
 		post.description = description;
 		await post.save();
-		res.status(200).end();
+		res.status(200).json({ data: post });
 	} catch (error) {
 		res.status(500).json({ error });
 	}

@@ -6,11 +6,11 @@ const signToken = (user) => {
 	return jwt.sign(user, SECRET);
 };
 
-const findOrCreateSong = async (name, songId, artistName, artistId) => {
+const findOrCreateSong = async (name, songId, artistName, artistId, image) => {
 	const artist = await findArtist(artistId, artistName);
 	const song = await Song.findByPk(songId);
 	if (!song) {
-		return await Song.create({ id: songId, songName: name, artistId: artist.id });
+		return await Song.create({ id: songId, songName: name, artistId: artist.id, imageUrl: image });
 	}
 	return song;
 };

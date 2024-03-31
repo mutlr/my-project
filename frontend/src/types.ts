@@ -2,21 +2,19 @@ export interface LoginValues {
     username: string,
     password: string
 }
-
 export interface RegisterFormValues extends LoginValues {
     email: string,
 }
-
-export interface UserValues {
-    token: string,
-    username: string,
+export interface User {
     id: number,
+    username: string,
+}
+export interface UserValues extends User {
+    token: string,
     accessToken: string,
     refreshToken: string,
 }
-export interface SongForm {
-    song: Song,
-    artist: Artist,
+export interface SongForm extends SongEntry {
     title: string,
     description: string,
 }
@@ -24,18 +22,11 @@ export interface SongEntry {
     song: Song,
     artist: Artist,
 }
-export interface SongListing {
-    artist: Artist,
-    song: Song,
-    image: string,
+export interface SongListing extends SongEntry {
+    imageUrl: string,
 }
-export interface CommentEntry extends SongForm {
+export interface CommentForm extends SongForm {
     postId: number
-}
-
-export interface User {
-    id: number,
-    username: string,
 }
 
 export interface Artist {
@@ -45,6 +36,7 @@ export interface Artist {
 export interface Song {
     songId: string,
     songName: string,
+    imageUrl?: string,
 }
 export interface Post {
     title: string,
@@ -54,28 +46,30 @@ export interface Post {
     description: string,
     createdAt: string,
     id: number,
-    commentId?: number,
+    postIdInComment?: number,
 }
-
-export type Colors = 'primary' | 'secondary' | 'red' | 'light';
-
-export type ButtonTypes = 'submit' | 'reset' | 'button';
-
+export interface FormValues extends EditValues {
+    song: string,
+}
 export interface EditValues {
     title: string,
-    description: string,
+    description?: string,
+}
+
+interface Player {
+    preview_url: string,
+    name: string,
+    artist: string,
+}
+
+interface UserProfileInfo {
+    display_name: string,
+    uri: string,
+    country: string,
 }
 
 export interface UserInfo {
-    player: {
-        preview_url: string,
-        name: string,
-        artist: string,
-    } | null,
+    player: Player | null,
     username: string,
-    userInfo: {
-        display_name: string,
-        uri: string,
-        country: string,
-    } | null,
+    userInfo: UserProfileInfo | null,
 }

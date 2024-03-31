@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
 import '../Login/Login.css';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { LoginValues, RegisterFormValues } from '../../types';
+import { RegisterFormValues } from '../../types';
 import Button from '../Button/Button';
 import UserContext from '../../context/userContext';
 import axios from 'axios';

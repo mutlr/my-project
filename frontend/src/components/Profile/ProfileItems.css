@@ -18,9 +18,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 .profile-content {
-    max-width: 700px;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 .underline {
     border-bottom: 2px solid white;
@@ -31,4 +39,7 @@
     .profile-content-container {
         width: 100%;
     }   
+    .profile-content {
+        padding: 0 20px;
+    }
  }

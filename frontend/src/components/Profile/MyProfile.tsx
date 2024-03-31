@@ -11,7 +11,6 @@ interface Props {
 
 const MyProfile = ({ id, authenticated }: Props) => {
     if (!id) return null;
-
     return (
         <>
             <ProfileHeader id={id}/>

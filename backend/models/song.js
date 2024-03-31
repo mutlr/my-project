@@ -16,6 +16,10 @@ Song.init({
 		allowNull: false,
 		unique: true,
 	},
+	imageUrl: {
+		type: DataTypes.STRING,
+		defaultValue: null,
+	}
 }, {
 	sequelize,
 	underscored: true,
@@ -24,7 +28,7 @@ Song.init({
 });
 
 Song.addScope('defaultScope', {
-	attributes: ['id', 'songName'],
+	attributes: ['id', 'songName', 'imageUrl'],
 	include: {
 		model: Artist
 	}

@@ -1,21 +1,20 @@
 import React from 'react';
 import './Postform.css';
 import { sendPost } from '../../services/postService';
-import { Post, SongEntry } from '../../types';
+import { FormValues, Post, SongEntry } from '../../types';
 import MainForm from './MainForm';
 import { postMap } from '../../utils/utils';
-export interface FormValues {
-    song: string,
-    title: string,
-    description?: string,
-}
+
 interface Props {
     toggleVisibility: () => void,
     addToList: (post: Post) => void,
 }
 const Postform = (props: Props) => {
-    const handleSubmit = async (values: FormValues, song: SongEntry) => {
-        sendPost({ ...song, title: values.title, description: values.description ? values.description : '' })
+    const handleSubmit = async (values: FormValues, songData: SongEntry) => {
+        const { songId, songName, imageUrl } = songData.song;
+        const { artistId, artistName } = songData.artist;   
+        console.log('Posting form: ', imageUrl, ' ja ', songData.song);
+        sendPost({ song: { songId, songName, imageUrl }, artist: { artistId, artistName }, title: values.title, description: values.description ? values.description : '' })
         .then(result => {
             props.toggleVisibility();
             props.addToList(postMap(result));

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SongEntry, SongListing } from '../../types';
+import { FormValues, SongEntry, SongListing } from '../../types';
 import { useDebounce } from "@uidotdev/usehooks";
 import { getSongs } from '../../services/apiServices';
 import Button from '../Button/Button';
 import axios, { isAxiosError } from 'axios';
 import './Postform.css';
 import { useForm } from 'react-hook-form';
-import { FormValues } from './Postform';
 import { Song } from '../SongDetails/SongDetails';
 import CustomInput from '../CustomInputs/CustomInput';
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -42,7 +41,7 @@ const MainForm = (props: MainFormProps) => {
                     artistName: r.artists[0].name,
                     artistId: r.artists[0].id,
                 },
-                image: r.album.images[0].url
+                imageUrl: r.album.images[0].url
             };
             }).slice(0, 8));
         })
@@ -61,8 +60,8 @@ const MainForm = (props: MainFormProps) => {
             return;
         }
         const song: SongEntry = {
-            song: chosenSong.song,
-            artist: chosenSong.artist
+            song: { ...chosenSong.song, imageUrl: chosenSong.imageUrl },
+            artist: chosenSong.artist,
         };
         props.handleSubmitData(data, song);
         reset();
@@ -71,12 +70,12 @@ const MainForm = (props: MainFormProps) => {
     };
     return (
         <div className='post-form-main-container'>
-            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.image}   /> : <p className={`${getFieldState('song').error ? 'postform-error' : ''}`}>Choose a song</p>}
+            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.imageUrl}   /> : <p className={`${getFieldState('song').error ? 'postform-error' : ''}`}>Choose a song</p>}
             <form className="post-form" onSubmit={handleSubmit(sendData)}>
 
                 <CustomInput register={register} name='title' placeholder='Title' errors={errors} />
 
-                <CustomTextarea register={register} placeholder='Description' name='description' errors={errors}/>
+                <CustomTextarea register={register} placeholder='Description' name='description' />
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
 
@@ -84,7 +83,7 @@ const MainForm = (props: MainFormProps) => {
             </form>
             {songs.map(s => (
                 <div key={s.song.songId} className='songs-container' onClick={() => setChosenSong(s)}>
-                    <Song name={s.song.songName} artist={s.artist.artistName} imageURL={s.image}/>
+                    <Song name={s.song.songName} artist={s.artist.artistName} imageURL={s.imageUrl}/>
                 </div>
             ))}
         </div>

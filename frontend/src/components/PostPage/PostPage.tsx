@@ -35,28 +35,28 @@ const PostPage = (props: PostPageProps) => {
     }
     return (
         <>
-        {props.user &&
-        <Togglable
-            buttonText="Comment"
-            toggleVisibility={toggleVisibility}
-            isOpen={isOpen}>
-            <Commentform
-                postId={props.post.id}
+            {props.user &&
+            <Togglable
+                buttonText="Comment"
                 toggleVisibility={toggleVisibility}
-                addComment={addComment}/>
-        </Togglable>}
-        <div className="postpage-container">
-            <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
-            <p>Comments</p>
-            {comments.map(c =>
-            <PostComment
-                key={c.id}
-                post={c}
-                authenticated={props.authenticated}
-                preview={false}
-                />
-            )}
-        </div>
+                isOpen={isOpen}>
+                <Commentform
+                    postId={props.post.id}
+                    toggleVisibility={toggleVisibility}
+                    addComment={addComment}/>
+            </Togglable>}
+            <div className="postpage-container">
+                <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
+                <p>Comments</p>
+                {comments.map(c =>
+                <PostComment
+                    key={c.id}
+                    post={c}
+                    authenticated={props.authenticated}
+                    preview={false}
+                    />
+                )}
+            </div>
         </>
     );
 };

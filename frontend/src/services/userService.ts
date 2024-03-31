@@ -13,11 +13,7 @@ export const userRegister = async (values: RegisterFormValues) => {
 };
 
 export const authenticateSpotify = async (code: string) => {
-    const loggedUser = localStorage.getItem('loggedUser');
-    if (loggedUser) {
-        const user = JSON.parse(loggedUser);
-        setToken(user.token);
-    }
+    console.log('Auths: ', userToken);
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
         headers: {

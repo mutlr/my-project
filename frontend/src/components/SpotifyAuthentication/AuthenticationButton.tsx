@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { MessageContext } from "../../context/messageContext";
 import { authenticateSpotify } from "../../services/userService";
 import './AuthenticationButton.css';
@@ -12,10 +12,11 @@ const SCOPE = 'user-read-private user-read-email playlist-modify-public playlist
 const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
 
 const AuthenticationButton = () => {
-    let code = new URLSearchParams(window.location.search).get("code");
     const message = useContext(MessageContext);
     const user = useContext(UserContext);
+    const codeRef = useRef<URLSearchParams>(new URLSearchParams(window.location.search));
     const navigate = useNavigate();
+    const code = codeRef.current.get('code');
     useEffect(() => {
         if (code) {
             authenticateSpotify(code)
@@ -23,16 +24,18 @@ const AuthenticationButton = () => {
                 user?.addUserToStorageAndSetUser(r.token, r.id, true, r.username);
                 message?.success('Authentication successfull!');
                 navigate('/myprofile');
-                code = null;
             })
             .catch(error => {
                 console.log('Error during authentication: ', error);
                 if (isAxiosError(error)) {
-                    message?.error(error.response?.data ? error.response?.data.error : 'There was an error authenticating. Try again later!');
+                    message?.error(error.response?.data ?
+                        error.response?.data.error :
+                        'There was an error authenticating. Try again later!');
                 }
                 navigate('/myprofile');
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [code]);
 
     return (

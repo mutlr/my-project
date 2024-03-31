@@ -1,8 +1,9 @@
 import React from "react";
 import './Button.css';
-import { Colors, ButtonTypes } from "../../types";
 import { ColorList } from "../../styles";
 
+type ButtonTypes = 'submit' | 'reset' | 'button';
+type Colors = 'primary' | 'secondary' | 'red' | 'light';
 interface ButtonProps  {
     text: string,
     color?: Colors,
