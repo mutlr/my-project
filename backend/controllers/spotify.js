@@ -47,12 +47,12 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 		});
 
 		const auth = await Auth.create({
-			userId: id, 
+			userId: id,
 			accessToken: access_token,
 			refreshToken: refresh_token,
 			spotifyId: spotifyData.data.id,
 		});
-		await createPlaylist(auth)
+		await createPlaylist(auth);
 
 		res.status(200).json({ token, username, id, authenticated: true });
 	} catch (error) {
@@ -190,7 +190,7 @@ router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res)
 			}
 		});
 		const { playlist, accessToken } = user.auth;
-		if (!playlist) return res.status(404).json({ error: 'No playlist'})
+		if (!playlist) return res.status(404).json({ error: 'No playlist' });
 		await axios.post(`https://api.spotify.com/v1/playlists/${playlist}/tracks`,
 			{ uris: ['spotify:track:' + songId] },
 			{

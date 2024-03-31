@@ -49,7 +49,6 @@ router.post('/', tokenExtractor, async (req, res, next) => {
 		const { artistId, artistName } = requestBody.artist;
 		const { songId, songName, imageUrl } = requestBody.song;
 		const { id } = req.decodedToken;
-		console.log('There is an image url in post: ', imageUrl);
 		const song = await findOrCreateSong(songName, songId, artistName, artistId, imageUrl);
 		const postId = await Post.create({ userId: id, title, songId: song.id, description });
 		const post = await Post.findByPk(postId.id);

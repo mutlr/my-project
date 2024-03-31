@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { Song, Comment, User } = require('../models');
+const { Comment } = require('../models');
 const { tokenExtractor } = require('../util/middleware');
 const { findOrCreateSong } = require('../util/utils');
 
@@ -38,8 +38,8 @@ router.get('/all/:id', async (req, res) => {
 	const { id } = req.params;
 	try {
 		const comments = await Comment.findAll({
-			where: { 
-				userId: id 
+			where: {
+				userId: id
 			}
 		});
 		return res.status(200).json({ data: comments });
@@ -51,8 +51,8 @@ router.get('/:id', async (req, res) => {
 	try {
 		const { id } = req.params;
 		const comments = await Comment.findAll({
-			where: { 
-				postId: id 
+			where: {
+				postId: id
 			},
 		});
 		res.status(200).json({ data: comments });

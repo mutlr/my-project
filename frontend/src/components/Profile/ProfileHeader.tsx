@@ -19,7 +19,7 @@ const ProfileHeader = (props: Props) => {
         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         .catch((error): any => {
             if (axios.isAxiosError(error)) {
-                console.log('Error: header', error.response?.data.error.message);
+                console.log('Error: header', error.response);
                 message?.error(error.response?.data.error.message);
             }
         });

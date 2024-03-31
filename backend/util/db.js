@@ -1,8 +1,23 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL } = require('./config');
+const { DATABASE_URL, PORT, DB_PASSWORD, DB_USERNAME } = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
-
-const sequelize = new Sequelize(DATABASE_URL, {});
+console.log('Database: ', DATABASE_URL)
+const DBConfig = {}
+const sequelize = new Sequelize(DATABASE_URL, {
+	type: "postgres",
+	host: 'localhost',
+	port: 5432,
+	username: DB_USERNAME,
+	password: DB_PASSWORD,
+	synchronize: true,
+	logging: false,
+	dialect: 'postgres',
+	protocol: 'postgres',
+	dialectOptions: {
+		ssl: true,
+		native:true
+	  }
+});
 
 const migrationConf = {
 	migrations: {
@@ -31,7 +46,7 @@ const connectToDatabase = async () => {
 		await runMigrations();
 		console.log('database connected');
 	} catch (err) {
-		console.log('connecting database failed', err);
+		console.log('connecting database failed', err.original);
 		return process.exit(1);
 	}
 	return null;
