@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import axios from "axios";
 import { EditValues, Post } from "../types";
 import { baseUrl } from "../utils/serviceUtils";
@@ -30,9 +30,12 @@ const useContentManager = (endpoint: string, id: number) => {
         }
     };
 
-    const editContent = async (editID: number, content: EditValues): Promise<void> => {
+    const editContent = async (editID: number, editValues: EditValues): Promise<void> => {
         try {
-            await editContentService(endpoint, editID, content);
+            const res = await editContentService(endpoint, editID, editValues);
+            console.log('Edit result: ', res.data.data);
+            const editedItem = postMap(res.data.data);
+            setContent(content.map(post => post.id === editedItem.id ? editedItem : post));
             message?.success('Successfully edited!');
         } catch (error) {
             message?.error('There was an error editing content!');

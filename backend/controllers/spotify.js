@@ -21,7 +21,17 @@ const getUserTokens = async (code) => {
 	const result = await axios(options);
 	return result.data;
 };
-
+const createPlaylist = async (auth) => {
+	const playlistResult = await axios.post(`https://api.spotify.com/v1/users/${auth.spotifyId}/playlists`,
+		{ name: 'Project playlist', public: true, description: 'Playlist for my cool project' },
+		{
+			headers: {
+				'Authorization': `Bearer ${auth.accessToken}`,
+			}
+		});
+	auth.playlist = playlistResult.data.id;
+	await auth.save();
+};
 router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 	const { code } = req.body;
 	try {
@@ -29,27 +39,20 @@ router.post('/spotifyauthentication', tokenExtractor, async (req, res) => {
 		const token = req.headers['authorization'].split(' ')[1];
 
 		const { access_token, refresh_token } = await getUserTokens(code);
+
 		const spotifyData = await axios.get('https://api.spotify.com/v1/me', {
 			headers: {
 				'Authorization': `Bearer ${access_token}`,
 			}
 		});
 
-		const [auth, created] = await Auth.findOrCreate({
-			where: { userId: id },
-			defaults: {
-				accessToken: access_token,
-				refreshToken: refresh_token,
-				spotifyId: spotifyData.data.id,
-			}
+		const auth = await Auth.create({
+			userId: id, 
+			accessToken: access_token,
+			refreshToken: refresh_token,
+			spotifyId: spotifyData.data.id,
 		});
-
-		if (!created) {
-			auth.accessToken = access_token;
-			auth.refreshToken = refresh_token;
-			auth.spotifyId = spotifyData.data.id;
-			await auth.save();
-		}
+		await createPlaylist(auth)
 
 		res.status(200).json({ token, username, id, authenticated: true });
 	} catch (error) {
@@ -66,7 +69,6 @@ router.get('/songs/:name', apiTokenExtractor, async (req, res) => {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
 		});
-		console.log('Track itemi: ', result.data.tracks.items);
 		res.status(200).json({ data: result.data.tracks.items });
 	} catch (error) {
 		console.log('Error in getting songs:', error);
@@ -178,18 +180,6 @@ router.get('/playlists/:id', refreshUserToken, async (req, res) => {
 	}
 });
 
-const createPlaylist = async (user) => {
-	const playlistResult = await axios.post(`https://api.spotify.com/v1/users/${user.auth.spotifyId}/playlists`,
-		{ name: 'Project playlist', public: false, description: 'Playlist for my cool project' },
-		{
-			headers: {
-				'Authorization': `Bearer ${user.auth.accessToken}`,
-			}
-		});
-	user.auth.playlist = playlistResult.data.id;
-	await user.auth.save();
-};
-
 router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res) => {
 	const { songId } = req.body;
 	try {
@@ -200,9 +190,7 @@ router.post('/addtoplaylist', tokenExtractor, refreshUserToken, async (req, res)
 			}
 		});
 		const { playlist, accessToken } = user.auth;
-		if (!playlist) {
-			await createPlaylist(user);
-		}
+		if (!playlist) return res.status(404).json({ error: 'No playlist'})
 		await axios.post(`https://api.spotify.com/v1/playlists/${playlist}/tracks`,
 			{ uris: ['spotify:track:' + songId] },
 			{

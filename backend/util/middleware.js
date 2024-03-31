@@ -4,7 +4,6 @@ const { Admin, User, Auth, Post } = require('../models');
 const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
 const errorHandler = (error, req, res, next) => {
-	console.log('Middleware error: ', error);
 	if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;
@@ -26,7 +25,6 @@ const tokenExtractor = (req, res, next) => {
 	try {
 		const user = jwt.verify(token, SECRET);
 		req.decodedToken = user;
-		console.log('Decoded user: ', user);
 		next();
 	} catch (error) {
 		return res.status(404).json({ error: 'Invalid token' });

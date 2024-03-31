@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import { addToPlaylist } from "../services/apiServices";
 import { MessageContext } from "../context/messageContext";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommentEntry, EditValues, SongForm } from "../types";
+import { CommentForm, EditValues, SongForm } from "../types";
 import { userToken, baseUrl } from "../utils/serviceUtils";
 export const getPosts = async () => {
     const result = await axios.get(`${baseUrl}/posts`);
@@ -7,7 +7,6 @@ export const getPosts = async () => {
 };
 
 export const sendPost = async (post: SongForm) => {
-    console.log('User token on send post: ', userToken);
     const result = await axios.post(`${baseUrl}/posts`, post, {
         headers: {
             'Authorization': userToken,
@@ -16,7 +15,7 @@ export const sendPost = async (post: SongForm) => {
     return result.data.post;
 };
 
-export const sendComment = async (comment: CommentEntry) => {
+export const sendComment = async (comment: CommentForm) => {
     const result = await axios.post(`${baseUrl}/comments`, comment, {
         headers: {
             'Authorization': userToken,

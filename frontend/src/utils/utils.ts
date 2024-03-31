@@ -13,12 +13,13 @@ export const postMap = (base: any): Post => {
         song: {
             songName: base.song.songName,
             songId: base.song.id,
+            imageUrl: base.song.imageUrl
         },
         artist: {
             artistName: base.song.artist.artistName,
             artistId: base.song.artist.id,
         },
         id: base.id,
-        commentId: base.postId,
+        postIdInComment: base.postId,
     };
 };

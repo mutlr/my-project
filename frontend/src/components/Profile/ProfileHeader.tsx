@@ -16,6 +16,7 @@ const ProfileHeader = (props: Props) => {
     useEffect(() => {
         userSpotifyData(props.id)
         .then(data => setInfo(data))
+        // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         .catch((error): any => {
             if (axios.isAxiosError(error)) {
                 console.log('Error: header', error.response?.data.error.message);

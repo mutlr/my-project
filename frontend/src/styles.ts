@@ -1,6 +1,4 @@
-import { Colors } from "./types";
-
-export const ColorList: Record<Colors, string> = {
+export const ColorList = {
     primary: 'var(--light-color)',
     secondary: 'var(--secondary-color)',
     light: 'var(--light-color)',

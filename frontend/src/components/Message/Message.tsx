@@ -5,13 +5,13 @@ import { MessageContext } from '../../context/messageContext';
 const Message = () => {
     const alert = useContext(MessageContext);
     const [scroll, setScroll] = useState<number>(0);
-    const backgroundColor = alert?.type === 'error' ? 'var(--error-color)' : 'green';
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
     if(!alert?.message) return null;
-    
+
+    const backgroundColor = alert.type === 'error' ? 'var(--error-color)' : 'green';
     function handleScroll() {
         const height = window.scrollY;
         if (height > 70 && height < 100) {

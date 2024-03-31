@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 
 const useVisibility = () => {
     const [visible, setVisible] = useState<boolean>(false);

@@ -1,6 +1,5 @@
 import React from "react";
-import { FormValues  } from "./Postform";
-import { Post, SongEntry } from "../../types";
+import { FormValues, Post, SongEntry } from "../../types";
 import { sendComment } from "../../services/postService";
 import MainForm from "./MainForm";
 import { postMap } from '../../utils/utils';
@@ -11,8 +10,10 @@ interface CommentformProps {
 }
 
 const Commentform = ({ postId, toggleVisibility, addComment }: CommentformProps) => {
-    const handleSubmit = async (values: FormValues, song: SongEntry) => {
-        sendComment({ ...song, title: values.title, postId, description: values.description ? values.description : '' })
+    const handleSubmit = async (values: FormValues, songData: SongEntry) => {
+        const { songId, songName, imageUrl } = songData.song;
+        const { artistId, artistName } = songData.artist;
+        sendComment({ song: { songId, songName, imageUrl }, artist: { artistId, artistName }, title: values.title, postId, description: values.description ? values.description : '' })
         .then(result => {
             toggleVisibility();
             addComment(postMap(result));

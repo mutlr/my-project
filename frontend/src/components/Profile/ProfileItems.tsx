@@ -55,7 +55,7 @@ const ProfileItems = ({ id, isUser }: Props) => {
 
     const handleEdit = async (values: EditValues) => {
         if (!toEdit) return;
-        if (toEdit.commentId) {
+        if (toEdit.postIdInComment) {
             commentEdit(toEdit.id, { ...values })
             .then(() => setToEdit(null))
             .catch(error => console.log('Error from editing a comment: ', error));

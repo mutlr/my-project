@@ -1,47 +1,31 @@
 import axios from 'axios';
 import { UserInfo } from '../types';
 import { userToken } from '../utils/serviceUtils';
-//import { baseUrl } from './serviceUtils';
+import { baseUrl } from './serviceUtils';
 
-/*export let api = '';
-const SPOTIFY_BASE_URL ='https://api.spotify.com/v1';
-const REDIRECT_URI = 'http://localhost:3000/test';
-const CLIENT_ID = process.env.REACT_APP_CLIENT_ID || '';
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET || '';
-
-console.log(CLIENT_ID);
-const BEARER = `${api}`;
-export const initToken = async () => {
-    const result = await axios.get(`${baseUrl}/token`);
-    console.log(result);
-    console.log('Resultti: ', result.data.data.toString());
-    api = 'Bearer ' + result.data.data.toString();
-    console.log('Api now: ', api);
-    return result;
-};*/
 export const getSongs = async (name: string, controller: AbortController) => {
-    const result = await axios.get(`http://localhost:3001/spotifyapi/songs/${name}`, { signal: controller?.signal });
+    const result = await axios.get(`${baseUrl}/spotifyapi/songs/${name}`, { signal: controller?.signal });
     return result.data.data;
 };
 
 export const getAudio = async (songId: string) => {
-    const result = await axios.get(`http://localhost:3001/spotifyapi/audio/${songId}`);
+    const result = await axios.get(`${baseUrl}/spotifyapi/audio/${songId}`);
     return result.data.data;
 };
 
 export const getUserSpotifyInfo = async (id: number): Promise<UserInfo> => {
-    const result = await axios.get<UserInfo>(`http://localhost:3001/spotifyapi/info/${id}`);
+    const result = await axios.get<UserInfo>(`${baseUrl}/spotifyapi/info/${id}`);
     const data: UserInfo = result.data;
     return data;
 };
 
 export const getPlaylists = async (id: number) => {
-    const result = await axios.get(`http://localhost:3001/spotifyapi/playlists/${id}`);
+    const result = await axios.get(`${baseUrl}/spotifyapi/playlists/${id}`);
     return result.data.data;
 };
 
 export const addToPlaylist = async (songId: string) => {
-    const result = await axios.post('http://localhost:3001/spotifyapi/addtoplaylist', { songId }, {
+    const result = await axios.post(`${baseUrl}/spotifyapi/addtoplaylist`, { songId }, {
         headers: {
             'Authorization': userToken,
         }

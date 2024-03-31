@@ -27,6 +27,7 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
         setValue('description', description);
 
         return () => reset();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     if (!item) return null;
 
