@@ -1,10 +1,9 @@
 .frontpage-container {
-    margin-top: 20px;
     display: flex;
     flex-direction: row;
-    height: 100%;
-    flex-wrap: wrap;
-    justify-content: flex-start;
     justify-content: center;
+    flex-flow: wrap;
+    margin-top: 20px;
+    flex-grow: 1;
     gap: 20px;
 }

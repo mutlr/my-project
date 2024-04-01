@@ -1,4 +1,7 @@
 .App {
-    height: 100%;
     padding-bottom: 60px;
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
 }

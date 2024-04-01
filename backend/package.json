@@ -12,7 +12,7 @@
     "migration:down": "node util/rollback.js",
     "build:ui:windows": "@powershell Remove-Item -Recurse -Force build && cd ../frontend && npm run build && @powershell Copy-Item build -Recurse ../backend",
     "build:ui": "cd ../frontend && npm install && npm run build && cp -r build ../backend",
-    "build-and-move": "npm run build:ui && npm install"
+    "build:and:move": "npm run build:ui && npm install"
   },
   "author": "",
   "license": "ISC",

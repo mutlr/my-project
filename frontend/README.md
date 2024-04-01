@@ -1,3 +1,5 @@
+Sovelluksen ideana tehdä postauksia missä musikkiia ja toiset voivat suositella samanlaista musikkiia. Postauksissa on preview kuuntelu spotifyista. Käyttäjät voivat myös authentikoida spotifyn ja lisätä musiikkeja soittolistalle sekä käyttäjän omat julkiset soittolistat näkyvät profiilissa ja jos käyttäjä kuuntelee musiikkia spotifyissa niin sekin.
+
 Tuntitaulukko frontend:
     Navbarin ja burgermenun suunnittelu ja teko 6h
     Register ja login layout 5h
@@ -19,3 +21,4 @@ Tuntitaulukko frontend:
     Navbar uudelleen teko 5h
     Komponenttien hienommuus, profiilin siistiminen ja hookin tekeminen postauksien editoimiseen ja kommenteille oma routeri. 6h
     Formien uusiminen ja input komponentit 5h
+    Sovelluksen laitto nettii 3h

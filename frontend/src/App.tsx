@@ -13,6 +13,7 @@ import View from './components/Frontpage/View';
 import PostPage from './components/PostPage/PostPage';
 import userContext from './context/userContext';
 import MyProfile from './components/Profile/MyProfile';
+import Footer from './components/Footer/Footer';
 
 function App () {
     const user = useContext(userContext);
@@ -44,6 +45,7 @@ function App () {
                 <Route path='/myprofile' element={<MyProfile id={user?.user?.id} authenticated={user?.authenticated}/>} />
                 <Route path='profile/:id' element={<Profile />} />
             </Routes>
+            <Footer />
         </div>
     );
 }

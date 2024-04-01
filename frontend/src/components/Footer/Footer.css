@@ -1,0 +1,11 @@
+footer {
+    height: 60px;
+    background-color: var(--primary-color);
+    text-align: center;
+    margin-top: 40px;
+    margin-top: auto;
+}
+
+footer p {
+    margin: auto;
+}
