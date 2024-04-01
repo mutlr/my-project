@@ -19,7 +19,6 @@ Post.hasMany(Comment, { onDelete: 'cascade', hooks: true });
 
 Auth.belongsTo(User);
 
-
 Comment.belongsTo(User);
 Comment.belongsTo(Post);
 Comment.belongsTo(Song);
