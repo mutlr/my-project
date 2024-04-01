@@ -33,6 +33,6 @@ export const refreshSpotifyToken = async () => {
 };
 
 export const searchUsers = async (name: string): Promise<{ username: string, id: number }[]> => {
-    const result = await axios.get(`http://localhost:3001/users/getusers/${name}`);
+    const result = await axios.get(`${baseUrl}/users/getusers/${name}`);
     return result.data.users;
 };

@@ -18,14 +18,14 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('build'));
 
-app.use('/users', userRouter);
-app.use('/songs', songRouter);
-app.use('/artists', artistRouter);
-app.use('/posts', postRouter);
-app.use('/register', registerRouter);
-app.use('/login', loginRouter);
-app.use('/spotifyapi', spotifyRouter);
-app.use('/comments', commentRouter);
+app.use('/api/users', userRouter);
+app.use('/api/songs', songRouter);
+app.use('/api/artists', artistRouter);
+app.use('/api/posts', postRouter);
+app.use('/api/register', registerRouter);
+app.use('/api/login', loginRouter);
+app.use('/api/spotifyapi', spotifyRouter);
+app.use('/api/comments', commentRouter);
 app.use(errorHandler);
 
 const start = async () => {

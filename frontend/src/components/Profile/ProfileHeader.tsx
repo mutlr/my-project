@@ -20,7 +20,7 @@ const ProfileHeader = (props: Props) => {
         .catch((error): any => {
             if (axios.isAxiosError(error)) {
                 console.log('Error: header', error.response);
-                message?.error(error.response?.data.error.message);
+                message?.error(error.response?.data);
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps

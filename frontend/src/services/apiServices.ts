@@ -34,6 +34,6 @@ export const addToPlaylist = async (songId: string) => {
 };
 
 export const userSpotifyData = async (id: number) => {
-    const result = await axios.get(`http://localhost:3001/spotifyapi/info/${id}`);
+    const result = await axios.get(`${baseUrl}/spotifyapi/info/${id}`);
     return result.data;
 };
