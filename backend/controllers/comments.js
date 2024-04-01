@@ -24,7 +24,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 	try {
 		const comment = await Comment.findByPk(req.params.id);
 		if (comment.userId !== req.decodedToken.id || !comment) {
-			return res.status(400).json({ error: 'Something went wrong with deleting comment!' });
+			return res.status(401).json({ error: 'Something went wrong with deleting comment!' });
 		}
 
 		await comment.destroy();
@@ -68,7 +68,7 @@ router.post('/:id', tokenExtractor, async (req, res) => {
 		if (title === '' || !title) return res.status(400).json({ error: 'Title cannot be empty' });
 
 		const comment = await Comment.findByPk(id);
-		if (req.decodedToken.id !== comment.userId ) return res.status(400).json({ error: 'Not your content to edit' });
+		if (req.decodedToken.id !== comment.userId ) return res.status(401).json({ error: 'Not your content to edit' });
 		comment.title = title;
 		comment.description = description;
 		await comment.save();

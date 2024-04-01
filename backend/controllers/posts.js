@@ -12,7 +12,7 @@ router.delete('/:id', tokenExtractor, postFinder, async (req, res) => {
 	try {
 		const post = req.foundPost;
 		if (post.userId !== req.decodedToken.id || !post) {
-			return res.status(400).json({ error: 'Not your post to delete!' });
+			return res.status(401).json({ error: 'Not your post to delete!' });
 		}
 		await post.destroy();
 		res.status(200).json({ post });

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, PRODUCTION } = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
-
+console.log('Database: ', DATABASE_URL);
 const DatabaseConfig = PRODUCTION ? {
 	type: 'postgres',
 	host: 'localhost',
@@ -15,7 +15,7 @@ const DatabaseConfig = PRODUCTION ? {
 		ssl: true,
 		native:true
 	}
-} : {}
+} : {};
 
 const sequelize = new Sequelize(DATABASE_URL, { ...DatabaseConfig });
 
