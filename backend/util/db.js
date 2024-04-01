@@ -1,10 +1,8 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL, PORT, DB_PASSWORD, DB_USERNAME } = require('./config');
+const { DATABASE_URL, DB_PASSWORD, DB_USERNAME } = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
-console.log('Database: ', DATABASE_URL)
-const DBConfig = {}
 const sequelize = new Sequelize(DATABASE_URL, {
-	type: "postgres",
+	type: 'postgres',
 	host: 'localhost',
 	port: 5432,
 	username: DB_USERNAME,
@@ -16,7 +14,7 @@ const sequelize = new Sequelize(DATABASE_URL, {
 	dialectOptions: {
 		ssl: true,
 		native:true
-	  }
+	}
 });
 
 const migrationConf = {

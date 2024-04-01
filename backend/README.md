@@ -1,3 +1,5 @@
+Sovelluksen linkki: https://my-react-project-g0pp.onrender.com/
+
 Tuntitaulukko backend:
     Setup 2h
     Tietokannan suunnittelu 5h

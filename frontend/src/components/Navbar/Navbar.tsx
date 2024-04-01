@@ -96,14 +96,7 @@ const NavbarLinks = (props: NavbarLinksProps) => {
 const Navbar = () => {
     const { isOpen, toggleVisibility } = useVisibility();
     const ref = useRef<HTMLDivElement>(null);
-    window.onscroll = () => {
-        if (!ref.current) return;
-        if (window.scrollY > 60) {
-            ref.current.className = 'scroll';
-        } else {
-            ref.current.className = '';
-        }
-    };
+
 
     const toggle = () => {
         const currentWidth = ref.current?.clientWidth;

@@ -1,7 +1,13 @@
 .App {
-    padding-bottom: 60px;
+    width: 100%;
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
-    justify-content: flex-start;
+    min-height: 100vh;
+    background-color: var(--secondary-color);
+}
+
+.main {
+    flex: 1 0 auto;
+    height: 100%;
+    margin-bottom: 40px;
 }

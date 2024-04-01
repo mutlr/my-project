@@ -2,10 +2,7 @@ footer {
     height: 60px;
     background-color: var(--primary-color);
     text-align: center;
-    margin-top: 40px;
     margin-top: auto;
+    padding-top: 20px;
 }
 
-footer p {
-    margin: auto;
-}

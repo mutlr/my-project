@@ -31,11 +31,6 @@
     padding: 8px 0;
     background-color: var(--primary-color);
 }
-
-#navbar.scroll {
-    position: fixed;
-    top: 0;
-}
 #logo {
     display: none;
 }
@@ -119,7 +114,7 @@
         font-size: 19px;
     }
     .navbar-link-container li:hover {
-        border-bottom: 2px solid blue;
+        border-bottom: 2px solid var(--light-color);
         cursor: pointer;
     }
     #logo {

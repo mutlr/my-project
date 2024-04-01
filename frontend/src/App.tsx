@@ -37,14 +37,16 @@ function App () {
         <div className="App">
             <Message />
             <Navbar />
-            <Routes>
-                <Route path='/' element={<View posts={posts} authenticated={user.authenticated} user={user.user} addToList={addToList}/>}/>
-                <Route path='/login' element={<Login />}/>
-                <Route path='/register' element={<Register />}/>
-                <Route path="post/:id" element={<PostPage post={postMatchResult ? postMatchResult : null} user={user?.user} authenticated={user.authenticated} />}/>
-                <Route path='/myprofile' element={<MyProfile id={user?.user?.id} authenticated={user?.authenticated}/>} />
-                <Route path='profile/:id' element={<Profile />} />
-            </Routes>
+            <main className='main'>
+                <Routes>
+                    <Route path='/' element={<View posts={posts} authenticated={user.authenticated} user={user.user} addToList={addToList}/>}/>
+                    <Route path='/login' element={<Login />}/>
+                    <Route path='/register' element={<Register />}/>
+                    <Route path="post/:id" element={<PostPage post={postMatchResult ? postMatchResult : null} user={user?.user} authenticated={user.authenticated} />}/>
+                    <Route path='/myprofile' element={<MyProfile id={user?.user?.id} authenticated={user?.authenticated}/>} />
+                    <Route path='profile/:id' element={<Profile />} />
+                </Routes>
+            </main>
             <Footer />
         </div>
     );

@@ -78,7 +78,6 @@ const checkAdmin = async () => {
 const checkAdminTime = async () => {
 	const admin = await Admin.findByPk(1);
 	if (timeChecker(admin.updatedAt) === true) {
-		console.log('Admin check time is truth: ');
 		const token = await refreshAdminToken();
 		admin.token = token;
 		await admin.save();
