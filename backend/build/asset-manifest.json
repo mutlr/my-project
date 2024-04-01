@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.813ee77a.css",
+    "main.js": "/static/js/main.52218052.js",
+    "static/media/kitty-cat-kitten-pet-45201.jpeg": "/static/media/kitty-cat-kitten-pet-45201.ed12032ca45aadcde6c6.jpeg",
+    "static/media/Spotify_icon.svg.png": "/static/media/Spotify_icon.svg.32c0c7023997229c3c01.png",
+    "static/media/search.png": "/static/media/search.3a608aca6f4d314714c4.png",
+    "index.html": "/index.html",
+    "main.813ee77a.css.map": "/static/css/main.813ee77a.css.map",
+    "main.52218052.js.map": "/static/js/main.52218052.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.813ee77a.css",
+    "static/js/main.52218052.js"
+  ]
+}
