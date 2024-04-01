@@ -62,9 +62,9 @@ const Searchbar = () => {
                     <img className="search-image" src={magnify} />}
                 {users.length > 0 && <div className="user-search">
                     {users.map(user =>
-                    <a href={`/profile/${user.id}`} key={user.id}>
+                    <Link to={`/profile/${user.id}`} key={user.id} onClick={clearData}>
                         <p>{user.username}</p>
-                    </a>)}
+                    </Link>)}
                 </div>}
             </div>
         </div>
