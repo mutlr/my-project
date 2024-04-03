@@ -1,4 +1,7 @@
 const { User, Song, Artist, Post, Comment } = require('../models/index');
+const server = require('../app.js');
+const supertest = require('supertest');
+let api = supertest(server);
 const initDatabase = async () => {
 	try {
 		await User.bulkCreate([
@@ -37,4 +40,4 @@ const emptyDatabase = async () => {
 	await Comment.truncate({ cascade: true, restartIdentity: true });
 };
 
-module.exports = { initDatabase, emptyDatabase };
+module.exports = { initDatabase, emptyDatabase, api };
