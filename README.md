@@ -1,6 +1,6 @@
 Sovelluksen ideana tehdä postauksia missä musikkiia ja toiset voivat suositella samanlaista musikkiia. Postauksissa on preview kuuntelu spotifyista. Käyttäjät voivat myös authentikoida spotifyn ja lisätä musiikkeja soittolistalle sekä käyttäjän omat julkiset soittolistat näkyvät profiilissa ja jos käyttäjä kuuntelee musiikkia spotifyissa niin sekin.
 
-Sovelluksen linkki: https://my-react-project-g0pp.onrender.com/
+Sovelluksen linkki: [https://my-react-project-g0pp.onrender.com/](https://my-project-e9wu.onrender.com/)
 
 Tuntitaulukko backend:
     Setup 2h
