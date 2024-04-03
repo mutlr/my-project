@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommentForm, EditValues, SongForm } from "../types";
+import { CommentForm, PostBase, SongForm } from "../types";
 import { userToken, baseUrl } from "../utils/serviceUtils";
 export const getPosts = async () => {
     const result = await axios.get(`${baseUrl}/posts`);
@@ -47,7 +47,7 @@ export const deleteContentService = async (endpoint: string, id: number) => {
     return result;
 };
 
-export const editContentService = async (endpoint: string, id: number, content: EditValues) => {
+export const editContentService = async (endpoint: string, id: number, content: PostBase) => {
     const result = await axios.post(`${baseUrl}/${endpoint}/${id}`, content, {
         headers: {
             'Authorization': userToken,

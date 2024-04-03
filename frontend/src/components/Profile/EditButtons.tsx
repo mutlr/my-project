@@ -1,5 +1,6 @@
 import React from "react";
 import './EditButtons.css';
+import Button from "../Button/Button";
 
 interface Props {
     onDelete: () => void,
@@ -9,8 +10,8 @@ interface Props {
 const EditButtons = ({ onDelete, onEdit }: Props) => {
     return (
         <div className="edit-container">
-            <button className="delete-btn edit" onClick={onDelete}>Delete</button>
-            <button className="edit-btn edit " onClick={onEdit}>Edit</button>
+            <Button className="edit" onClick={onDelete} text="Delete" color="red" />
+            <Button className="edit" onClick={onEdit} text="Edit" color="light" />
         </div>
     );
 };

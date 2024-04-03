@@ -14,6 +14,10 @@ export interface UserValues extends User {
     accessToken: string,
     refreshToken: string,
 }
+export interface PostBase {
+    title: string,
+    description?: string,
+}
 export interface SongForm extends SongEntry {
     title: string,
     description: string,
@@ -48,10 +52,10 @@ export interface Post {
     id: number,
     postIdInComment?: number,
 }
-export interface FormValues extends EditValues {
+export interface FormValues extends PostBase {
     song: string,
 }
-export interface EditValues {
+export interface PostBase {
     title: string,
     description?: string,
 }

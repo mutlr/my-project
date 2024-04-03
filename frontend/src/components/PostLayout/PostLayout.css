@@ -32,8 +32,8 @@
     font-size: 16px;
     margin-top: 8px;
 }
-.content-song-container .buttonContainer {
-    height: 14px;
+.content-song-container .customButton {
+
     align-items: center;
     border-color: white;
     margin: 0 12px 0 auto;

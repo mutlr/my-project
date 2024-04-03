@@ -45,7 +45,6 @@ const Register = () => {
                 <CustomInput register={register} name='email' placeholder='Email' errors={errors}/>
                 <CustomInput register={register} name='password' placeholder='Password' type='password' errors={errors}/>
                 <Button type="submit" text='Sign Up' color='light' />
-
             </form>
         </div>
     );

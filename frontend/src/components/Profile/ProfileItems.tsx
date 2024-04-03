@@ -1,5 +1,5 @@
 import React, { useContext, useState, ReactNode } from "react";
-import { EditValues, Post } from "../../types";
+import { PostBase, Post } from "../../types";
 import PostContainer from "../PostLayout/PostContainer";
 import EditForm from "../EditForm/EditForm";
 import './ProfileItems.css';
@@ -53,7 +53,7 @@ const ProfileItems = ({ id, isUser }: Props) => {
         if (isFilter(e)) setFilter(e);
     };
 
-    const handleEdit = async (values: EditValues) => {
+    const handleEdit = async (values: PostBase) => {
         if (!toEdit) return;
         if (toEdit.postIdInComment) {
             commentEdit(toEdit.id, { ...values })

@@ -10,16 +10,17 @@ interface ButtonProps  {
     onClick?: () => void,
     type?: ButtonTypes,
     style?: React.CSSProperties,
+    className?: string,
 }
 
 
-const Button = ({ text, color, onClick, type = 'button', style, }: ButtonProps) => {
+const Button = ({ text, color, onClick, type = 'button', style, className }: ButtonProps) => {
     const backgroundStyle = {
-        backgroundColor: ColorList[color || 'secondary'],
+        backgroundColor: ColorList[color || 'primary'],
         display: 'inline-flex',
     };
     return (
-        <button type={type} className="buttonContainer" style={{ ...backgroundStyle, ...style }} onClick={onClick}>
+        <button type={type} className={`customButton ${className}`} style={{ ...backgroundStyle, ...style }} onClick={onClick}>
             {text}
         </button>
     );

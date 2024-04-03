@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState, Suspense } from "react";
 import './Navbar.css';
 import { Link } from "react-router-dom";
 import logo from '../../assets/Spotify_icon.svg.png';

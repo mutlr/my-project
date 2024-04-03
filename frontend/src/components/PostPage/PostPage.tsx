@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import Togglable from "../Togglable/Togglable";
+import Togglable, { TogglableProps } from "../Togglable/Togglable";
 import Commentform from "../PostingForms/Commentform";
 import { Post, User } from "../../types";
 import { getCommentsByID } from "../../services/postService";
-import useVisibility from "../../hooks/useVisibility";
 import { postMap } from "../../utils/utils";
 import PostContainer, { PostComment } from "../PostLayout/PostContainer";
 import './PostPage.css';
@@ -17,7 +16,7 @@ interface PostPageProps {
 const PostPage = (props: PostPageProps) => {
     const { id } = useParams();
     const [comments, setComments] = useState<Post[]>([]);
-    const { toggleVisibility, isOpen } = useVisibility();
+    const toggleRef = useRef<TogglableProps>(null);
     const addComment = (comment: Post) => {
         setComments(comments.concat(comment));
     };
@@ -36,13 +35,11 @@ const PostPage = (props: PostPageProps) => {
     return (
         <>
             {props.user &&
-            <Togglable
-                buttonText="Comment"
-                toggleVisibility={toggleVisibility}
-                isOpen={isOpen}>
+            <Togglable ref={toggleRef}
+                buttonText="Comment">
                 <Commentform
                     postId={props.post.id}
-                    toggleVisibility={toggleVisibility}
+                    toggleVisibility={() => toggleRef.current?.toggleVisibility()}
                     addComment={addComment}/>
             </Togglable>}
             <div className="postpage-container">

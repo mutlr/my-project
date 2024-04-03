@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import axios from "axios";
-import { EditValues, Post } from "../types";
+import { PostBase, Post } from "../types";
 import { baseUrl } from "../utils/serviceUtils";
 import { postMap } from "../utils/utils";
 import { MessageContext } from "../context/messageContext";
@@ -30,7 +30,7 @@ const useContentManager = (endpoint: string, id: number) => {
         }
     };
 
-    const editContent = async (editID: number, editValues: EditValues): Promise<void> => {
+    const editContent = async (editID: number, editValues: PostBase): Promise<void> => {
         try {
             const res = await editContentService(endpoint, editID, editValues);
             console.log('Edit result: ', res.data.data);

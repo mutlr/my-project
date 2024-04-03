@@ -79,7 +79,7 @@ const MainForm = (props: MainFormProps) => {
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
 
-                <Button type='submit' text='Submit' color='primary' />
+                <Button type='submit' text='Submit' color='light' />
             </form>
             {songs.map(s => (
                 <div key={s.song.songId} className='songs-container' onClick={() => setChosenSong(s)}>

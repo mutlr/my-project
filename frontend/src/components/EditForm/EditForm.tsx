@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Post, EditValues } from "../../types";
+import { Post, PostBase } from "../../types";
 import Button from "../Button/Button";
 import { useForm } from "react-hook-form";
 import CustomInput from "../CustomInputs/CustomInput";
@@ -15,11 +15,11 @@ const schema = yup.object().shape({
 interface Props {
     item: Post | null,
     cancel: () => void,
-    handleEdit: (values: EditValues) => void,
+    handleEdit: (values: PostBase) => void,
 }
 
 const EditForm = ({ item, cancel, ...props }: Props) => {
-    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<EditValues>({ resolver: yupResolver(schema) });
+    const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PostBase>({ resolver: yupResolver(schema) });
     useEffect(() => {
         const title = item ? item.title : '';
         const description = item ? item.description : '';
@@ -31,7 +31,7 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
     }, []);
     if (!item) return null;
 
-    const handleChange = async (values: EditValues) => {
+    const handleChange = async (values: PostBase) => {
         props.handleEdit(values);
         reset();
     };
@@ -43,8 +43,8 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
                 <CustomTextarea register={register} name="description" placeholder="Description" errors={errors} />
 
                 <div>
-                    <Button type='button' text='Cancel' color='primary' onClick={cancel} />
-                    <Button type='submit' text='Submit' color='primary' />
+                    <Button type='button' text='Cancel' color='light' onClick={cancel} />
+                    <Button type='submit' text='Submit' color='light' />
                 </div>
             </form>
         </div>
