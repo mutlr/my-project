@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import axios from "axios";
-import { PostBase, Post } from "../types";
+import { PostBase, Post, PostFromBackend } from "../types";
 import { baseUrl } from "../utils/serviceUtils";
 import { postMap } from "../utils/utils";
 import { MessageContext } from "../context/messageContext";
@@ -10,14 +10,13 @@ const useContentManager = (endpoint: string, id: number) => {
     const [content, setContent] = useState<Post[]>([]);
     const message = useContext(MessageContext);
     useEffect(() => {
-        axios.get(`${baseUrl}/${endpoint}/all/${id}`)
-        .then(result => {
-            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-            setContent(result.data.data.map((r: any) => postMap(r)));
+        axios.get<{ data: PostFromBackend[] }>(`${baseUrl}/${endpoint}/all/${id}`)
+        .then((result) => {
+            setContent(result.data.data.map((r: PostFromBackend) => postMap(r)));
         })
         .catch(error => console.log('Error from useContentManager', error));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [id]);
 
     const deleteContent = async (deleteID: number): Promise<void> => {
         try {

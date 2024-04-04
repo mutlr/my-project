@@ -1,20 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Togglable, { TogglableProps } from "../Togglable/Togglable";
 import Commentform from "../PostingForms/Commentform";
-import { Post, User } from "../../types";
+import { Post, PostFromBackend } from "../../types";
 import { getCommentsByID } from "../../services/postService";
 import { postMap } from "../../utils/utils";
 import PostContainer, { PostComment } from "../PostLayout/PostContainer";
 import './PostPage.css';
-interface PostPageProps {
+import userContext from "../../context/userContext";
+interface Props {
     post: Post | null,
-    user?: User | undefined | null,
-    authenticated: boolean,
 }
 
-const PostPage = (props: PostPageProps) => {
+const PostPage = (props: Props) => {
     const { id } = useParams();
+    const { authenticated, user } = useContext(userContext);
     const [comments, setComments] = useState<Post[]>([]);
     const toggleRef = useRef<TogglableProps>(null);
     const addComment = (comment: Post) => {
@@ -22,9 +22,8 @@ const PostPage = (props: PostPageProps) => {
     };
     useEffect(() => {
         getCommentsByID(Number(id))
-        .then(result => {
-            // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-            setComments(result.map((c: any): Post => postMap(c)));
+        .then((result: PostFromBackend[]) => {
+            setComments(result.map((c: PostFromBackend): Post => postMap(c)));
         }).catch(error => console.log('Error getting comments: ', error));
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -34,7 +33,7 @@ const PostPage = (props: PostPageProps) => {
     }
     return (
         <>
-            {props.user &&
+            {user &&
             <Togglable ref={toggleRef}
                 buttonText="Comment">
                 <Commentform
@@ -43,13 +42,13 @@ const PostPage = (props: PostPageProps) => {
                     addComment={addComment}/>
             </Togglable>}
             <div className="postpage-container">
-                <PostContainer post={props.post} preview={false} authenticated={props.authenticated} />
+                <PostContainer post={props.post} preview={false} authenticated={authenticated} />
                 <p>Comments</p>
                 {comments.map(c =>
                 <PostComment
                     key={c.id}
                     post={c}
-                    authenticated={props.authenticated}
+                    authenticated={authenticated}
                     preview={false}
                     />
                 )}

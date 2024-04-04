@@ -1,8 +1,9 @@
 import axios from "axios";
-import { CommentForm, PostBase, SongForm } from "../types";
+import { CommentForm, PostBase, PostFromBackend, SongForm } from "../types";
 import { userToken, baseUrl } from "../utils/serviceUtils";
-export const getPosts = async () => {
-    const result = await axios.get(`${baseUrl}/posts`);
+
+export const getPosts = async (): Promise<PostFromBackend[]> => {
+    const result = await axios.get<{ posts: PostFromBackend[] }>(`${baseUrl}/posts`);
     return result.data.posts;
 };
 
@@ -24,12 +25,8 @@ export const sendComment = async (comment: CommentForm) => {
     return result.data.returnComment;
 };
 
-export const getCommentsByID = async (id: number) => {
-    const result = await axios.get(`${baseUrl}/comments/${id}`);
-    return result.data.data;
-};
-export const getComments = async (id: number) => {
-    const result = await axios.get(`${baseUrl}/comments/all/${id}`);
+export const getCommentsByID = async (id: number): Promise<PostFromBackend[]> => {
+    const result = await axios.get<{ data: PostFromBackend[] }>(`${baseUrl}/comments/${id}`);
     return result.data.data;
 };
 

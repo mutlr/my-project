@@ -24,7 +24,7 @@ const ProfileHeader = (props: Props) => {
             }
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.id]);
     if (!info) return null;
     return (
     <div className="profile-header-container">

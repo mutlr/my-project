@@ -1,18 +1,18 @@
-import React, { useRef } from 'react';
-import { Post, User, } from '../../types';
+import React, { useContext, useRef } from 'react';
+import { Post, } from '../../types';
 import PostBox from '../PostLayout/PostContainer';
 import './View.css';
 import Postform from '../PostingForms/Postform';
 import Togglable, { TogglableProps } from '../Togglable/Togglable';
+import userContext from '../../context/userContext';
 
 interface Props {
     posts: Post[],
-    authenticated: boolean,
-    user?: User | null,
     addToList: (post: Post) => void,
 }
 
 const View = (props: Props) => {
+    const user = useContext(userContext);
     const toggleRef = useRef<TogglableProps>(null);
     return (
         <div className='frontpage-container'>
@@ -21,10 +21,10 @@ const View = (props: Props) => {
                 post={post}
                 preview={true}
                 key={post.id}
-                authenticated={props.authenticated}
+                authenticated={user.authenticated}
                 />
             ))}
-            {props.user &&
+            {user.user &&
             <Togglable ref={toggleRef}
                 buttonText='Add a post'>
                 <Postform toggleVisibility={() => toggleRef.current?.toggleVisibility()} addToList={props.addToList}/>

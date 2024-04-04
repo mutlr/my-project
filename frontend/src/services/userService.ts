@@ -1,6 +1,6 @@
-import { userToken, baseUrl, setToken } from "../utils/serviceUtils";
+import { userToken, baseUrl } from "../utils/serviceUtils";
 import axios from "axios";
-import { LoginValues, RegisterFormValues, } from "../types";
+import { LoginValues, RegisterFormValues, User, } from "../types";
 
 export const userLogin = async (values: LoginValues) => {
     const result = await axios.post(`${baseUrl}/login`, values);
@@ -31,7 +31,7 @@ export const refreshSpotifyToken = async () => {
     return response;
 };
 
-export const searchUsers = async (name: string): Promise<{ username: string, id: number }[]> => {
+export const searchUsers = async (name: string): Promise<User[]> => {
     const result = await axios.get(`${baseUrl}/users/getusers/${name}`);
     return result.data.users;
 };

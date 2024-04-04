@@ -32,6 +32,7 @@ Comment.addScope('defaultScope', {
 		{
 			model: Song,
 		}
-	]
+	],
+	attributes: {exclude: ['updatedAt']}
 });
 module.exports = Comment;

@@ -67,4 +67,5 @@ export const UserProvider = ({ children }: Props) => {
     );
 };
 
+
 export default UserContext;

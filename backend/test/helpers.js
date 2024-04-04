@@ -1,7 +1,7 @@
 const { User, Song, Artist, Post, Comment } = require('../models/index');
 const server = require('../app.js');
 const supertest = require('supertest');
-let api = supertest(server);
+const api = supertest(server);
 const initDatabase = async () => {
 	try {
 		await User.bulkCreate([

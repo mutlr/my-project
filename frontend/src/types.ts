@@ -5,6 +5,18 @@ export interface LoginValues {
 export interface RegisterFormValues extends LoginValues {
     email: string,
 }
+export interface PostFromBackend {
+    id: number,
+    title: string,
+    description: string,
+    createdAt: string,
+    updatedAt: string,
+    userId: number,
+    songId: string,
+    user: User,
+    song: Song,
+    postId?: number
+}
 export interface User {
     id: number,
     username: string,
