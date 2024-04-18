@@ -32,8 +32,7 @@ const useContentManager = (endpoint: string, id: number) => {
     const editContent = async (editID: number, editValues: PostBase): Promise<void> => {
         try {
             const res = await editContentService(endpoint, editID, editValues);
-            console.log('Edit result: ', res.data.data);
-            const editedItem = postMap(res.data.data);
+            const editedItem = postMap(res);
             setContent(content.map(post => post.id === editedItem.id ? editedItem : post));
             message?.success('Successfully edited!');
         } catch (error) {

@@ -1,18 +1,18 @@
-import { userToken, baseUrl } from "../utils/serviceUtils";
+import { userToken, baseUrl  } from "../utils/serviceUtils";
 import axios from "axios";
-import { LoginValues, RegisterFormValues, User, } from "../types";
+import { LoginValues, RegisterFormValues, User, UserValues, } from "../types";
 
-export const userLogin = async (values: LoginValues) => {
+export const userLogin = async (values: LoginValues): Promise<UserValues> => {
     const result = await axios.post(`${baseUrl}/login`, values);
     return result.data;
 };
 
-export const userRegister = async (values: RegisterFormValues) => {
+export const userRegister = async (values: RegisterFormValues): Promise<UserValues> => {
     const result = await axios.post(`${baseUrl}/register`, values);
     return result.data;
 };
 
-export const authenticateSpotify = async (code: string) => {
+export const authenticateSpotify = async (code: string): Promise<UserValues> => {
     const result = await axios.post(`${baseUrl}/spotifyapi/spotifyauthentication`,
         { code }, {
         headers: {

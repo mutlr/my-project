@@ -1,0 +1,18 @@
+####
+POST http://localhost:3001/api/register
+Content-Type: application/json
+
+{
+    "username": "Reggie",
+    "password": "Reggie",
+    "email": "emailie@hotmail.com"
+}
+
+###
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+    "username": "Reggie",
+    "password": "Reggie"
+}

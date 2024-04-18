@@ -28,7 +28,7 @@ router.delete('/:id', tokenExtractor, async (req, res) => {
 		}
 
 		await comment.destroy();
-		res.status(200).json({ comment });
+		res.status(200).end();
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });

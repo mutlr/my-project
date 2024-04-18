@@ -13,7 +13,6 @@ const Postform = (props: Props) => {
     const handleSubmit = async (values: FormValues, songData: SongEntry) => {
         const { songId, songName, imageUrl } = songData.song;
         const { artistId, artistName } = songData.artist;   
-        console.log('Posting form: ', imageUrl, ' ja ', songData.song);
         sendPost({ song: { songId, songName, imageUrl }, artist: { artistId, artistName }, title: values.title, description: values.description ? values.description : '' })
         .then(result => {
             props.toggleVisibility();

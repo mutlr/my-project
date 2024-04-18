@@ -19,10 +19,8 @@ function App () {
 
     useEffect(() => {
         getPosts()
-        .then((result: PostFromBackend[]) => {
-            console.log(result);
-            setPosts(result.map((p: PostFromBackend) => postMap(p)));
-        }).catch(error => console.log(error));
+        .then((result: PostFromBackend[]) => setPosts(result.map((p: PostFromBackend) => postMap(p))))
+        .catch(error => console.log(error));
     }, []);
 
     const addToList = (post: Post) => {

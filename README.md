@@ -1,39 +1,46 @@
-Sovelluksen ideana tehdä postauksia missä musikkiia ja toiset voivat suositella samanlaista musikkiia. Postauksissa on preview kuuntelu spotifyista. Käyttäjät voivat myös authentikoida spotifyn ja lisätä musiikkeja soittolistalle sekä käyttäjän omat julkiset soittolistat näkyvät profiilissa ja jos käyttäjä kuuntelee musiikkia spotifyissa niin sekin.
+> [!NOTE]
+> Sovelluksen ideana tehdä postauksia missä musikkiia ja toiset voivat suositella samanlaista musikkiia. Postauksissa on preview kuuntelu spotifyista. Käyttäjät voivat myös authentikoida spotifyn ja lisätä musiikkeja soittolistalle sekä käyttäjän omat julkiset soittolistat näkyvät profiilissa ja jos käyttäjä kuuntelee musiikkia spotifyissa niin sekin.
 
-Sovelluksen linkki: [https://my-react-project-g0pp.onrender.com/](https://my-project-e9wu.onrender.com/)
+> [!TIP]
+> Sovelluksen linkki: [https://my-react-project-g0pp.onrender.com/](https://my-project-e9wu.onrender.com/)
 
-Tuntitaulukko backend:
-    Setup 2h
-    Tietokannan suunnittelu 5h
-    Modelien tekeminen 5h
-    Routereiden alustava teko 4h
-    Kommentin teko ja liittäminen postiin 4h.....
-    Login router 1h,
-    Fixing issues 5h
-    Spotify authentication and refresh 23h
-    Moving spotify api calls to backend 4h
-    Testit semmonen 9-12h
-    Playlistin hakeminen ja lisääminen 7h
+| Task                                           | Hours |
+|------------------------------------------------|-------|
+| Setup                                          | 2     |
+| Database design                                | 5     |
+| Creating models                               | 5     |
+| Initial creation of routers                   | 4     |
+| Comment creation and linking to post           | 4     |
+| Login router                                  | 1     |
+| Fixing issues                                 | 5     |
+| Spotify authentication and refresh            | 23    |
+| Moving Spotify API calls to backend           | 4     |
+| Testing                                        | 9-12  |
+| Fetching and adding playlists                 | 7     |
+| **Total**                                     | **72 hours** |
     
-Tuntitaulukko frontend:
-    Navbarin ja burgermenun suunnittelu ja teko 6h
-    Register ja login layout 5h
-    Post layout 4h
-    Login functionality 1.5h
-    Searchin for songs, song form and sending to backend 12h
-    Comment form and send comment 2h
-    Post page and sending comments 6h
-    Cleaning and fixing post anf commentform issues 8h
-    Toggle hook and form closing 30min
-    Message context 2h
-    Fixed postlayout and better way to add to lists 3h
-    User context 1.5h
-    Spotify authentication and refresh 25h
-    Profile and deleting posts and comments 9h
-    Editing comments and posts 3h
-    Spotify tietojen hakeminen ja näyttäminen 2h
-    Playlist tekeminen 3.5h
-    Navbar uudelleen teko 5h
-    Komponenttien hienommuus, profiilin siistiminen ja hookin tekeminen postauksien editoimiseen ja kommenteille oma routeri. 6h
-    Formien uusiminen ja input komponentit 5h
-    Sovelluksen laitto nettii 3h
+| Task                                           | Hours |
+|------------------------------------------------|-------|
+| Designing and creating navbar and burger menu  | 6     |
+| Designing register and login layout           | 5     |
+| Designing post layout                         | 4     |
+| Implementing login functionality              | 2   |
+| Searching for songs, creating song form and sending to backend| 12    |
+| Creating comment form and sending comment     | 2     |
+| Creating post page and sending comments       | 6     |
+| Cleaning and fixing post and comment form issues| 8     |
+| Implementing toggle hook and form closing     | 1   |
+| Implementing message context                  | 2     |
+| Fixing post layout and improving way to add to lists| 3     |
+| Implementing user context                     | 2     |
+| Implementing profile and deleting posts and comments| 9   |
+| Implementing editing comments and posts      | 3     |
+| Fetching and displaying Spotify data          | 2     |
+| Creating playlist                             | 4   |
+| Redesigning navbar                            | 5     |
+| Improving components, cleaning up profile, 
+and implementing hook for editing posts and comments with separate router| 6     |
+| Updating forms and input components           | 5     |
+| Deploying the application to the internet     | 3     |
+| **Total**                                     | **90 hours** |
+| **Total for all**                             | **162 hours** |

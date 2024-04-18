@@ -23,8 +23,7 @@ export interface User {
 }
 export interface UserValues extends User {
     token: string,
-    accessToken: string,
-    refreshToken: string,
+    authenticated: boolean
 }
 export interface PostBase {
     title: string,

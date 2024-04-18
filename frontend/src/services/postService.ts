@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CommentForm, PostBase, PostFromBackend, SongForm } from "../types";
+import { CommentForm, Post, PostBase, PostFromBackend, SongForm } from "../types";
 import { userToken, baseUrl } from "../utils/serviceUtils";
 
 export const getPosts = async (): Promise<PostFromBackend[]> => {
@@ -7,7 +7,7 @@ export const getPosts = async (): Promise<PostFromBackend[]> => {
     return result.data.posts;
 };
 
-export const sendPost = async (post: SongForm) => {
+export const sendPost = async (post: SongForm): Promise<PostFromBackend> => {
     const result = await axios.post(`${baseUrl}/posts`, post, {
         headers: {
             'Authorization': userToken,
@@ -16,7 +16,7 @@ export const sendPost = async (post: SongForm) => {
     return result.data.post;
 };
 
-export const sendComment = async (comment: CommentForm) => {
+export const sendComment = async (comment: CommentForm): Promise<PostFromBackend> => {
     const result = await axios.post(`${baseUrl}/comments`, comment, {
         headers: {
             'Authorization': userToken,
@@ -35,20 +35,19 @@ export const getPostsByID = async (id: number) => {
     return result.data.data;
 };
 
-export const deleteContentService = async (endpoint: string, id: number) => {
-    const result = await axios.delete(`${baseUrl}/${endpoint}/${id}`, {
+export const deleteContentService = async (endpoint: string, id: number): Promise<void> => {
+    await axios.delete(`${baseUrl}/${endpoint}/${id}`, {
         headers: {
             'Authorization': userToken,
         }
     });
-    return result;
 };
 
-export const editContentService = async (endpoint: string, id: number, content: PostBase) => {
-    const result = await axios.post(`${baseUrl}/${endpoint}/${id}`, content, {
+export const editContentService = async (endpoint: string, id: number, content: PostBase): Promise<Post> => {
+    const result = await axios.post<{ data: Post }>(`${baseUrl}/${endpoint}/${id}`, content, {
         headers: {
             'Authorization': userToken,
         },
     });
-    return result;
+    return result.data.data;
 };

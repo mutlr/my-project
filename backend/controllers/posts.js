@@ -15,7 +15,7 @@ router.delete('/:id', tokenExtractor, postFinder, async (req, res) => {
 			return res.status(401).json({ error: 'Not your post to delete!' });
 		}
 		await post.destroy();
-		res.status(200).json({ post });
+		res.status(200).end();
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ error });
