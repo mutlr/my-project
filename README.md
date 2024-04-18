@@ -1,8 +1,6 @@
 > [!NOTE]
 > Sovelluksen ideana tehdä postauksia missä musikkiia ja toiset voivat suositella samanlaista musikkiia. Postauksissa on preview kuuntelu spotifyista. Käyttäjät voivat myös authentikoida spotifyn ja lisätä musiikkeja soittolistalle sekä käyttäjän omat julkiset soittolistat näkyvät profiilissa ja jos käyttäjä kuuntelee musiikkia spotifyissa niin sekin.
-
-> [!TIP]
-> Sovelluksen linkki: [https://my-react-project-g0pp.onrender.com/](https://my-project-e9wu.onrender.com/)
+[Linkki sovellukseen](https://my-project-e9wu.onrender.com/)
 
 | Backend Task                                           | Hours |
 |------------------------------------------------|-------|
@@ -15,7 +13,7 @@
 | Fixing issues                                 | 5     |
 | Spotify authentication and refresh            | 23    |
 | Moving Spotify API calls to backend           | 4     |
-| Testing                                        | 9-12  |
+| Testing                                        | 12  |
 | Fetching and adding playlists                 | 7     |
 | **Total**                                     | **72 hours** |
     
