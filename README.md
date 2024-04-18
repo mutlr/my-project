@@ -4,7 +4,7 @@
 > [!TIP]
 > Sovelluksen linkki: [https://my-react-project-g0pp.onrender.com/](https://my-project-e9wu.onrender.com/)
 
-| Task                                           | Hours |
+| Backend Task                                           | Hours |
 |------------------------------------------------|-------|
 | Setup                                          | 2     |
 | Database design                                | 5     |
@@ -19,7 +19,7 @@
 | Fetching and adding playlists                 | 7     |
 | **Total**                                     | **72 hours** |
     
-| Task                                           | Hours |
+| Frontend Task                                           | Hours |
 |------------------------------------------------|-------|
 | Designing and creating navbar and burger menu  | 6     |
 | Designing register and login layout           | 5     |
