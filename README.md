@@ -38,8 +38,7 @@
 | Fetching and displaying Spotify data          | 2     |
 | Creating playlist                             | 4   |
 | Redesigning navbar                            | 5     |
-| Improving components, cleaning up profile, 
-and implementing hook for editing posts and comments with separate router| 6     |
+| Improving components, cleaning up profile, and implementing hook for editing posts and comments with separate router| 6     |
 | Updating forms and input components           | 5     |
 | Deploying the application to the internet     | 3     |
 | **Total**                                     | **90 hours** |
