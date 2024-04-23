@@ -15,9 +15,9 @@ interface MainFormProps {
     handleSubmitData: (data: FormValues, song: SongEntry) => void,
 }
 const schema = yup.object().shape({
-    title: yup.string().required(),
+    title: yup.string().required('Title is required'),
     description: yup.string().optional(),
-    song: yup.string().required(),
+    song: yup.string().required('Please choose a song'),
 });
 
 const MainForm = (props: MainFormProps) => {
