@@ -12,10 +12,10 @@ interface CustomInputProps<T extends FieldValues> {
 const CustomInput = <T extends FieldValues>({ register, name, placeholder, type = 'text', errors }: CustomInputProps<T>) => {
     const labelValue = name.charAt(0).toLocaleUpperCase() + name.substring(1, name.length);
     const errorMessage = errors && errors[name]?.message;
+    const visibility = errorMessage ? '' : 'hidden';
+    console.log('Visibility: ', visibility);
     return (
         <div className='input-container'>
-            {errorMessage &&
-            <p className="input-container-error">*</p>}
             <label htmlFor={name}>{labelValue}</label>
             <input
                 {...register(name)}
@@ -23,6 +23,7 @@ const CustomInput = <T extends FieldValues>({ register, name, placeholder, type 
                 name={name}
                 placeholder={placeholder}
                 className={`formInput ${errorMessage ? 'error' : ''}`} />
+                <p style={{ visibility: errorMessage ? 'visible' : 'hidden' }} className="input-container-error">{errorMessage ? errorMessage.toString() : 'Hidden' }</p>
         </div>
     );
 };
