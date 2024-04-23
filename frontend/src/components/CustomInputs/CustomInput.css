@@ -16,18 +16,12 @@
 }
 
 .input-container-error {
-    position: absolute;
     color: var(--error-color);
     font-size: 16px;
     align-self: baseline;
-    padding-bottom: 32px;
     justify-self: flex-start;
-    margin-left: 10px;
 }
-.input-container input.error {
-    border: 2px solid var(--error-color);
-    color: var(--error-color);
-}
+
 
 .formInput {
     width: 100%;

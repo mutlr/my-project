@@ -13,9 +13,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 const validationSchema = Yup.object().shape({
-    username: Yup.string().min(4, 'Username min 4 chars').required('Usernaname is required'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().min(6, 'Password must be at least 6 chars').required('Password is required')
+    username: Yup.string().required('Usernaname is required').min(4, 'Username min 4 characters'),
+    email: Yup.string().email('Enter a valid email').required('Email is required'),
+    password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required')
 });
 
 const Register = () => {
