@@ -6,15 +6,11 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ songs });
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
 	const { artistId, artistName, songName, id } = req.body;
-	try {
-		const artist = await findArtist(artistId, artistName);
-		const song = await Song.create({ artistId: artist.id, songName, id });
-		res.status(201).json({ song });
-	} catch (error) {
-		next(error);
-	}
+	const artist = await findArtist(artistId, artistName);
+	const song = await Song.create({ artistId: artist.id, songName, id });
+	res.status(201).json({ song });
 });
 
 module.exports = router;
