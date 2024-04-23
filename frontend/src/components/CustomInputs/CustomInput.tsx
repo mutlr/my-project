@@ -12,8 +12,6 @@ interface CustomInputProps<T extends FieldValues> {
 const CustomInput = <T extends FieldValues>({ register, name, placeholder, type = 'text', errors }: CustomInputProps<T>) => {
     const labelValue = name.charAt(0).toLocaleUpperCase() + name.substring(1, name.length);
     const errorMessage = errors && errors[name]?.message;
-    const visibility = errorMessage ? '' : 'hidden';
-    console.log('Visibility: ', visibility);
     return (
         <div className='input-container'>
             <label htmlFor={name}>{labelValue}</label>
