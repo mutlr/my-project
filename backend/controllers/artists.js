@@ -10,13 +10,9 @@ router.get('/', async (req, res) => {
 	res.status(200).json({ artists });
 });
 
-router.post('/', async (req, res, next) => {
-	try {
-		const artist = await Artist.create(req.body);
-		res.status(201).json({ artist });
-	} catch (error) {
-		next(error);
-	}
+router.post('/', async (req, res) => {
+	const artist = await Artist.create(req.body);
+	res.status(201).json({ artist });
 });
 
 module.exports = router;

@@ -3,17 +3,12 @@ const { User, } = require('../models');
 const bcrypt = require('bcrypt');
 const { signToken } = require('../util/utils');
 
-router.post('/', async (req, res, next) => {
+router.post('/', async (req, res) => {
 	const { username, email, password } = req.body;
-	try {
-		const saltedPassword = await bcrypt.hash(password, 10);
-		const user = await User.create({ username, email, password: saltedPassword });
-		const token = signToken({ username: user.username, id: user.id });
-		res.status(201).json({ token, username: user.username, id: user.id, authenticated: false });
-	} catch (error) {
-		console.log('Error on register: ', error.message);
-		next(error);
-	}
+	const saltedPassword = await bcrypt.hash(password, 10);
+	const user = await User.create({ username, email, password: saltedPassword });
+	const token = signToken({ username: user.username, id: user.id });
+	res.status(201).json({ token, username: user.username, id: user.id, authenticated: false });
 });
 
 module.exports = router;

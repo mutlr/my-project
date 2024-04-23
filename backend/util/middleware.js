@@ -3,7 +3,9 @@ const { SECRET, } = require('./config');
 const { Admin, User, Auth, Post } = require('../models');
 const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
+// eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {
+	console.log('Error in middleware: ', error.name);
 	if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;
@@ -11,24 +13,26 @@ const errorHandler = (error, req, res, next) => {
 	} else if (error.name === 'SequelizeForeignKeyConstraintError') {
 		return res.status(404).json({ error: error.parent.detail });
 	} else if (error.name === 'SequelizeValidationError') {
-		return res.status(500).json({ error: error.errors[0].message });
+		return res.status(500).json({ error: `${error.errors[0].path} is required.` });
 	} else if (error.error === 'invalid_grant' && error.error_description === 'Refresh token revoked') {
 		return res.status(500).json({ error: error.error_description });
-	} else if (error.message === 'Post not found by ID') {
+	} else if (error.message === 'not_found') {
 		return res.status(404).json({ error: error.message });
+	} else if (error.message === 'data_missing') {
+		return res.status(500).json({ error: 'Data missing' });
+	} else if (error.message === 'unauthorized') {
+		return res.status(401).json({ error: 'You are not anauthorized to do that.' });
+	} else if (error.name === 'JsonWebTokenError') {
+		return res.status(400).json({ error: 'Invalid token' });
 	}
-	next(error);
+	return res.status(500).json({ error });
 };
 
 const tokenExtractor = (req, res, next) => {
 	const token = req.headers['authorization'].split(' ')[1];
-	try {
-		const user = jwt.verify(token, SECRET);
-		req.decodedToken = user;
-		next();
-	} catch (error) {
-		return res.status(404).json({ error: 'Invalid token' });
-	}
+	const user = jwt.verify(token, SECRET);
+	req.decodedToken = user;
+	next();
 };
 
 const apiTokenExtractor = async (req, res, next) => {
@@ -40,35 +44,31 @@ const apiTokenExtractor = async (req, res, next) => {
 
 const refreshUserToken = async (req, res, next) => {
 	const id = req.params.id || req.decodedToken.id;
-	try {
-		const user = await User.findByPk(id, {
-			include: {
-				model: Auth,
-				attributes: ['updatedAt', 'accessToken', 'refreshToken', 'id']
-			},
-		});
-		req.username = user.username;
-		if (!user.auth) {
-			req.userNotAuthenticated = true;
-			return next();
-		}
-		if (user.auth && timeChecker(user.auth.updatedAt) === true) {
-			const data = await refreshToken(user.auth.refreshToken);
-			user.auth.accessToken = data.access_token;
-			await user.auth.save();
-		}
-		req.userSpotifyToken = user.auth.accessToken;
-	} catch (error) {
-		next(error);
+	const user = await User.findByPk(id, {
+		include: {
+			model: Auth,
+			attributes: ['updatedAt', 'accessToken', 'refreshToken', 'id']
+		},
+	});
+	req.username = user.username;
+	if (!user.auth) {
+		req.userNotAuthenticated = true;
+		return next();
 	}
+	if (user.auth && timeChecker(user.auth.updatedAt) === true) {
+		const data = await refreshToken(user.auth.refreshToken);
+		user.auth.accessToken = data.access_token;
+		await user.auth.save();
+	}
+	req.userSpotifyToken = user.auth.accessToken;
 	next();
 };
 
 const postFinder = async (req, res, next) => {
 	const { id } = req.params;
-	if (!id || !Number(id)) return res.status(400).json({ error: 'ID missing' });
+	if (!id || !Number(id))  throw new Error('Data missing'); //return res.status(400).json({ error: 'ID missing' });
 	const post = await Post.findByPk(id);
-	if (!post) return res.status(404).json({ error: 'Post not found' });
+	if (!post) throw new Error('not_found'); //return res.status(404).json({ error: 'Post not found' });
 	req.foundPost = post;
 	next();
 };
