@@ -52,6 +52,22 @@ const PostPage = (props: Props) => {
                     preview={false}
                     />
                 )}
+                                {comments.map(c =>
+                <PostComment
+                    key={c.id}
+                    post={c}
+                    authenticated={authenticated}
+                    preview={false}
+                    />
+                )}
+                                {comments.map(c =>
+                <PostComment
+                    key={c.id}
+                    post={c}
+                    authenticated={authenticated}
+                    preview={false}
+                    />
+                )}
             </div>
         </>
     );
