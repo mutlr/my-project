@@ -3,7 +3,7 @@ import './Button.css';
 import { ColorList } from "../../styles";
 
 type ButtonTypes = 'submit' | 'reset' | 'button';
-type Colors = 'primary' | 'secondary' | 'red' | 'light';
+type Colors = 'primary' | 'secondary' | 'red' | 'light' | 'spotifyGreen';
 interface ButtonProps  {
     text: string,
     color?: Colors,

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, Ref, useState } from 'react';
+import React, { ReactElement, ReactNode, Ref } from 'react';
 import './Togglable.css';
 import { useImperativeHandle, forwardRef } from 'react';
 import Button from '../Button/Button';
@@ -22,11 +22,11 @@ const Togglable = forwardRef((props: Props, ref: Ref<TogglableProps>) => {
 
     return (
         <>
-            <div style={{ display: isOpen, }}>{props.children}</div>
-            <Button 
-                onClick={toggleVisibility} 
-                text={isOpen === '' ? 'Back!' : props.buttonText} 
-                className='togglableBtn'
+            <div style={{ display: isOpen }}>{props.children}</div>
+            <Button
+                onClick={toggleVisibility}
+                text={isOpen === '' ? 'Close' : props.buttonText}
+                className={ isOpen === '' ? 'activatedTogglebaleBtn' : 'togglableBtn' }
                 color='light'
             />
         </>

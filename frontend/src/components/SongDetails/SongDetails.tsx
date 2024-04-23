@@ -32,10 +32,10 @@ const SongDetails = ({ id, name, artist, authenticated, imageURL }: Props) => {
     return (
         <div className="content-song-container">
             <Song name={name} artist={artist} imageURL={imageURL} />
-            {authenticated && 
-            <Button 
-                text="+" 
-                color="light"
+            {authenticated &&
+            <Button
+                text="+"
+                color="spotifyGreen"
                 style={{ padding: '12px 14px' }}
                 onClick={() => addToPlaylist(id)}
             />}

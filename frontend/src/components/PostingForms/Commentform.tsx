@@ -21,7 +21,7 @@ const Commentform = ({ postId, toggleVisibility, addComment }: CommentformProps)
         .catch((error) => console.log('Error adding comment: ', error));
     };
     return (
-        <MainForm handleSubmitData={handleSubmit}/>
+        <MainForm handleSubmitData={handleSubmit} handleCancel={toggleVisibility}/>
     );
 };
 

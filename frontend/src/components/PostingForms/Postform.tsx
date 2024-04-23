@@ -12,7 +12,7 @@ interface Props {
 const Postform = (props: Props) => {
     const handleSubmit = async (values: FormValues, songData: SongEntry) => {
         const { songId, songName, imageUrl } = songData.song;
-        const { artistId, artistName } = songData.artist;   
+        const { artistId, artistName } = songData.artist;
         sendPost({ song: { songId, songName, imageUrl }, artist: { artistId, artistName }, title: values.title, description: values.description ? values.description : '' })
         .then(result => {
             props.toggleVisibility();
@@ -21,7 +21,7 @@ const Postform = (props: Props) => {
         .catch(error => console.log('ERror in submitting post: ', error));
     };
     return (
-        <MainForm handleSubmitData={handleSubmit}/>
+        <MainForm handleSubmitData={handleSubmit} handleCancel={props.toggleVisibility}/>
     );
 };
 
