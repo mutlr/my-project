@@ -16,7 +16,7 @@ const View = (props: Props) => {
     const toggleRef = useRef<TogglableProps>(null);
     return (
         <>
-                    {user.user &&
+            {user.user &&
             <Togglable ref={toggleRef}
                 buttonText='Add a post'>
                 <Postform toggleVisibility={() => toggleRef.current?.toggleVisibility()} addToList={props.addToList}/>
@@ -24,26 +24,10 @@ const View = (props: Props) => {
         <div className='frontpage-container'>
             {props.posts.map(post => (
                 <PostBox
-                post={post}
-                preview={true}
-                key={post.id}
-                authenticated={user.authenticated}
-                />
-            ))}
-                        {props.posts.map(post => (
-                <PostBox
-                post={post}
-                preview={true}
-                key={post.id}
-                authenticated={user.authenticated}
-                />
-            ))}
-                        {props.posts.map(post => (
-                <PostBox
-                post={post}
-                preview={true}
-                key={post.id}
-                authenticated={user.authenticated}
+                    post={post}
+                    preview={true}
+                    key={post.id}
+                    authenticated={user.authenticated}
                 />
             ))}
         </div>

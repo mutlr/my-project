@@ -30,7 +30,7 @@ export const getCommentsByID = async (id: number): Promise<PostFromBackend[]> =>
     return result.data.data;
 };
 
-export const getPostsByID = async (id: number) => {
+export const getPostsByID = async (id: number): Promise<PostFromBackend[]> => {
     const result = await axios.get(`${baseUrl}/posts/all/${id}`);
     return result.data.data;
 };

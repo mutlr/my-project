@@ -71,7 +71,7 @@ const MainForm = (props: MainFormProps) => {
     };
     return (
         <div className='post-form-main-container'>
-            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.imageUrl} /> : 
+            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.imageUrl} /> :
                 <p className={`${getFieldState('song').error ? 'postform-error' : ''}`}>Choose a song</p>}
 
             <form className="post-form" onSubmit={handleSubmit(sendData)}>
@@ -82,7 +82,7 @@ const MainForm = (props: MainFormProps) => {
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
                 <div>
-                    <Button text='Cancel' color='light' onClick={props.handleCancel} />
+                    <Button text='Cancel' color='red' onClick={props.handleCancel} />
                     <Button type='submit' text='Submit' color='light'/>
                 </div>
             </form>

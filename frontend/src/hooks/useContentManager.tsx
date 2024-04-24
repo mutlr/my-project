@@ -1,15 +1,18 @@
 import React, { useContext, useEffect, useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { PostBase, Post, PostFromBackend } from "../types";
 import { baseUrl } from "../utils/serviceUtils";
 import { postMap } from "../utils/utils";
 import { MessageContext } from "../context/messageContext";
 import { deleteContentService, editContentService } from "../services/postService";
 
-const useContentManager = (endpoint: string, id: number) => {
+type Endpoints = 'posts' | 'comments';
+
+const useContentManager = (endpoint: Endpoints, id: number) => {
     const [content, setContent] = useState<Post[]>([]);
     const message = useContext(MessageContext);
     useEffect(() => {
+        if (!id) return;
         axios.get<{ data: PostFromBackend[] }>(`${baseUrl}/${endpoint}/all/${id}`)
         .then((result) => {
             setContent(result.data.data.map((r: PostFromBackend) => postMap(r)));
@@ -29,15 +32,20 @@ const useContentManager = (endpoint: string, id: number) => {
         }
     };
 
-    const editContent = async (editID: number, editValues: PostBase): Promise<void> => {
+    const editContent = async (editID: number, editValues: PostBase): Promise<Post> => {
         try {
             const res = await editContentService(endpoint, editID, editValues);
             const editedItem = postMap(res);
             setContent(content.map(post => post.id === editedItem.id ? editedItem : post));
             message?.success('Successfully edited!');
+            return editedItem;
         } catch (error) {
+            let errorMessage = '';
             message?.error('There was an error editing content!');
-            console.log('Error', error);
+            if (isAxiosError(error)) {
+                errorMessage = error.message;
+            }
+            throw Error(errorMessage);
         }
     };
     return [ content, deleteContent, editContent ] as const;

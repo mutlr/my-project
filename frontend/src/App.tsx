@@ -26,6 +26,13 @@ function App () {
     const addToList = (post: Post) => {
         setPosts(posts.concat(post));
     };
+    const handlePostRemove = (id: number) => {
+        setPosts(posts.filter(p => p.id !== id));
+    };
+
+    const handlePostEdit = (editPost: Post) => {
+        setPosts(posts.map(p => p.id === editPost.id ? editPost : p));
+    };
 
     const postMatch = useMatch('/post/:id');
     const postMatchResult: Post | undefined | null = postMatch === null ?
@@ -41,7 +48,7 @@ function App () {
                     <Route path='/login' element={<Login />}/>
                     <Route path='/register' element={<Register />}/>
                     <Route path="post/:id" element={<PostPage post={postMatchResult ? postMatchResult : null} />}/>
-                    <Route path='/myprofile' element={<MyProfile />} />
+                    <Route path='/myprofile' element={<MyProfile handlePostRemove={handlePostRemove} handlePostEdit={handlePostEdit}/>} />
                     <Route path='profile/:id' element={<Profile />} />
                 </Routes>
             </main>
