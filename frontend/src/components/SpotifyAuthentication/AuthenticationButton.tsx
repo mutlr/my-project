@@ -23,7 +23,6 @@ const AuthenticationButton = () => {
             .then(r => {
                 user?.addUserToStorageAndSetUser(r.token, r.id, true, r.username);
                 message?.success('Authentication successfull!');
-                navigate('/myprofile');
             })
             .catch(error => {
                 console.log('Error during authentication: ', error);
@@ -32,14 +31,14 @@ const AuthenticationButton = () => {
                         error.response?.data.error :
                         'There was an error authenticating. Try again later!');
                 }
-                navigate('/myprofile');
-            });
+            })
+            .finally(() => navigate('/myprofile'));
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [code]);
 
     return (
-        <a id="auth" className="btn" href={URL}><p>Authenticate Spotify</p></a>
+        <a id="auth" className="customButton" href={URL}><p>Authenticate Spotify</p></a>
     );
 };
 

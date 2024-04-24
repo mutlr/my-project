@@ -13,6 +13,7 @@ import * as yup from "yup";
 import CustomTextarea from '../CustomInputs/CustomTextarea';
 interface MainFormProps {
     handleSubmitData: (data: FormValues, song: SongEntry) => void,
+    handleCancel: () => void,
 }
 const schema = yup.object().shape({
     title: yup.string().required('Title is required'),
@@ -70,7 +71,9 @@ const MainForm = (props: MainFormProps) => {
     };
     return (
         <div className='post-form-main-container'>
-            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.imageUrl}   /> : <p className={`${getFieldState('song').error ? 'postform-error' : ''}`}>Choose a song</p>}
+            {chosenSong ? <Song name={chosenSong.song.songName} artist={chosenSong.artist.artistName} imageURL={chosenSong.imageUrl} /> :
+                <p className={`${getFieldState('song').error ? 'postform-error' : ''}`}>Choose a song</p>}
+
             <form className="post-form" onSubmit={handleSubmit(sendData)}>
 
                 <CustomInput register={register} name='title' placeholder='Title' errors={errors} />
@@ -78,8 +81,10 @@ const MainForm = (props: MainFormProps) => {
                 <CustomTextarea register={register} placeholder='Description' name='description' />
 
                 <CustomInput register={register} name='song' placeholder='Type in 3 letters for search to start' errors={errors}/>
-
-                <Button type='submit' text='Submit' color='light' />
+                <div>
+                    <Button text='Cancel' color='red' onClick={props.handleCancel} />
+                    <Button type='submit' text='Submit' color='light'/>
+                </div>
             </form>
             {songs.map(s => (
                 <div key={s.song.songId} className='songs-container' onClick={() => setChosenSong(s)}>

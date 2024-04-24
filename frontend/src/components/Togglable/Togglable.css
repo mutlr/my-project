@@ -4,3 +4,7 @@
     right: 0;
     line-height: 32px;
 }
+
+.activatedTogglebaleBtn {
+    display: none;
+}

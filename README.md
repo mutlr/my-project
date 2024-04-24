@@ -22,19 +22,19 @@
 | Designing and creating navbar and burger menu  | 6     |
 | Designing register and login layout            | 5     |
 | Designing post layout                          | 4     |
-| Implementing login functionality               | 2   |
+| Implementing login functionality               | 2     |
 | Searching for songs, creating song form and sending to backend| 12    |
 | Creating comment form and sending comment      | 2     |
 | Creating post page and sending comments        | 6     |
-| Cleaning and fixing post and comment form issues| 8     |
-| Implementing toggle hook and form closing      | 1   |
+| Cleaning and fixing post and comment form issues| 8    |
+| Implementing toggle hook and form closing      | 1     |
 | Implementing message context                   | 2     |
-| Fixing post layout and improving way to add to lists| 3     |
+| Fixing post layout and improving way to add to lists| 3|
 | Implementing user context                      | 2     |
-| Implementing profile and deleting posts and comments| 9   |
+| Implementing profile and deleting posts and comments| 9|
 | Implementing editing comments and posts        | 3     |
 | Fetching and displaying Spotify data           | 2     |
-| Creating playlist                              | 4   |
+| Creating playlist                              | 4     |
 | Redesigning navbar                             | 5     |
 | Improving components, cleaning up profile, and implementing hook for editing posts and comments with separate router| 6     |
 | Updating forms and input components            | 5     |
@@ -46,4 +46,7 @@
 | Task                                           | Hours |
 |------------------------------------------------|-------|
 | Replacing trycatch with express-async-errors   | 1.5   |
-| **Total**                                     | **1.5 hours** |
+| Form height fix, form cancel button placement  | 1     |
+| Forminput error hints                          | 0.5   |
+| Fixed posts not updating on delete and on edit. Profile state handling managed by profile components | 2   |
+| **Total**                                      | **5 hours** |
