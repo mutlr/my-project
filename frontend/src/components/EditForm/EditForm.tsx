@@ -8,7 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 const schema = yup.object().shape({
-    title: yup.string().required(),
+    title: yup.string().required('Title cannot be empty'),
     description: yup.string().optional(),
 });
 
@@ -18,7 +18,7 @@ interface Props {
     handleEdit: (values: PostBase) => void,
 }
 
-const EditForm = ({ item, cancel, ...props }: Props) => {
+const EditForm = ({ item, cancel, handleEdit }: Props) => {
     const { register, handleSubmit, reset, setValue, formState: { errors } } = useForm<PostBase>({ resolver: yupResolver(schema) });
     useEffect(() => {
         const title = item ? item.title : '';
@@ -28,11 +28,11 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
 
         return () => reset();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [item]);
     if (!item) return null;
 
     const handleChange = async (values: PostBase) => {
-        props.handleEdit(values);
+        handleEdit(values);
         reset();
     };
 
@@ -43,7 +43,7 @@ const EditForm = ({ item, cancel, ...props }: Props) => {
                 <CustomTextarea register={register} name="description" placeholder="Description" errors={errors} />
 
                 <div>
-                    <Button type='button' text='Cancel' color='light' onClick={cancel} />
+                    <Button text='Cancel' color='red' onClick={cancel} />
                     <Button type='submit' text='Submit' color='light' />
                 </div>
             </form>

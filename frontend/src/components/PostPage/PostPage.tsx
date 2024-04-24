@@ -26,7 +26,7 @@ const PostPage = (props: Props) => {
             setComments(result.map((c: PostFromBackend): Post => postMap(c)));
         }).catch(error => console.log('Error getting comments: ', error));
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [id]);
 
     if (props.post === null) {
         return null;
@@ -45,27 +45,11 @@ const PostPage = (props: Props) => {
                 <PostContainer post={props.post} preview={false} authenticated={authenticated} />
                 <p>Comments</p>
                 {comments.map(c =>
-                <PostComment
-                    key={c.id}
-                    post={c}
-                    authenticated={authenticated}
-                    preview={false}
-                    />
-                )}
-                                {comments.map(c =>
-                <PostComment
-                    key={c.id}
-                    post={c}
-                    authenticated={authenticated}
-                    preview={false}
-                    />
-                )}
-                                {comments.map(c =>
-                <PostComment
-                    key={c.id}
-                    post={c}
-                    authenticated={authenticated}
-                    preview={false}
+                    <PostComment
+                        key={c.id}
+                        post={c}
+                        authenticated={authenticated}
+                        preview={false}
                     />
                 )}
             </div>
