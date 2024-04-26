@@ -1,13 +1,14 @@
 :root {
-  --primary-color: #0b132b;
-  --secondary-color: #1c2541;
-  --light-color: #4498ff;
+  --primary-color: #222831;
+  --secondary-color: #393E46;
+  --light-color: #00ADB5;
   --error-color: #ff0000;
 }
 * {
   margin: 0;
   padding: 0;
-  color: white;
+  color: #E7F6F2;
+  border-color: #EEEEEE;
 }
 
 
