@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DATABASE_URL_TEST: postgres://postgres:postgres@postgres:5432/postgres
-      SECRET: yello
+      SECRET: ${{ secrets.SECRET }}
     container: node:20
     services:
       postgres:
