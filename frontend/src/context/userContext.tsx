@@ -25,7 +25,6 @@ export const UserProvider = ({ children }: Props) => {
     useEffect(() => {
         const loggedUser = localStorage.getItem('loggedUser');
         let user;
-        let tokenInterval: NodeJS.Timer;
         if (loggedUser) {
             user = JSON.parse(loggedUser);
             setUser({ username: user.username, id: user.id });
@@ -34,8 +33,6 @@ export const UserProvider = ({ children }: Props) => {
         if (loggedUser && user.authenticated) {
             setAuthenticated(true);
         }
-
-        return () => clearInterval(tokenInterval);
     }, []);
 
     const addUserToStorageAndSetUser = (token: string, id: number, authenticated: boolean, username: string) => {

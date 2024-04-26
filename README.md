@@ -49,5 +49,5 @@
 | Form height fix, form cancel button placement  | 1     |
 | Forminput error hints                          | 0.5   |
 | Fixed posts not updating on delete and on edit. Profile state handling managed by profile components | 2   |
-| CI/CD with docker                              | 3.5   |
-| **Total**                                      | **8.5 hours** |
+| CI/CD with docker and deployment               | 4   |
+| **Total**                                      | **9 hours** |
