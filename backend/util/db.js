@@ -17,7 +17,7 @@ const DatabaseConfig = PRODUCTION ? {
 	}
 } : {};
 
-const sequelize = new Sequelize(DATABASE_URL, { ...DatabaseConfig });
+const sequelize = new Sequelize(DATABASE_URL, { ...DatabaseConfig, logging: false });
 
 const migrationConf = {
 	migrations: {
