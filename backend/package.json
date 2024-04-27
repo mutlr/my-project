@@ -7,11 +7,12 @@
     "test": "cross-env NODE_ENV=test jest --testTimeout=10000 --detectOpenHandles",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "dev": "cross-env nodemon app.js",
+    "dev": "cross-env NODE_ENV=development nodemon app.js",
     "start": "cross-env PRODUCTION=prod node app.js",
     "migration:down": "node util/rollback.js",
     "build:ui": "cd ../frontend && npm install && npm run build && cp -r build ../backend",
-    "build:and:move": "npm run build:ui && npm install"
+    "build:and:move": "npm run build:ui && npm install",
+    "cypress:test": "cross-env NODE_ENV=cypress nodemon app.js"
   },
   "author": "",
   "license": "ISC",

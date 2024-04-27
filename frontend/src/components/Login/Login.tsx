@@ -14,8 +14,8 @@ import * as yup from "yup";
 import { useForm } from 'react-hook-form';
 
 const schema = yup.object().shape({
-    username: yup.string().required('Username required').min(4, 'Username min length 4 characters'),
-    password: yup.string().required('Password required').min(6, 'Password min length 6 characters'),
+    username: yup.string().required('Username is required'),
+    password: yup.string().required('Password is required'),
 });
 
 const Login = () => {
