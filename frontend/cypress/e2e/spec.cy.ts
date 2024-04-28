@@ -23,12 +23,14 @@ export const hexToRgb = (hex: string) => {
 };
 
 const GREEN = 'rgb(0, 128, 0)';
+const USERNAME = 'Username';
+const PASSWORD = 'Password';
+const TITLE = 'Test title for Cypress';
+const COMMENT_TITLE = 'Comment title for Cypress'
 describe('Frontend Tests', () => {
   beforeEach(() => {
     cy.visit('/');
   });
-  const USERNAME = 'Username';
-  const PASSWORD = 'Password';
   describe('Not logged in user view', () => {
 
     it('Correct view', () => {
@@ -41,7 +43,8 @@ describe('Frontend Tests', () => {
   });
   describe('Register test', () => {
     before(() => {
-      cy.request('GET', 'http://localhost:3001/api/tests/cypress').then(response => expect(response.status).to.eq(200));
+      cy.request('GET', 'http://localhost:3001/api/tests/cypress')
+      .then(response => expect(response.status).to.eq(200));
     });
     it('Register errors', () => {
       cy.contains('Login');
@@ -90,26 +93,107 @@ describe('Frontend Tests', () => {
     });
 
     it('Login with valid user', () => {
-      cy.session('Login', () => {
         cy.visit('/login')
         cy.get('input[name="username"]').type(USERNAME);
         cy.get('input[name="password"]').type(PASSWORD);
         cy.get('button').click();
         cy.contains('Logged in!').should('have.css', 'background-color', GREEN);
         cy.contains('Profile');
-      })
       console.log('Sessions ', cy.session)
     });
   });
 
-  describe('Logged user', () => {
-
-    /*it('Post button is visible', () => {
+  describe('Post tests', () => {
+    beforeEach(() => {
+      cy.login(USERNAME, PASSWORD)
       cy.contains('Add a post').click()
     })
-
-    it('Post form', () => {
-      cy.contains('input[name="title"]').type('Test tile')
-    })*/
+    it('Cannot post without title', () => {
+      let songName;
+      let artist;
+      cy.get('input[name="song"]').type('hello');
+      cy.get('.song-name').first().then(e => songName = e.text())
+      cy.get('.song-artist').first().then(e => artist = e.text())
+      cy.get('.song-box').first().click() 
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.song-box').first().should('contain.text', songName).should('contain.text', artist)
+      })
+      cy.contains('Submit').click()
+      cy.contains('Title is required').should('have.css', 'color', hexToRgb('#ff0000'))
+      cy.get('.post-form-main-container').should('be.visible')
+    })
+    it ('Cannot post without song', () => {
+      cy.get('input[name="title"]').type(TITLE);
+      cy.contains('Submit').click()
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.postform-error').should('contain.text', 'Choose a song').should('have.css', 'color', hexToRgb('#ff0000'))
+      })
+      cy.get('.post-form-main-container').should('be.visible')
+    })
+    it('Posting works', () => {
+      let songName;
+      let artist;
+      cy.get('input[name="title"]').type(TITLE);
+      cy.get('input[name="song"]').type('hello');
+      cy.get('.song-name').first().then(e => songName = e.text())
+      cy.get('.song-artist').first().then(e => artist = e.text())
+      cy.get('.song-box').first().click() 
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.song-box').first().should('contain.text', songName).should('contain.text', artist)
+      })
+      cy.contains('Submit').click()
+      cy.get('.frontpage-container').should('contain', TITLE)
+      cy.get('.post-form-main-container').should('not.be.visible')
+    })
   });
+  describe('Comment tests', () => {
+    beforeEach(() => {
+      cy.login(USERNAME, PASSWORD)
+      cy.get('.frontpage-container').should('contain', TITLE).click()
+    })
+
+    it('Comment button visible', () => {
+      cy.contains('Comment')
+    })
+    it('Cannot comment without title', () => {
+      let songName;
+      let artist;
+      cy.contains('Comment').click()
+      cy.get('input[name="song"]').type('hello');
+      cy.get('.song-name').first().then(e => songName = e.text())
+      cy.get('.song-artist').first().then(e => artist = e.text())
+      cy.get('.song-box').first().click() 
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.song-box').first().should('contain.text', songName).should('contain.text', artist)
+      })
+      cy.contains('Submit').click()
+      cy.contains('Title is required').should('have.css', 'color', hexToRgb('#ff0000'))
+      cy.get('.post-form-main-container').should('be.visible')
+    })
+    it ('Cannot comment without song', () => {
+      cy.contains('Comment').click()
+      cy.get('input[name="title"]').type(COMMENT_TITLE);
+      cy.contains('Submit').click()
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.postform-error').should('contain.text', 'Choose a song').should('have.css', 'color', hexToRgb('#ff0000'))
+      })
+      cy.get('.post-form-main-container').should('be.visible')
+    })
+    it('Commenting works', () => {
+      let songName;
+      let artist;
+      cy.contains('Comment').click()
+      cy.get('input[name="title"]').type(COMMENT_TITLE);
+      cy.get('input[name="song"]').type('hello');
+      cy.get('.song-name').first().then(e => songName = e.text())
+      cy.get('.song-artist').first().then(e => artist = e.text())
+      cy.get('.song-box').first().click() 
+      cy.get('.post-form-main-container').within(() => {
+        cy.get('.song-box').first().should('contain.text', songName).should('contain.text', artist)
+      })
+      cy.contains('Submit').click()
+      cy.get('.postpage-container').should('contain', COMMENT_TITLE)
+      cy.get('.post-form-main-container').should('not.be.visible')
+    })
+  })
 });

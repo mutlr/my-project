@@ -6,7 +6,7 @@ const DatabaseOptions = {
 	production: {
 		type: 'postgres',
 		host: 'localhost',
-		database: DATABASE_URL_PRODUCTION,
+		url: DATABASE_URL_PRODUCTION,
 		username: DB_USERNAME,
 		password: DB_PASSWORD,
 		synchronize: true,
@@ -38,11 +38,11 @@ const DatabaseOptions = {
 		password: 'mysecretpassword',
 		username: 'postgres'
 	}
-}
+};
 const DatabaseConfig = DatabaseOptions[MODE];
 
 if (!DatabaseConfig) {
-	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`)
+	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);
 }
 const sequelize = new Sequelize(DatabaseConfig);
 

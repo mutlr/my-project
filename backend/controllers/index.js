@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { MODE } = require('../util/config')
+const { MODE } = require('../util/config');
 const userRouter = require('./users');
 const artistRouter = require('./artists');
 const songRouter = require('./songs');
@@ -19,6 +19,6 @@ router.use('/api/login', loginRouter);
 router.use('/api/spotifyapi', spotifyRouter);
 router.use('/api/comments', commentRouter);
 if (MODE === 'cypress') {
-    router.use('/api/tests', testingRouter)
+	router.use('/api/tests', testingRouter);
 }
 module.exports = router;

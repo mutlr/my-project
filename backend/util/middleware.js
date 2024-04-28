@@ -23,7 +23,7 @@ const errorHandler = (error, req, res, next) => {
 	} else if (error.message === 'unauthorized') {
 		return res.status(401).json({ error: 'You are not anauthorized to do that.' });
 	} else if (error.name === 'JsonWebTokenError') {
-		return res.status(400).json({ error: 'Invalid token' });
+		return res.status(401).json({ error: 'Invalid token' });
 	}
 	return res.status(500).json({ error });
 };

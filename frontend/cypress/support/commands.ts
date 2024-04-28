@@ -35,3 +35,16 @@
 //     }
 //   }
 // }
+const GREEN = 'rgb(0, 128, 0)';
+Cypress.Commands.add('login', (username, password) => {
+    cy.session([username, password], () => {
+        cy.visit('/login')
+        cy.get('input[name="username"]').type(username);
+        cy.get('input[name="password"]').type(password);
+        cy.get('button').click();
+        cy.contains('Logged in!').should('have.css', 'background-color', GREEN);
+        cy.contains('Profile');
+        cy.url().should('eq', Cypress.config().baseUrl + '/');
+    })
+    cy.visit('/')
+  })
