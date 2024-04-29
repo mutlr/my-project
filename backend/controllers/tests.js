@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { User } = require('../models');
+const { emptyDatabase } = require('../test/helpers');
 router.get('/cypress', async (req, res) => {
-	await User.truncate({ cascade: true, restartIdentity: true });
+	await emptyDatabase();
 	res.status(200).end();
 });
 

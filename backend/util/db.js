@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, MODE, DATABASE_URL_TEST, DATABASE_URL_PRODUCTION } = require('./config');
+const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, MODE, DATABASE_URL_TEST, DATABASE_URL_PRODUCTION, HOST } = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
 
 const DatabaseOptions = {
@@ -22,13 +22,15 @@ const DatabaseOptions = {
 		url: DATABASE_URL_TEST,
 		logging: false,
 		dialect: 'postgres',
+		host: HOST,
 		username: 'postgres',
 		password: 'postgres',
 	},
 	cypress: {
-		uri: DATABASE_URL_TEST,
+		url: DATABASE_URL_TEST,
 		logging: false,
 		dialect: 'postgres',
+		host: HOST,
 		username: 'postgres',
 		password: 'postgres',
 	},
@@ -40,6 +42,7 @@ const DatabaseOptions = {
 	}
 };
 const DatabaseConfig = DatabaseOptions[MODE];
+console.log('DB: ', DatabaseConfig);
 
 if (!DatabaseConfig) {
 	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);

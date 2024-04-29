@@ -10,4 +10,5 @@ module.exports = {
 	DB_USERNAME: process.env.DB_USERNAME,
 	DB_PASSWORD: process.env.DB_PASSWORD,
 	MODE: process.env.NODE_ENV,
+	HOST: process.env.HOST || 'localhost',
 };
