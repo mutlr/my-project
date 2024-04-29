@@ -203,18 +203,18 @@ describe('Frontend Tests', () => {
       cy.get('button').should('not.exist');
     });
     it('My profile route empty', () => {
-      cy.visit('./myprofile')
-      cy.get('.main').should('be.empty')
-    })
+      cy.visit('./myprofile');
+      cy.get('.main').should('be.empty');
+    });
     it('Delete and post buttons not visible in profile route', () => {
       cy.get('.content-header').within(() => {
-        cy.get('a').click()
-      })
+        cy.get('a').click();
+      });
 
       cy.get('.content-container').within(() => {
-        cy.get('.edit-container').should('not.exist')
-      })
-    })
+        cy.get('.edit-container').should('not.exist');
+      });
+    });
   });
   describe('Logged in user', () => {
     beforeEach(() => {
