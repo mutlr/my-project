@@ -13,9 +13,10 @@
 | Fixing issues                                  | 5     |
 | Spotify authentication and refresh             | 23    |
 | Moving Spotify API calls to backend            | 4     |
-| Testing                                        | 12  |
+| Testing                                        | 12    |
 | Fetching and adding playlists                  | 7     |
-| **Total**                                      | **72 hours** |
+| Replacing trycatch with express-async-errors   | 1.5   |
+| **Total**                                      | **73.5 hours** |
     
 | Frontend Task                                  | Hours |
 |------------------------------------------------|-------|
@@ -39,15 +40,11 @@
 | Improving components, cleaning up profile, and implementing hook for editing posts and comments with separate router| 6     |
 | Updating forms and input components            | 5     |
 | Deploying the application to the internet      | 3     |
-| **Total**                                      | **90 hours** |
-| **Total for all**                              | **162 hours** |
-
-
-| Task                                           | Hours |
-|------------------------------------------------|-------|
-| Replacing trycatch with express-async-errors   | 1.5   |
 | Form height fix, form cancel button placement  | 1     |
 | Forminput error hints                          | 0.5   |
 | Fixed posts not updating on delete and on edit. Profile state handling managed by profile components | 2   |
 | CI/CD with docker and deployment               | 4   |
-| **Total**                                      | **9 hours** |
+| Frontend tests                                 | 4   |
+| Trying to get cypress integration tests working| 3   |
+| **Total**                                      | **102.5 hours** |
+| **Total for all**                              | **176 hours** |

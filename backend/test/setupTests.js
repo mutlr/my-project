@@ -3,6 +3,7 @@ const { connectToDatabase } = require('../util/db');
 
 beforeAll(async () => {
 	await connectToDatabase();
+	await emptyDatabase();
 	await initDatabase();
 });
 

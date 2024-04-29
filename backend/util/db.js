@@ -1,23 +1,53 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, PRODUCTION } = require('./config');
+const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, MODE, DATABASE_URL_TEST, DATABASE_URL_PRODUCTION, HOST } = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
-console.log('Database: ', DATABASE_URL);
-const DatabaseConfig = PRODUCTION ? {
-	type: 'postgres',
-	host: 'localhost',
-	username: DB_USERNAME,
-	password: DB_PASSWORD,
-	synchronize: true,
-	logging: false,
-	dialect: 'postgres',
-	protocol: 'postgres',
-	dialectOptions: {
-		ssl: true,
-		native:true
-	}
-} : {};
 
-const sequelize = new Sequelize(DATABASE_URL, { ...DatabaseConfig, logging: false });
+const DatabaseOptions = {
+	production: {
+		type: 'postgres',
+		host: 'localhost',
+		url: DATABASE_URL_PRODUCTION,
+		username: DB_USERNAME,
+		password: DB_PASSWORD,
+		synchronize: true,
+		logging: false,
+		dialect: 'postgres',
+		protocol: 'postgres',
+		dialectOptions: {
+			ssl: true,
+			native:true
+		}
+	},
+	test: {
+		url: DATABASE_URL_TEST,
+		logging: false,
+		dialect: 'postgres',
+		host: HOST,
+		username: 'postgres',
+		password: 'postgres',
+	},
+	cypress: {
+		url: DATABASE_URL_TEST,
+		logging: false,
+		dialect: 'postgres',
+		host: HOST,
+		username: 'postgres',
+		password: 'postgres',
+	},
+	development: {
+		url: DATABASE_URL,
+		dialect: 'postgres',
+		password: 'mysecretpassword',
+		username: 'postgres'
+	}
+};
+const DatabaseConfig = DatabaseOptions[MODE];
+console.log('DB: ', DatabaseConfig);
+
+if (!DatabaseConfig) {
+	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);
+}
+const sequelize = new Sequelize(DatabaseConfig);
 
 const migrationConf = {
 	migrations: {

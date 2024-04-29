@@ -19,9 +19,9 @@ export const Song = ({ name, artist, imageURL }: SongProps) => {
     return (
         <div className="song-box">
             <img className="song-image" src={imageURL ? imageURL : cat}/>
-            <div>
-                <p>{name}</p>
-                <p>{artist}</p>
+            <div className="song-container-test">
+                <p className="song-name">{name}</p>
+                <p className="song-artist">{artist}</p>
             </div>
         </div>
     );
