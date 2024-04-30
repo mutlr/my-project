@@ -1,5 +1,14 @@
 const Sequelize = require('sequelize');
-const { DATABASE_URL, DB_PASSWORD, DB_USERNAME, MODE, DATABASE_URL_TEST, DATABASE_URL_PRODUCTION, HOST, DB_HOST } = require('./config');
+const {
+	DATABASE_URL,
+	DB_PASSWORD,
+	DB_USERNAME,
+	MODE,
+	DATABASE_URL_TEST,
+	DATABASE_URL_PRODUCTION,
+	HOST,
+	DB_HOST,
+} = require('./config');
 const { Umzug, SequelizeStorage } = require('umzug');
 
 const DatabaseOptions = {
@@ -14,8 +23,8 @@ const DatabaseOptions = {
 		protocol: 'postgres',
 		dialectOptions: {
 			ssl: true,
-			native:true
-		}
+			native: true,
+		},
 	},
 	test: {
 		logging: false,
@@ -36,7 +45,7 @@ const DatabaseOptions = {
 		password: 'postgresdev',
 		username: 'postgres',
 		host: HOST,
-	}
+	},
 };
 
 const databaseURLPicker = () => {
@@ -53,7 +62,9 @@ const URL = databaseURLPicker();
 const DatabaseConfig = DatabaseOptions[MODE];
 
 if (!DatabaseConfig || !URL) {
-	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);
+	throw new Error(
+		`Mode ${MODE} is not valid. Try production, test, development or cypress`,
+	);
 }
 const sequelize = new Sequelize(URL, { ...DatabaseConfig });
 
@@ -90,4 +101,9 @@ const connectToDatabase = async () => {
 	return null;
 };
 
-module.exports = { connectToDatabase, sequelize, rollbackMigration, runMigrations };
+module.exports = {
+	connectToDatabase,
+	sequelize,
+	rollbackMigration,
+	runMigrations,
+};

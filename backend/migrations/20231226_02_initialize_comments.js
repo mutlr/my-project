@@ -12,7 +12,7 @@ module.exports = {
 				type: DataTypes.STRING,
 			},
 			title: {
-				type: DataTypes.STRING
+				type: DataTypes.STRING,
 			},
 			created_at: {
 				type: DataTypes.DATE,
@@ -38,7 +38,7 @@ module.exports = {
 		await queryInterface.addColumn('comments', 'post_id', {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			references: { model: 'posts', key: 'id' }
+			references: { model: 'posts', key: 'id' },
 		});
 	},
 	down: async ({ context: queryInterface }) => {

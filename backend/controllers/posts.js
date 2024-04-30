@@ -39,8 +39,19 @@ router.post('/', tokenExtractor, async (req, res) => {
 	const { songId, songName, imageUrl } = requestBody.song;
 	const { id } = req.decodedToken;
 
-	const song = await findOrCreateSong(songName, songId, artistName, artistId, imageUrl);
-	const postId = await Post.create({ userId: id, title, songId: song.id, description });
+	const song = await findOrCreateSong(
+		songName,
+		songId,
+		artistName,
+		artistId,
+		imageUrl,
+	);
+	const postId = await Post.create({
+		userId: id,
+		title,
+		songId: song.id,
+		description,
+	});
 	const post = await Post.findByPk(postId.id);
 
 	res.status(201).json({ post });
@@ -53,7 +64,7 @@ router.post('/:id', tokenExtractor, postFinder, async (req, res) => {
 	}
 
 	const post = req.foundPost;
-	if (req.decodedToken.id !== post.userId ) {
+	if (req.decodedToken.id !== post.userId) {
 		throw new Error('unauthorized');
 	}
 

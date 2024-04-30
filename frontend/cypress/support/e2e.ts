@@ -14,7 +14,19 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands';
-
+import "./commands";
+beforeEach(() => {
+  cy.visit("");
+});
+before(() => {
+  cy.request("GET", "http://localhost:3001/api/tests/cypress").then(
+    (response) => expect(response.status).to.eq(200),
+  );
+});
+after(() => {
+  cy.request("GET", "http://localhost:3001/api/tests/clear").then((response) =>
+    expect(response.status).to.eq(200),
+  );
+});
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

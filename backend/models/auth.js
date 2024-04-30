@@ -3,35 +3,37 @@ const { sequelize } = require('../util/db');
 
 class Auth extends Model {}
 
-Auth.init({
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		autoIncrement: true,
+Auth.init(
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
+		accessToken: {
+			type: DataTypes.STRING(1000),
+			defaultValue: null,
+		},
+		refreshToken: {
+			type: DataTypes.STRING(1000),
+			defaultValue: null,
+		},
+		spotifyId: {
+			type: DataTypes.STRING,
+			defaultValue: null,
+		},
+		playlist: {
+			type: DataTypes.STRING,
+			defaultValue: null,
+		},
 	},
-	accessToken: {
-		type: DataTypes.STRING(1000),
-		defaultValue: null
+	{
+		sequelize,
+		underscored: true,
+		timestamps: true,
+		modelName: 'auth',
+		defaultScope: ['accessToken', 'refreshToken', 'spotifyId'],
 	},
-	refreshToken: {
-		type: DataTypes.STRING(1000),
-		defaultValue: null
-	},
-	spotifyId: {
-		type: DataTypes.STRING,
-		defaultValue: null
-	},
-	playlist: {
-		type: DataTypes.STRING,
-		defaultValue: null,
-	}
-}, {
-	sequelize,
-	underscored: true,
-	timestamps: true,
-	modelName: 'auth',
-	defaultScope: ['accessToken', 'refreshToken', 'spotifyId'],
-});
-
+);
 
 module.exports = Auth;

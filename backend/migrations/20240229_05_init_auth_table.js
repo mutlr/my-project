@@ -10,15 +10,15 @@ module.exports = {
 			},
 			access_token: {
 				type: DataTypes.STRING,
-				defaultValue: null
+				defaultValue: null,
 			},
 			refresh_token: {
 				type: DataTypes.STRING,
-				defaultValue: null
+				defaultValue: null,
 			},
 			spotify_id: {
 				type: DataTypes.STRING,
-				defaultValue: null
+				defaultValue: null,
 			},
 			created_at: {
 				type: DataTypes.DATE,
@@ -33,7 +33,7 @@ module.exports = {
 		});
 		await queryInterface.addColumn('auths', 'user_id', {
 			type: DataTypes.INTEGER,
-			references: { model: 'users', key: 'id' }
+			references: { model: 'users', key: 'id' },
 		});
 		await queryInterface.removeColumn('users', 'access_token');
 		await queryInterface.removeColumn('users', 'refresh_token');

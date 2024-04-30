@@ -5,26 +5,29 @@ const Song = require('./song');
 
 class Post extends Model {}
 
-Post.init({
-	id: {
-		type: DataTypes.INTEGER,
-		autoIncrement: true,
-		primaryKey: true,
+Post.init(
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			autoIncrement: true,
+			primaryKey: true,
+		},
+		title: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		description: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		},
 	},
-	title: {
-		type: DataTypes.STRING,
-		allowNull: false,
+	{
+		sequelize,
+		underscored: true,
+		timestamps: true,
+		modelName: 'post',
 	},
-	description: {
-		type: DataTypes.STRING,
-		allowNull: true,
-	},
-}, {
-	sequelize,
-	underscored: true,
-	timestamps: true,
-	modelName: 'post',
-});
+);
 Post.addScope('defaultScope', {
 	include: [
 		{
@@ -32,7 +35,7 @@ Post.addScope('defaultScope', {
 		},
 		{
 			model: Song,
-		}
-	]
+		},
+	],
 });
 module.exports = Post;

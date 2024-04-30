@@ -5,7 +5,7 @@ router.get('/', async (req, res) => {
 	const artists = await Artist.findAll({
 		include: {
 			model: Song,
-		}
+		},
 	});
 	res.status(200).json({ artists });
 });

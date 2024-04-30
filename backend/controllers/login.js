@@ -9,8 +9,8 @@ router.post('/', async (req, res) => {
 		where: { username: req.body.username },
 		attributes: ['password'],
 		include: {
-			model: Auth
-		}
+			model: Auth,
+		},
 	});
 
 	const match = user ? await bcrypt.compare(password, user.password) : null;

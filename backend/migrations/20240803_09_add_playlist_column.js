@@ -9,5 +9,5 @@ module.exports = {
 	},
 	down: async ({ context: queryInterface }) => {
 		await queryInterface.removeColumn('auths', 'playlist');
-	}
+	},
 };

@@ -11,5 +11,5 @@ module.exports = {
 	DB_PASSWORD: process.env.DB_PASSWORD,
 	MODE: process.env.NODE_ENV,
 	HOST: process.env.HOST || 'localhost',
-	DB_HOST: process.env.LOCALHOST
+	DB_HOST: process.env.LOCALHOST,
 };
