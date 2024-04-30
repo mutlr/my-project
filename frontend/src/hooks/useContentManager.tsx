@@ -4,51 +4,60 @@ import { PostBase, Post, PostFromBackend } from "../types";
 import { baseUrl } from "../utils/serviceUtils";
 import { postMap } from "../utils/utils";
 import { MessageContext } from "../context/messageContext";
-import { deleteContentService, editContentService } from "../services/postService";
+import {
+  deleteContentService,
+  editContentService,
+} from "../services/postService";
 
-type Endpoints = 'posts' | 'comments';
+type Endpoints = "posts" | "comments";
 
 const useContentManager = (endpoint: Endpoints, id: number) => {
-    const [content, setContent] = useState<Post[]>([]);
-    const message = useContext(MessageContext);
-    useEffect(() => {
-        if (!id) return;
-        axios.get<{ data: PostFromBackend[] }>(`${baseUrl}/${endpoint}/all/${id}`)
-        .then((result) => {
-            setContent(result.data.data.map((r: PostFromBackend) => postMap(r)));
-        })
-        .catch(error => console.log('Error from useContentManager', error));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]);
+  const [content, setContent] = useState<Post[]>([]);
+  const message = useContext(MessageContext);
+  useEffect(() => {
+    if (!id) return;
+    axios
+      .get<{ data: PostFromBackend[] }>(`${baseUrl}/${endpoint}/all/${id}`)
+      .then((result) => {
+        setContent(result.data.data.map((r: PostFromBackend) => postMap(r)));
+      })
+      .catch((error) => console.log("Error from useContentManager", error));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
-    const deleteContent = async (deleteID: number): Promise<void> => {
-        try {
-            await deleteContentService(endpoint, deleteID);
-            setContent(content.filter(con => con.id !== deleteID));
-            message?.success('Successfully deleted!');
-        } catch (error) {
-            message?.error('There was an error deleting content!');
-            console.log('Error', error);
-        }
-    };
+  const deleteContent = async (deleteID: number): Promise<void> => {
+    try {
+      await deleteContentService(endpoint, deleteID);
+      setContent(content.filter((con) => con.id !== deleteID));
+      message?.success("Successfully deleted!");
+    } catch (error) {
+      message?.error("There was an error deleting content!");
+      console.log("Error", error);
+    }
+  };
 
-    const editContent = async (editID: number, editValues: PostBase): Promise<Post> => {
-        try {
-            const res = await editContentService(endpoint, editID, editValues);
-            const editedItem = postMap(res);
-            setContent(content.map(post => post.id === editedItem.id ? editedItem : post));
-            message?.success('Successfully edited!');
-            return editedItem;
-        } catch (error) {
-            let errorMessage = '';
-            message?.error('There was an error editing content!');
-            if (isAxiosError(error)) {
-                errorMessage = error.message;
-            }
-            throw Error(errorMessage);
-        }
-    };
-    return [ content, deleteContent, editContent ] as const;
+  const editContent = async (
+    editID: number,
+    editValues: PostBase,
+  ): Promise<Post> => {
+    try {
+      const res = await editContentService(endpoint, editID, editValues);
+      const editedItem = postMap(res);
+      setContent(
+        content.map((post) => (post.id === editedItem.id ? editedItem : post)),
+      );
+      message?.success("Successfully edited!");
+      return editedItem;
+    } catch (error) {
+      let errorMessage = "";
+      message?.error("There was an error editing content!");
+      if (isAxiosError(error)) {
+        errorMessage = error.message;
+      }
+      throw Error(errorMessage);
+    }
+  };
+  return [content, deleteContent, editContent] as const;
 };
 
 export default useContentManager;

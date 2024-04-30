@@ -5,24 +5,27 @@ const Song = require('./song');
 
 class Comment extends Model {}
 
-Comment.init({
-	id: {
-		type: DataTypes.INTEGER,
-		primaryKey: true,
-		autoIncrement: true,
+Comment.init(
+	{
+		id: {
+			type: DataTypes.INTEGER,
+			primaryKey: true,
+			autoIncrement: true,
+		},
+		title: {
+			type: DataTypes.STRING,
+		},
+		description: {
+			type: DataTypes.STRING,
+		},
 	},
-	title: {
-		type: DataTypes.STRING,
+	{
+		sequelize,
+		underscored: true,
+		timestamps: true,
+		modelName: 'comment',
 	},
-	description: {
-		type: DataTypes.STRING,
-	}
-}, {
-	sequelize,
-	underscored: true,
-	timestamps: true,
-	modelName: 'comment',
-});
+);
 
 Comment.addScope('defaultScope', {
 	include: [
@@ -31,8 +34,8 @@ Comment.addScope('defaultScope', {
 		},
 		{
 			model: Song,
-		}
+		},
 	],
-	attributes: { exclude: ['updatedAt'] }
+	attributes: { exclude: ['updatedAt'] },
 });
 module.exports = Comment;

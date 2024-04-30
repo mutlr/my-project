@@ -35,16 +35,30 @@
 //     }
 //   }
 // }
-const GREEN = 'rgb(0, 128, 0)';
-Cypress.Commands.add('login', (username, password) => {
-    cy.session([username, password], () => {
-        cy.visit('/login');
-        cy.get('input[name="username"]').type(username);
-        cy.get('input[name="password"]').type(password);
-        cy.get('button').click();
-        cy.contains('Logged in!').should('have.css', 'background-color', GREEN);
-        cy.contains('Profile');
-        cy.url().should('eq', Cypress.config().baseUrl + '/');
-    });
-    cy.visit('/');
-  });
+import axios from "axios";
+import { GREEN, USERNAME, PASSWORD, EMAIL } from "./utilities";
+Cypress.Commands.add("login", (username, password) => {
+  cy.visit("/login");
+  cy.get('input[name="username"]').type(username);
+  cy.get('input[name="password"]').type(password);
+  cy.get("button").click();
+  cy.contains("Logged in!").should("have.css", "background-color", GREEN);
+  cy.contains("Profile");
+  cy.url().should("eq", Cypress.config().baseUrl + "/");
+  cy.visit("/");
+});
+
+const DB_URL = "/api/register";
+Cypress.Commands.add("register", async () => {
+  const user = {
+    username: USERNAME,
+    password: PASSWORD,
+    email: EMAIL,
+  };
+  await axios.post(DB_URL, user);
+});
+
+Cypress.Commands.add("frontpageChildCount", (count) => {
+  cy.visit("");
+  cy.get(".frontpage-container").children().should("have.length", count);
+});

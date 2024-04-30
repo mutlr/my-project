@@ -35,7 +35,7 @@ module.exports = {
 			song_name: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				unique: true
+				unique: true,
 			},
 			created_at: {
 				type: DataTypes.DATE,
@@ -60,21 +60,21 @@ module.exports = {
 				unique: true,
 				validate: {
 					isEmail: {
-						msg: 'Not a valid email'
+						msg: 'Not a valid email',
 					},
 					notNull: {
-						msg: 'An email is required'
+						msg: 'An email is required',
 					},
-				}
+				},
 			},
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
 					notNull: {
-						msg: 'A name is required'
-					}
-				}
+						msg: 'A name is required',
+					},
+				},
 			},
 			username: {
 				type: DataTypes.STRING,
@@ -84,15 +84,15 @@ module.exports = {
 					len: {
 						args: [3, 45],
 						msg: 'Username must be between 3 and 45 characters',
-					}
-				}
+					},
+				},
 			},
 			password: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
 					notNull: {
-						msg: 'A password is required'
+						msg: 'A password is required',
 					},
 				},
 			},
@@ -106,7 +106,6 @@ module.exports = {
 				allowNull: false,
 				defaultValue: new Date(),
 			},
-
 		});
 		await queryInterface.addColumn('songs', 'artist_id', {
 			type: DataTypes.STRING,

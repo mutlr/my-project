@@ -19,7 +19,7 @@ router.get('/getusers/:name', async (req, res) => {
 	const users = await User.findAll({
 		where: {
 			username: {
-				[Op.like]: `%${name}%`
+				[Op.like]: `%${name}%`,
 			},
 		},
 		limit: 5,
@@ -33,8 +33,7 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-	const user = await User.findByPk(req.params.id, {
-	});
+	const user = await User.findByPk(req.params.id, {});
 	res.status(200).json({ user });
 });
 

@@ -10,7 +10,12 @@ const findOrCreateSong = async (name, songId, artistName, artistId, image) => {
 	const artist = await findArtist(artistId, artistName);
 	const song = await Song.findByPk(songId);
 	if (!song) {
-		return await Song.create({ id: songId, songName: name, artistId: artist.id, imageUrl: image });
+		return await Song.create({
+			id: songId,
+			songName: name,
+			artistId: artist.id,
+			imageUrl: image,
+		});
 	}
 	return song;
 };
@@ -33,13 +38,17 @@ const refreshToken = async (token) => {
 		grant_type: 'refresh_token',
 		refresh_token: token,
 		client_id: CLIENT_ID,
-		client_secret: CLIENT_SECRET
+		client_secret: CLIENT_SECRET,
 	});
-	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded',
-		}
-	});
+	const result = await axios.post(
+		'https://accounts.spotify.com/api/token',
+		body,
+		{
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+		},
+	);
 	return result.data;
 };
 const refreshAdminToken = async () => {
@@ -47,11 +56,11 @@ const refreshAdminToken = async () => {
 		url: 'https://accounts.spotify.com/api/token',
 		method: 'POST',
 		headers: {
-			'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET)
+			Authorization: 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
 		},
 		params: {
-			grant_type: 'client_credentials'
-		}
+			grant_type: 'client_credentials',
+		},
 	};
 
 	const result = await axios(options);
@@ -88,5 +97,5 @@ module.exports = {
 	checkAdminTime,
 	refreshToken,
 	checkAdmin,
-	findOrCreateSong
+	findOrCreateSong,
 };

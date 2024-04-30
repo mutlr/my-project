@@ -23,8 +23,12 @@ Comment.belongsTo(User);
 Comment.belongsTo(Post);
 Comment.belongsTo(Song);
 
-
-
 module.exports = {
-	User, Artist, Song, Post, Comment, Admin, Auth
+	User,
+	Artist,
+	Song,
+	Post,
+	Comment,
+	Admin,
+	Auth,
 };
