@@ -5,7 +5,7 @@ const { Umzug, SequelizeStorage } = require('umzug');
 const DatabaseOptions = {
 	production: {
 		type: 'postgres',
-		host: 'localhost',
+		host: DB_HOST,
 		username: DB_USERNAME,
 		password: DB_PASSWORD,
 		synchronize: true,
@@ -43,19 +43,19 @@ const databaseURLPicker = () => {
 	if (MODE === 'test' || MODE === 'cypress') {
 		return DATABASE_URL_TEST;
 	} else if (MODE === 'production') {
-		return DATABASE_URL_PRODUCTION
+		return DATABASE_URL_PRODUCTION;
 	} else if (MODE === 'development') {
 		return DATABASE_URL;
 	}
 	return null;
-}
+};
 const URL = databaseURLPicker();
 const DatabaseConfig = DatabaseOptions[MODE];
 
 if (!DatabaseConfig || !URL) {
 	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);
 }
-const sequelize = new Sequelize(URL, {...DatabaseConfig});
+const sequelize = new Sequelize(URL, { ...DatabaseConfig });
 
 const migrationConf = {
 	migrations: {
