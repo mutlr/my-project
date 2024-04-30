@@ -29,22 +29,18 @@ const timeChecker = (updatedAt) => {
 };
 
 const refreshToken = async (token) => {
-	try {
-		const body = new URLSearchParams({
-			grant_type: 'refresh_token',
-			refresh_token: token,
-			client_id: CLIENT_ID,
-			client_secret: CLIENT_SECRET
-		});
-		const result = await axios.post('https://accounts.spotify.com/api/token', body, {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			}
-		});
-		return result.data;
-	} catch (error) {
-		console.log('Error refreshToken: ', error);
-	}
+	const body = new URLSearchParams({
+		grant_type: 'refresh_token',
+		refresh_token: token,
+		client_id: CLIENT_ID,
+		client_secret: CLIENT_SECRET
+	});
+	const result = await axios.post('https://accounts.spotify.com/api/token', body, {
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded',
+		}
+	});
+	return result.data;
 };
 const refreshAdminToken = async () => {
 	const options = {

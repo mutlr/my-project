@@ -5,7 +5,7 @@ const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {
-	console.log('Error in middleware: ', error);
+	console.log('Error in middleware: ', error.message);
 	if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;

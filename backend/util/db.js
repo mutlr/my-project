@@ -5,8 +5,7 @@ const { Umzug, SequelizeStorage } = require('umzug');
 const DatabaseOptions = {
 	production: {
 		type: 'postgres',
-		host: DB_HOST,
-		url: DATABASE_URL_PRODUCTION,
+		host: 'localhost',
 		username: DB_USERNAME,
 		password: DB_PASSWORD,
 		synchronize: true,
@@ -19,7 +18,6 @@ const DatabaseOptions = {
 		}
 	},
 	test: {
-		url: DATABASE_URL_TEST,
 		logging: false,
 		dialect: 'postgres',
 		host: HOST,
@@ -27,7 +25,6 @@ const DatabaseOptions = {
 		password: 'postgres',
 	},
 	cypress: {
-		url: DATABASE_URL_TEST,
 		logging: false,
 		dialect: 'postgres',
 		host: HOST,
@@ -35,19 +32,30 @@ const DatabaseOptions = {
 		password: 'postgres',
 	},
 	development: {
-		url: DATABASE_URL,
 		dialect: 'postgres',
-		password: 'mysecretpassword',
-		username: 'postgres'
+		password: 'postgresdev',
+		username: 'postgres',
+		host: HOST,
 	}
 };
-const DatabaseConfig = DatabaseOptions[MODE];
-console.log('DB: ', DatabaseConfig);
 
-if (!DatabaseConfig) {
+const databaseURLPicker = () => {
+	if (MODE === 'test' || MODE === 'cypress') {
+		return DATABASE_URL_TEST;
+	} else if (MODE === 'production') {
+		return DATABASE_URL_PRODUCTION
+	} else if (MODE === 'development') {
+		return DATABASE_URL;
+	}
+	return null;
+}
+const URL = databaseURLPicker();
+const DatabaseConfig = DatabaseOptions[MODE];
+
+if (!DatabaseConfig || !URL) {
 	throw new Error(`Mode ${MODE} is not valid. Try production, test, development or cypress`);
 }
-const sequelize = new Sequelize(DatabaseConfig);
+const sequelize = new Sequelize(URL, {...DatabaseConfig});
 
 const migrationConf = {
 	migrations: {
@@ -76,7 +84,7 @@ const connectToDatabase = async () => {
 		await runMigrations();
 		console.log('database connected');
 	} catch (err) {
-		console.log('connecting database failed', err.original);
+		console.log('connecting database failed', err);
 		return process.exit(1);
 	}
 	return null;
