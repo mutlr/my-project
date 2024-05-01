@@ -68,12 +68,14 @@
 }
 
 .search-main {
+    z-index: 100;
     display: flex;
     align-self: flex-start;
     flex-direction: column;
     width: 100%;
     justify-content: center;
     align-items: flex-end;
+    width: clamp(200px, 100%, 500px);
 }
 .user-search {
     background-color: var(--light-color);
@@ -83,7 +85,7 @@
     width: inherit;
     height: 100px;
     overflow: scroll;
-
+    justify-self: flex-start;
 }
 .user-search a {
     display: block;

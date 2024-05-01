@@ -42,7 +42,7 @@ const DatabaseOptions = {
 	},
 	development: {
 		dialect: 'postgres',
-		password: 'postgresdev',
+		password: 'mysecretpassword',
 		username: 'postgres',
 		host: HOST,
 	},
