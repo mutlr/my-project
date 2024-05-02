@@ -6,7 +6,17 @@ const { checkAdminTime, timeChecker, refreshToken } = require('../util/utils');
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (error, req, res, next) => {
 	console.log('Error in middleware: ', error);
-	if (error.name === 'SequelizeUniqueConstraintError') {
+	if (error.message === 'not_found') {
+		return res.status(404).json({ error: error.message });
+	} else if (error.message === 'data_missing') {
+		return res.status(400).json({ error: 'Data missing' });
+	} else if (error.message === 'unauthorized') {
+		return res
+			.status(401)
+			.json({ error: 'You are not anauthorized to do that.' });
+	} else if (error.name === 'JsonWebTokenError') {
+		return res.status(401).json({ error: 'Invalid token' });
+	} else if (error.name === 'SequelizeUniqueConstraintError') {
 		const value = error.errors[0].value;
 		const type = error.errors[0].path;
 		return res
@@ -23,16 +33,6 @@ const errorHandler = (error, req, res, next) => {
 		error.response.data.error_description === 'Refresh token revoked'
 	) {
 		return res.status(200).json({ error: error.response.data.error_description });
-	} else if (error.message === 'not_found') {
-		return res.status(404).json({ error: error.message });
-	} else if (error.message === 'data_missing') {
-		return res.status(500).json({ error: 'Data missing' });
-	} else if (error.message === 'unauthorized') {
-		return res
-			.status(401)
-			.json({ error: 'You are not anauthorized to do that.' });
-	} else if (error.name === 'JsonWebTokenError') {
-		return res.status(401).json({ error: 'Invalid token' });
 	}
 	return res.status(500).json({ error });
 };
