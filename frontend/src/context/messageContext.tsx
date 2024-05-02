@@ -15,7 +15,7 @@ interface MessageProviderProps {
   children: ReactNode | ReactElement;
 }
 
-const TIMEOUT = 800;
+const TIMEOUT = 1000;
 
 const MessageProvider = ({ children }: MessageProviderProps) => {
   const [type, setType] = useState<string>("");

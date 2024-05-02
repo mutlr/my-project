@@ -9,7 +9,7 @@ import React, {
 import { User } from "../types";
 import { MessageContext } from "./messageContext";
 import { useNavigate } from "react-router-dom";
-import { setToken } from "../utils/serviceUtils";
+import { setToken } from "../services/serviceUtils";
 
 interface UserContextProps {
   user: User | null;

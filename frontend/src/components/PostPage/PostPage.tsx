@@ -33,7 +33,7 @@ const PostPage = (props: Props) => {
     return null;
   }
   return (
-    <div className="postpage-container">
+    <>
       {user && (
         <Togglable ref={toggleRef} buttonText="Comment">
           <Commentform
@@ -43,21 +43,23 @@ const PostPage = (props: Props) => {
           />
         </Togglable>
       )}
-      <PostContainer
-        post={props.post}
-        preview={false}
-        authenticated={authenticated}
-      />
-      <p>Comments</p>
-      {comments.map((c) => (
-        <PostComment
-          key={c.id}
-          post={c}
-          authenticated={authenticated}
+      <div className="postpage-container">
+        <PostContainer
+          post={props.post}
           preview={false}
+          authenticated={authenticated}
         />
-      ))}
-    </div>
+        <p>Comments</p>
+        {comments.map((c) => (
+          <PostComment
+            key={c.id}
+            post={c}
+            authenticated={authenticated}
+            preview={false}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
