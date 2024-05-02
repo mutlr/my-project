@@ -9,6 +9,7 @@
     padding: 12px 8px;
     box-sizing: border-box;
     background-color: var(--light-color);
+    z-index: 100;
 }
 
 .nav-link a {
@@ -68,7 +69,6 @@
 }
 
 .search-main {
-    z-index: 100;
     display: flex;
     align-self: flex-start;
     flex-direction: column;
@@ -86,6 +86,7 @@
     height: 100px;
     overflow: scroll;
     justify-self: flex-start;
+    z-index: 100;
 }
 .user-search a {
     display: block;
