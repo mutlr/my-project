@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import axios, { isAxiosError } from "axios";
 import { PostBase, Post, PostFromBackend } from "../types";
-import { baseUrl } from "../utils/serviceUtils";
+import { baseUrl } from "../services/serviceUtils";
 import { postMap } from "../utils/utils";
 import { MessageContext } from "../context/messageContext";
 import {
