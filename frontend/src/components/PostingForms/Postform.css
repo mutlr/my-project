@@ -1,41 +1,40 @@
 .post-form-main-container {
-    background-color: var(--primary-color);
-    opacity: 99%;
-    width: 100%;
-    min-height: 100%;
-    height: 100%;
-    position: absolute; 
-    left: 0;
-    box-sizing: border-box;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow: scroll;
-    padding: 0 10px;
-    z-index: 101;
+  background-color: var(--primary-color);
+  opacity: 99%;
+  width: 100%;
+  min-height: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  box-sizing: border-box;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: scroll;
+  padding: 0 10px;
+  z-index: 101;
 }
 .post-form {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 10px;
-    max-width: 540px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  max-width: 540px;
+  width: 100%;
 }
 
 .songs-container {
-    border: 1px solid white;
-    width: 100%;
-    max-width: 540px;
-    padding: 8px;
-    box-sizing: border-box;
-    cursor: pointer;
-    height: auto;
-
+  border: 1px solid white;
+  width: 100%;
+  max-width: 540px;
+  padding: 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: auto;
 }
 .postform-error {
-    color: var(--error-color);
+  color: var(--error-color);
 }

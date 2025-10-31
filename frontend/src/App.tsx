@@ -20,7 +20,7 @@ function App() {
   useEffect(() => {
     getPosts()
       .then((result: PostFromBackend[]) =>
-        setPosts(result.map((p: PostFromBackend) => postMap(p))),
+        setPosts(result.map((p: PostFromBackend) => postMap(p)))
       )
       .catch((error) => console.log(error));
   }, []);

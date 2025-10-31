@@ -1,36 +1,40 @@
 .playlist-container {
-    width: 100%;
+  width: 100%;
 }
 
 .playlist-name {
-    font-size: 24px;
-    text-align: center;
-    margin: 20px 0 15px 0;
-    border-bottom: 2px solid white;
-    padding-bottom: 6px;
+  font-size: 24px;
+  text-align: center;
+  margin: 20px 0 15px 0;
+  border-bottom: 2px solid white;
+  padding-bottom: 6px;
 }
 
 .playlist-inner {
-    display: flex;
-    gap: 10px;
-    justify-content: flex-start;
-    align-items: center;
-    margin-top: 14px;
-}   
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  margin-top: 14px;
+}
 
 .playlist-main-container {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0 8px;
-    max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 8px;
+  max-width: 600px;
 }
 .playlist-item-container {
-    display: flex;
-    flex-direction: column;
-    gap: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 .playlist-box {
-    border-radius: 20px;
-    background: linear-gradient(0deg, var(--primary-color) 70%, var(--light-color) 100%);     
-    padding: 20px 16px;
+  border-radius: 20px;
+  background: linear-gradient(
+    0deg,
+    var(--primary-color) 70%,
+    var(--light-color) 100%
+  );
+  padding: 20px 16px;
 }

@@ -16,9 +16,14 @@ interface SongProps {
   imageURL?: string;
 }
 export const Song = ({ name, artist, imageURL }: SongProps) => {
+  console.log("Tulee");
   return (
     <div className="song-box">
-      <img className="song-image" src={imageURL ? imageURL : cat} />
+      <img
+        className="song-image"
+        src={imageURL ? imageURL : cat}
+        alt="Song image"
+      />
       <div className="song-container-test">
         <p className="song-name">{name}</p>
         <p className="song-artist">{artist}</p>

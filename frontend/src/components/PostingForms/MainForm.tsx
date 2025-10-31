@@ -43,11 +43,12 @@ const MainForm = (props: MainFormProps) => {
     const controller = new AbortController();
     getSongs(debouncedSearchTerm, controller)
       .then((result) => {
+        console.log("Result ", result);
         // eslint-disable-next-line  @typescript-eslint/no-explicit-any
         setSongs(
           result
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-            .filter((f: any) => f.preview_url !== null)
+            .filter((f: any) => f.external_urls.spotify !== null)
             // eslint-disable-next-line  @typescript-eslint/no-explicit-any
             .map((r: any): SongListing => {
               return {
@@ -62,7 +63,7 @@ const MainForm = (props: MainFormProps) => {
                 imageUrl: r.album.images[0].url,
               };
             })
-            .slice(0, 8),
+            .slice(0, 8)
         );
       })
       .catch((error) => {
@@ -88,6 +89,7 @@ const MainForm = (props: MainFormProps) => {
     setChosenSong(null);
     setSongs([]);
   };
+  console.log(songs);
   return (
     <div className="post-form-main-container">
       {chosenSong ? (

@@ -19,11 +19,11 @@ const MyProfile = (props: Props) => {
   const { authenticated, user } = useContext(userContext);
   const [posts, postDelete, postEdit] = useContentManager(
     "posts",
-    Number(user?.id),
+    Number(user?.id)
   );
   const [comments, commentDelete, commentEdit] = useContentManager(
     "comments",
-    Number(user?.id),
+    Number(user?.id)
   );
   const [toEdit, setToEdit] = useState<Post | null>(null);
   if (!user) return null;
