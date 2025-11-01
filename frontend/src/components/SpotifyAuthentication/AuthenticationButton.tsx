@@ -8,15 +8,14 @@ import { isAxiosError } from "axios";
 
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID;
 const REDIRECT_URI = "http://localhost:3000/myprofile";
-const SCOPE =
-  "user-read-private user-read-email playlist-modify-public playlist-modify-private user-read-currently-playing";
+const SCOPE = "user-read-email";
 const URL = `https://accounts.spotify.com/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}`;
 
 const AuthenticationButton = () => {
   const message = useContext(MessageContext);
   const user = useContext(UserContext);
   const codeRef = useRef<URLSearchParams>(
-    new URLSearchParams(window.location.search),
+    new URLSearchParams(window.location.search)
   );
   const navigate = useNavigate();
   const code = codeRef.current.get("code");
@@ -24,6 +23,7 @@ const AuthenticationButton = () => {
     if (code) {
       authenticateSpotify(code)
         .then((r) => {
+          console.log("Tulee r", r);
           user?.addUserToStorageAndSetUser(r.token, r.id, true, r.username);
           message?.success("Authentication successfull!");
         })
@@ -33,7 +33,7 @@ const AuthenticationButton = () => {
             message?.error(
               error.response?.data
                 ? error.response?.data.error
-                : "There was an error authenticating. Try again later!",
+                : "There was an error authenticating. Try again later!"
             );
           }
         })

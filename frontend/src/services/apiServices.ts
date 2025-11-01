@@ -28,7 +28,7 @@ export const addToPlaylist = async (songId: string) => {
   const result = await instance.post(
     `/spotifyapi/addtoplaylist`,
     { songId },
-    {},
+    {}
   );
   return result;
 };
